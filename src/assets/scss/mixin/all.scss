@@ -1,0 +1,85 @@
+
+// 限制容器寬度+背景
+@mixin container {
+    max-width: $large;
+    margin: 0 auto;
+  }
+  // 一般圖檔設定
+  @mixin img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    vertical-align: middle;
+  }
+  // 背景圖PNG
+  @mixin bgPng($url) {
+    width: 100%;
+    height: 100%;
+    background: url(@/assets/images/#{$url}.png) no-repeat center / cover;
+  }
+  // 背景圖JPG
+  @mixin bgJpg($url) {
+    width: 100%;
+    height: 100%;
+    background: url(@/assets/images/#{$url}.jpg) no-repeat center / cover;
+  }
+  // 背景圖SVG
+  @mixin bgSvg($url) {
+    width: 100%;
+    height: 100%;
+    background: url(@/assets/images/#{$url}.svg) no-repeat center / contain;
+  }
+  // footer的按鈕
+  @mixin btn_lg {
+    width: 200px;
+    padding: 10px 40px;
+    font-size: 1.25rem;
+    background: $btn_bg_color;
+    color: $main_txt_color;
+    border-radius: $btn_br;
+  }
+  // 書籍預約按鈕
+  @mixin btn_res {
+    padding: 20px 40px;
+    font-size: 1.25rem;
+    color: $btn_bg_color;
+    border: 1px solid $btn_bg_color;
+    border-radius: $btn_br;
+  }
+  // login按鈕
+  @mixin login_btn {
+    width: 390px;
+    padding: 20px 0;
+    color: $main_txt_color;
+    background-color: $btn_bg_color;
+    border-radius: 10px;
+  }
+  // 白字橘底hover效果
+  @mixin btn_hover {
+    color: $main_txt_color;
+    background-color: $btn_bg_color;
+  }
+  // 橘字白底hover效果
+  @mixin btn_hover1 {
+    color: $btn_bg_color;
+    background-color: $main_txt_color;
+  }
+  
+  
+  
+  @mixin ps_center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  @mixin sudo($left,$bottom) {
+    content: '';
+    position: absolute;
+    left: #{$left}px;
+    bottom: #{$bottom}px;
+    width: 100%;
+    height: 1px;
+    background-color: $secondary_blue;
+  }
