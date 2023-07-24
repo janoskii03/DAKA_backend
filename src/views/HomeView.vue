@@ -1,8 +1,12 @@
 
 <template>
-  <div class="main_container">
+<Login v-if="!$store.state.isLogging"></Login>
+
+  <div class="main_container" v-else>
     <aside>
-      <img src="@/assets/images/logo.svg" alt="daka_logo" class="main_container_logo">
+      <router-link to="/">
+      <img src="@/assets/images/logo.svg" alt="daka_logo" class="main_container_logo" >
+    </router-link>
       <Row>
         <Col span="8">
         <Menu theme="" width="250px" class="main_menu">
@@ -15,6 +19,10 @@
 
           </Submenu>
         </router-link>
+
+      
+
+        <router-link to="/">
           <Submenu name="2" class="main_sub_two">
             <template #title>
 
@@ -25,6 +33,8 @@
             <MenuItem name="2-2" class="main_submenu">預約座位</MenuItem>
             <MenuItem name="2-3" class="main_submenu">資料查詢</MenuItem>
           </Submenu>
+        </router-link>
+        <router-link to="/member">
           <Submenu name="3" class="main_sub_three">
             <template #title>
               <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
@@ -32,6 +42,8 @@
             </template>
 
           </Submenu>
+        </router-link>
+        <router-link to="/member">
           <Submenu name="4" class="main_sub_four">
             <template #title>
               <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
@@ -45,6 +57,7 @@
             <MenuItem name="3-5" class="main_submenu">新書上架</MenuItem>
 
           </Submenu>
+        </router-link>
         </Menu>
         </Col>
 
@@ -66,7 +79,7 @@
             <Button type="" shape="circle" class="main_checkout">Sign Out</Button>
         </Space>
       </header>
-      <Member></Member>
+      
       <router-view></router-view>
       <footer>版權所有 © 2023 打咖 DAKA</footer>
     </main>
@@ -186,9 +199,10 @@ padding: 20px 0;
 
 <script>
 import Member from '@/components/Member.vue'
+import Login from '@/components/Login.vue'
 export default {
   components: {
-    Member
+    Member,Login
   },
   data() {
     return {
