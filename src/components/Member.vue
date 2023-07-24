@@ -15,7 +15,7 @@
     </template>
   </Input>
 </div>
-    <Table :columns="columns" :data="data" class="member_form"></Table>
+    <Table :columns="columns" :data="data" class="member_form" @click.prevent="memberInfo" ></Table>
     <Page :total="100" class="member_bottom"/>
   </div>
   </template>
@@ -23,6 +23,7 @@
   export default {
       data () {
           return {
+            memInfo:'',
               columns: [
                   {
                       title: '姓名',
@@ -103,6 +104,12 @@
                 ],
                 model: '',
           }
+      },
+      methods:{
+        memberInfo(e){
+
+console.log(e);
+        }
       }
   }
 </script>

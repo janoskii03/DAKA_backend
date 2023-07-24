@@ -112,7 +112,7 @@ export default {
             //     this.account = this.password = '';
             // }
 if((+this.account)===1111&&(+this.password===1111)){
-    console.log(123);
+    
     this.$store.state.isLogging=true;
     this.$router.push('/member')
 }else{
