@@ -1,6 +1,6 @@
 
 <template>
-  <Login v-if="!$store.state.isLogging"></Login>
+  <!-- <Login v-if="!$store.state.isLogging"></Login> -->
 
   <div class="main_container">
     <aside>
@@ -9,7 +9,7 @@
       </router-link>
       <Row>
         <Col span="8">
-        <Menu theme="" width="250px" class="main_menu">
+        <Menu theme="" width="300px" class="main_menu">
           <router-link to="/member">
             <Submenu name="1" class="main_sub_one" @click="">
               <template #title>
@@ -22,42 +22,42 @@
 
 
 
-          <router-link to="/">
-            <Submenu name="2" class="main_sub_two">
-              <template #title>
 
-                <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
-                座位管理
-              </template>
-              <MenuItem name="2-1" class="main_submenu">即時安排座位</MenuItem>
-              <MenuItem name="2-2" class="main_submenu">預約座位</MenuItem>
-              <MenuItem name="2-3" class="main_submenu">資料查詢</MenuItem>
-            </Submenu>
-          </router-link>
-          <router-link to="/member">
-            <Submenu name="3" class="main_sub_three">
-              <template #title>
-                <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
-                最新消息管理
-              </template>
+          <Submenu name="2" class="main_sub_two">
+            <template #title>
 
-            </Submenu>
-          </router-link>
-          <router-link to="/member">
-            <Submenu name="4" class="main_sub_four">
-              <template #title>
-                <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
-                漫畫租借管理
-              </template>
+              <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
+              座位管理
+            </template>
+            <MenuItem name="2-1" class="main_submenu">即時安排座位</MenuItem>
+            <MenuItem name="2-2" class="main_submenu">預約座位</MenuItem>
+            <MenuItem name="2-3" class="main_submenu">資料查詢</MenuItem>
+          </Submenu>
 
-              <MenuItem name="3-1" class="main_submenu">預約書籍</MenuItem>
-              <MenuItem name="3-2" class="main_submenu">歸還書籍</MenuItem>
-              <MenuItem name="3-3" class="main_submenu">訂單查詢</MenuItem>
-              <MenuItem name="3-4" class="main_submenu">書籍資料</MenuItem>
-              <MenuItem name="3-5" class="main_submenu">新書上架</MenuItem>
 
-            </Submenu>
-          </router-link>
+          <Submenu name="3" class="main_sub_three">
+            <template #title>
+              <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
+              最新消息管理
+            </template>
+
+          </Submenu>
+
+
+          <Submenu name="4" class="main_sub_four">
+            <template #title>
+              <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
+              漫畫租借管理
+            </template>
+
+            <MenuItem name="3-1" class="main_submenu">預約書籍</MenuItem>
+            <MenuItem name="3-2" class="main_submenu">歸還書籍</MenuItem>
+            <MenuItem name="3-3" class="main_submenu">訂單查詢</MenuItem>
+            <MenuItem name="3-4" class="main_submenu">書籍資料</MenuItem>
+            <MenuItem name="3-5" class="main_submenu">新書上架</MenuItem>
+
+          </Submenu>
+
         </Menu>
         </Col>
 
@@ -72,8 +72,6 @@
     <main>
       <header>
         <h2>
-         
-          {{ $route.path }}
           {{ title }}
         </h2>
         <Space wrap>
@@ -92,6 +90,13 @@
   width: 100%;
   height: 100vh;
   display: flex;
+}
+
+.main_sub_one,
+.main_sub_two,
+.main_sub_three,
+.main_sub_four {
+  color: #fff;
 }
 
 .main_sub_one .main_sub_one_img,
@@ -130,10 +135,7 @@
 
 
 
-.ivu-menu-submenu:not(:last-child) {
-  border-bottom: 1px solid #fff;
 
-}
 
 .main_container aside .main_container_logo {
   width: 193px;
@@ -211,7 +213,7 @@ export default {
   },
   data() {
     return {
-      current: '',
+      current: '首頁',
       nav: [
         {
           name: '首頁',
@@ -245,17 +247,22 @@ export default {
   },
   computed: {
     title() {
-  if(this.nav.path===this.$route.path){
-    this.current=this.nav.name;
-  }else{
-    this.current='首頁';
-  }
-  return this.current;
-  },
-  methods: {
-    signOut() {
-      this.$store.state.isLogging = false;
+
+      for (let i = 0; i < this.nav.length; i++) {
+        if (this.nav[i].path == this.$route.path) {
+
+          this.current = this.nav[i].name;
+        } else {
+          this.current;
+        }
+      }
+      return this.current;
+    },
+    methods: {
+      signOut() {
+        this.$store.state.isLogging = false;
+      }
     }
   }
-}}
+}
 </script>
