@@ -114,7 +114,7 @@ export default {
 if((+this.account)===1111&&(+this.password===1111)){
     
     this.$store.state.isLogging=true;
-    this.$router.push('/member')
+    // this.$router.push('/member')
 }else{
     this.account=this.password='';
 }

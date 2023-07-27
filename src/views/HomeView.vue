@@ -1,6 +1,6 @@
 
 <template>
-  <!-- <Login v-if="!$store.state.isLogging"></Login> -->
+  <Login v-if="!$store.state.isLogging"></Login>
 
   <div class="main_container">
     <aside>
@@ -10,7 +10,7 @@
       <Row>
         <Col span="8">
         <Menu theme="" width="300px" class="main_menu">
-          <router-link to="/member">
+          <!-- <router-link to="/member"> -->
             <Submenu name="1" class="main_sub_one" @click="">
               <template #title>
                 <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
@@ -18,7 +18,7 @@
               </template>
 
             </Submenu>
-          </router-link>
+          <!-- </router-link> -->
 
 
 
