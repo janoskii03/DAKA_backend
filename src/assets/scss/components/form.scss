@@ -1,0 +1,54 @@
+.member {
+  width: 100%;
+  box-sizing: border-box;
+
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+
+  padding: 40px 10px 20px 10px;
+
+ .member_query {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .member_add {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  .wrap {
+    overflow: hidden;
+    width: 100%;
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th {
+      width: 25vw;
+      height: 75px;
+      text-align: center;
+    }
+
+    td {
+      background-color: #ffffff;
+      width: 25vw;
+      height: 50px;
+      text-align: center;
+    }
+
+    tr {
+      border-bottom: 1px solid #dddddd;
+      &:hover td {
+        background-color: rgba(38, 50, 56, 1);
+        color: #fff;
+      }
+    }
+  }
+}

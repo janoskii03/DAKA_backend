@@ -12,48 +12,33 @@
         <option value="3">Three</option>
       </select>
       <input type="search">
+      <slot name="form_query"></slot>
     </div>
 
 
-
     <div class="wrap">
-      <table>
-        <tr>
-          <th>姓名</th>
-          <th>會員編號</th>
-          <th>會員等級</th>
-          <th>手機號碼</th>
-          <th>儲值餘額</th>
-          <th>當年度累積消費金額</th>
-        </tr>
-        <tr v-for="(item, index) in data" :key="item.index" @click.prevent="memberInfo(index)">
-          <td>{{ item.name }}</td>
-          <td>{{ item.no }}</td>
-          <td>{{ item.rank }}</td>
-          <td>{{ item.mobile }}</td>
-          <td>{{ item.remain }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
+     
+            <slot name="form_table">
+            </slot>
 
-      </table>
+          
 
-      <nav aria-label="Page navigation example">
+      <!-- <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
           <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item" v-for="page in totalPages"><a class="page-link" href="#">{{ page }}</a></li>
+          
           <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
+            <a class="page-link" href="#" aria-label="Next" >
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
         </ul>
-      </nav>
+      </nav> -->
 
     </div>
 
@@ -66,18 +51,34 @@
 <script>
 export default {
 props:{
+  columns: {
+      type: Array,
+      required: true,
+    },
+    dataList: {
+      type: Array,
+      required: true,
+    },
 },
 components:{
 
 },
   data() {
     return {
-
+      perPages:8,
+      currentPage: 1,
     }
   },
-computed:{
-
-},
+// computed:{
+//   totalPages() {
+//       return Math.ceil(this.data.length / this.perPage);
+//     },
+//     displayedData() {
+//       const startIndex = (this.currentPage - 1) * this.perPage;
+//       const endIndex = startIndex + this.perPage;
+//       return this.data;
+//     },
+// },
   methods: {
    
 },
