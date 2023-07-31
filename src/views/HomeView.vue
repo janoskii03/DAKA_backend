@@ -8,6 +8,14 @@
       <div class="accordion accordion-flush w-100 mt-5 main_nav" id="accordionFlushExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
+            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/account')">
+              <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
+              帳號管理</button>
+          </h2>
+
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/member')">
               <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
               會員管理
@@ -19,20 +27,15 @@
           <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
               data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
-              @click="this.$router.push('/seats')">
+              >
               <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
               座位管理
             </button>
           </h2>
-          <div id="flush-collapseTwo" class="accordion-collapse collapse nav_btn_inside"
-            data-bs-parent="#accordionFlushExample" style="
+          <div id="flush-collapseTwo" class="accordion-collapse collapse " data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-            <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a>即時安排座位</a></div>
-            <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a>預約座位</a></div>
-            <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a>資料查詢</a></div>
+            <div class="accordion-body nav_btn_inside fs-5" @click="this.$router.push('/reserve')"><a>預約座位</a></div>
+            <div class="accordion-body nav_btn_inside fs-5" @click="this.$router.push('/seat_info')"><a>資料查詢</a></div>
           </div>
         </div>
         <div class="accordion-item">
@@ -42,42 +45,25 @@
               最新消息管理
             </button>
           </h2>
-
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour"
-              @click="this.$router.push('/comics')">
+              data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
               <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
               漫畫租借管理
             </button>
           </h2>
-          <div id="flush-collapseFour" class="accordion-collapse collapse nav_btn_inside"
-            data-bs-parent="#accordionFlushExample" style="
+          <div id="flush-collapseFour" class="accordion-collapse collapse " data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-            <div class="accordion-body fs-5" style="
-    color: #fff "><a>預約書籍</a></div>
-            <div class="accordion-body fs-5" style="
-    color: #fff"><a>歸還書籍</a></div>
-            <div class="accordion-body fs-5" style="
-    color: #fff "><a>訂單查詢</a>
-            </div>
-            <div class="accordion-body fs-5" style="
-    color: #fff "><a>書籍資料</a></div>
-            <div class="accordion-body fs-5" style="
-    color: #fff "><a>新書上架</a></div>
-
-
-
-
-
-
+            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_reserve')"><a>預約取書</a></div>
+            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_return')"><a>歸還書籍</a></div>
+            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/order_status')"><a>訂單查詢</a> </div>
+            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_info')"><a>書籍資料</a></div>
+            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_add')"><a>新書上架</a></div>
           </div>
         </div>
       </div>
-
-
       <div class="main_aside_bottom">
         <img src="@/assets/images/user.svg" alt="daka_user" class="bottom_img">
         <span>林育緯</span>
@@ -88,8 +74,6 @@
         <h2>
           {{ title }}
         </h2>
-
-
         <Button class="main_checkout" @click.prevent="signOut">Sign Out</Button>
 
       </header>
@@ -202,6 +186,12 @@
 
 }
 
+.nav_btn_inside {
+  color: #fff;
+  padding-left: 60px;
+  cursor: pointer;
+}
+
 .main_container footer {
   width: 100%;
   background-color: #fff;
@@ -214,7 +204,12 @@
 <script>
 import Member from '@/components/Member.vue'
 import Comics from '@/components/Comics.vue'
-import Seats from '@/components/Seats.vue'
+import Reserve from '@/components/seats/Reserve.vue'
+import Order from '@/components/comics/OrderStatus.vue'
+import ComicInfo from '@/components/comics/ComicInfo.vue'
+import ComicReserve from '@/components/comics/ComicReserve.vue'
+import ComicReturn from '@/components/comics/ComicReturn.vue'
+import ComicAdd from '@/components/comics/ComicAdd.vue'
 import News from '@/components/News.vue'
 import Login from '@/components/Login.vue'
 
@@ -222,7 +217,7 @@ import Login from '@/components/Login.vue'
 
 export default {
   components: {
-    Member, Login, News, Seats, Comics
+    Member, Login, News, Reserve, Comics,Order,ComicInfo,ComicReserve,ComicReturn,ComicAdd
   },
   data() {
     return {
@@ -234,13 +229,23 @@ export default {
 
         },
         {
+          name: '帳號管理',
+          path: '/account',
+
+        },
+        {
           name: '會員管理',
           path: '/member',
 
         },
         {
-          name: '座位管理',
-          path: '/seats',
+          name: '預約座位',
+          path: '/reserve',
+
+        },
+        {
+          name: '資料查詢',
+          path: '/seat_info',
 
         },
         {
@@ -252,6 +257,26 @@ export default {
           name: '漫畫租借管理',
           path: '/comics',
 
+        },
+        {
+          name: '訂單查詢',
+          path: '/order_status',
+        },
+        {
+          name: '書籍資料',
+          path: '/comic_info',
+        },
+        {
+          name: '預約取書',
+          path: '/comic_reserve',
+        },
+        {
+          name: '歸還書籍',
+          path: '/comic_return',
+        },
+        {
+          name: '新書上架',
+          path: '/comic_add',
         },
       ]
 

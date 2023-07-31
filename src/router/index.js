@@ -8,6 +8,11 @@ const routes = [
     component: HomeView,
     children: [
       {
+        path: "/account",
+        name: "account",
+        component: () => import("../components/Account.vue"),
+      },
+      {
         path: "/member",
         name: "member",
         component: () => import("../components/Member.vue"),
@@ -20,15 +25,44 @@ const routes = [
       {
         path: "/comics",
         name: "comics",
-
         component: () => import("../components/Comics.vue"),
       },
       {
-        path: "/seats",
-        name: "seats",
-
-        component: () => import("../components/Seats.vue"),
+        path: "/comic_info",
+        name: "comic_info",
+        component: () => import("../components/comics/ComicInfo.vue"),
       },
+      {
+        path: "/order_status",
+        name: "order_status",
+        component: () => import("../components/comics/OrderStatus.vue"),
+      },
+      {
+        path: "/comic_return",
+        name: "comic_return",
+        component: () => import("../components/comics/ComicReturn.vue"),
+      },
+      {
+        path: "/comic_add",
+        name: "comic_add",
+        component: () => import("../components/comics/ComicAdd.vue"),
+      },
+      {
+        path: "/comic_reserve",
+        name: "comic_reserve",
+        component: () => import("../components/comics/ComicReserve.vue"),
+      },
+      {
+        path: "/reserve",
+        name: "reserve",
+        component: () => import("../components/seats/Reserve.vue"),
+      },
+      {
+        path: "/seat_info",
+        name: "seat_info",
+        component: () => import("../components/seats/SeatInfo.vue"),
+      },
+      
     ],
   },
 
