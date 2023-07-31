@@ -8,6 +8,7 @@ import store from './store'
 // import ViewUIPlus from 'view-ui-plus';
 // import 'view-ui-plus/dist/styles/viewuiplus.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import "@/assets/scss/_style.scss";
 

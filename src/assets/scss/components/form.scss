@@ -1,13 +1,13 @@
 .member {
-  width: 100%;
+  width: 95%;
+  height: 800px;
   box-sizing: border-box;
-
   background-color: #fff;
   display: flex;
   flex-direction: column;
-
+  
+  margin: auto;
   padding: 40px 10px 20px 10px;
-
  .member_query {
     display: flex;
     justify-content: end;

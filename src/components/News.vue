@@ -1,6 +1,9 @@
 <template>
   <div>
+ 
+
     <Form >
+
       <template v-slot:form_query>
         <button class="btn btn-dark member_add" type="submit">
         新增會員
@@ -13,14 +16,14 @@
         <option value="3">Three</option>
       </select>
       <input type="search">
-
-      
  </template>
       <template v-slot:form_table >
         <table>
         <tr>
+          <!-- 資料表頭 -->
           <th v-for="column in columns">{{ column }}</th>
         </tr>
+        <!-- 會員資料 -->
         <tr v-for="(item, index) in dataList" :key="item.index" @click.prevent="memberInfo(index)">
           <td>{{ item.name }}</td>
           <td>{{ item.no }}</td>
@@ -31,18 +34,16 @@
         </tr>
       </table>
   
-      
       </template>
     </Form>
   </div>
 </template>
 <script>
-import Modal from '@/components/Modal.vue';
+
 import Form from '@/components/Form.vue';
 
 export default {
   components: {
-    Modal,
     Form
   },
   data() {

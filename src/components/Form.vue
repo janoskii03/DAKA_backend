@@ -1,17 +1,7 @@
 <template>
 <div class="member">
     <div class="member_query w-100 ">
-      <button class="btn btn-dark member_add" type="submit">
-        新增會員
-        <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus"> 
-      </button>
-      <select class="form-select w-25" aria-label="Default select example">
-        <option selected>請選擇</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-      <input type="search">
+    
       <slot name="form_query"></slot>
     </div>
 

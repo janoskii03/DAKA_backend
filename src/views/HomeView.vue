@@ -3,76 +3,80 @@
   <!-- <Login v-if="!$store.state.isLogging"></Login> -->
 
   <div class="main_container d-flex">
-    <aside class="col-4 d-flex flex-column align-items-center">
-
+    <aside class=" d-flex flex-column align-items-center">
       <img src="@/assets/images/logo.svg" alt="daka_logo" class="main_container_logo" @click="this.$router.push('/')">
+      <div class="accordion accordion-flush w-100 mt-5 main_nav" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/member')">
+              <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
+              會員管理
+            </button>
+          </h2>
 
-      <div class="accordion accordion-flush w-100 mt-5 main_nav " id="accordionFlushExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/member')">
-        <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
-        會員管理
-      </button>
-    </h2>
-   
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-        <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
-        座位管理
-      </button>
-    </h2>
-    <div id="flush-collapseTwo" class="accordion-collapse collapse nav_btn_inside" data-bs-parent="#accordionFlushExample" style="
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
+              @click="this.$router.push('/seats')">
+              <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
+              座位管理
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse nav_btn_inside"
+            data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-      <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a >即時安排座位</a></div>
-      <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a >預約座位</a></div>
-      <div class="accordion-body nav_btn_inside fs-5" style="
-    color: #fff "><a >資料查詢</a></div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed main_nav_btn fs-4" >
-        <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
-        最新消息管理
-      </button>
-    </h2>
-    
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-        <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
-        漫畫租借管理
-      </button>
-    </h2>
-    <div id="flush-collapseFour" class="accordion-collapse collapse nav_btn_inside" data-bs-parent="#accordionFlushExample" style="
+            <div class="accordion-body nav_btn_inside fs-5" style="
+    color: #fff "><a>即時安排座位</a></div>
+            <div class="accordion-body nav_btn_inside fs-5" style="
+    color: #fff "><a>預約座位</a></div>
+            <div class="accordion-body nav_btn_inside fs-5" style="
+    color: #fff "><a>資料查詢</a></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/news')">
+              <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
+              最新消息管理
+            </button>
+          </h2>
+
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour"
+              @click="this.$router.push('/comics')">
+              <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
+              漫畫租借管理
+            </button>
+          </h2>
+          <div id="flush-collapseFour" class="accordion-collapse collapse nav_btn_inside"
+            data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-      <div class="accordion-body fs-5" style="
-    color: #fff "><a >預約書籍</a></div>
-      <div class="accordion-body fs-5"  style="
+            <div class="accordion-body fs-5" style="
+    color: #fff "><a>預約書籍</a></div>
+            <div class="accordion-body fs-5" style="
     color: #fff"><a>歸還書籍</a></div>
-      <div class="accordion-body fs-5"  style="
+            <div class="accordion-body fs-5" style="
     color: #fff "><a>訂單查詢</a>
-    </div>
-      <div class="accordion-body fs-5" style="
-    color: #fff "><a >書籍資料</a></div>
-      <div class="accordion-body fs-5" style="
-    color: #fff "><a >新書上架</a></div>
-    
-     
+            </div>
+            <div class="accordion-body fs-5" style="
+    color: #fff "><a>書籍資料</a></div>
+            <div class="accordion-body fs-5" style="
+    color: #fff "><a>新書上架</a></div>
 
 
 
 
-    </div>
-  </div>
-</div>
-    
+
+
+          </div>
+        </div>
+      </div>
+
 
       <div class="main_aside_bottom">
         <img src="@/assets/images/user.svg" alt="daka_user" class="bottom_img">
@@ -84,10 +88,10 @@
         <h2>
           {{ title }}
         </h2>
-        
 
-          <Button  class="main_checkout" @click.prevent="signOut">Sign Out</Button>
-       
+
+        <Button class="main_checkout" @click.prevent="signOut">Sign Out</Button>
+
       </header>
       <router-view></router-view>
       <footer>版權所有 © 2023 打咖 DAKA</footer>
@@ -98,16 +102,17 @@
 .main_container {
   width: 100%;
   height: 100vh;
-  
 
-  .main_nav{
+
+  .main_nav {
     color: #fff;
+    padding-left: 20px;
 
-    .main_nav_btn{
-  background-color: #263238;
-  color: #fff;
-  font-size: 1.2rem; 
-}
+    .main_nav_btn {
+      background-color: #263238;
+      color: #fff;
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -115,12 +120,13 @@
 .main_sub_two_img,
 .main_sub_three_img,
 .main_sub_four_img {
- margin-right: 10px;
+  margin-right: 10px;
 }
 
 
 .main_container aside {
-  margin:0 auto;
+  width: 20%;
+  margin: 0 auto;
   background-color: #263238;
 
 }
@@ -144,8 +150,8 @@
 .main_container aside .main_container_logo {
   width: 100%;
   height: 46px;
- margin-top: 100px;
- cursor: pointer;
+  margin-top: 100px;
+  cursor: pointer;
 }
 
 
@@ -154,7 +160,7 @@
   display: flex;
   align-items: center;
   margin-top: auto;
-  margin-right: 100px;
+  margin-right: 130px;
   font-size: 1.3rem;
   color: #fff;
   margin-bottom: 20px;
@@ -168,7 +174,7 @@
 }
 
 .main_container main {
-  width: 70%;
+  width: 80%;
 
   display: flex;
   flex-direction: column;
@@ -207,13 +213,16 @@
 
 <script>
 import Member from '@/components/Member.vue'
+import Comics from '@/components/Comics.vue'
+import Seats from '@/components/Seats.vue'
+import News from '@/components/News.vue'
 import Login from '@/components/Login.vue'
 
 
 
 export default {
   components: {
-    Member, Login
+    Member, Login, News, Seats, Comics
   },
   data() {
     return {
@@ -231,7 +240,7 @@ export default {
         },
         {
           name: '座位管理',
-          path: '/seat',
+          path: '/seats',
 
         },
         {
