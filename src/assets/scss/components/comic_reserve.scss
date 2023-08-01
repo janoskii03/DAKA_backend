@@ -1,0 +1,116 @@
+.com_reserve_modal{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 500px;
+    background-color: $backstage_modal_color;
+    border-radius: 10px;
+    color: $main_bg;
+    .modal_title{
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 12px;
+    }
+    .com_reserve_box{
+        background-color: $main_txt_color;
+        width: 95%;
+        margin: auto;
+    }
+    .com_reserve_container table {
+        border-collapse: collapse;
+        border: 2px solid #4C6470;;
+        border-top: 0;
+        border-left: 0;
+        width: 90%;
+        margin: auto;
+        margin-top: 30px;
+    }
+    .com_reserve_container tr{
+        display: flex;
+        width: 100%;
+    }
+    .com_reserve_container td{
+        display: flex;
+        border-top: 2px solid #4C6470;
+        width: 50%;
+    }
+    .com_reserve_container p {
+        width: 30%;
+        margin: 0;
+        box-sizing: border-box;
+        padding: 5px;
+        text-align: center;
+        border-right: 2px solid #4C6470;
+        border-left: 2px solid #4C6470;
+        background-color: $backstage_modal_color;
+    }
+    .com_reserve_container .detail_content {
+        box-sizing: border-box;
+        padding: 5px;
+        text-align: center;
+        display: block;
+    }
+    .com_books_detail{
+        table{
+            border-collapse: collapse;
+            border: 2px solid #4C6470;;
+            border-top: 0;
+            width: 90%;
+            margin: auto;
+            margin-top: 30px;
+        }
+        tr{
+            border-top: 2px solid #4C6470;
+        }
+        td,th{
+            border-right: 2px solid #4C6470;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 5px;
+            font-weight: normal;
+        }
+        th{
+            background-color: $backstage_modal_color;
+        }
+    }
+    .check_line{
+        display: flex;
+        width: 90%;
+        justify-content: space-between;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        .pickup_button button{
+            width: 100px;
+            background-color: $main_bg;
+            color: $main_txt_color;
+            border: none;
+            border-radius: 100px;
+            box-sizing: border-box;
+            padding: 5px 30px;
+        }
+        .total_amount{
+            border: 2px solid #4C6470;
+            tr{
+                display: flex;
+            }
+            p{
+                box-sizing: border-box;
+                padding: 5px;
+                text-align: center;
+                margin-bottom: 0;
+                border-right: 2px solid #4C6470;
+                background-color: $backstage_modal_color;
+            }
+            span{
+                box-sizing: border-box;
+                padding: 5px;
+                text-align: center;
+                display: block;
+            }
+            
+        }
+    }
+}
+
