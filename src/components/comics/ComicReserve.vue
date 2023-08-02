@@ -2,13 +2,19 @@
   <div>
     <Form >
     <template v-slot:form_query>
-      <div>
-        <input type="search" id="searchInput" placeholder="預約取書請輸入電話">
-        <button id="searchButton">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-      <!-- <input type="search"> -->
+      <div class="col-md-2">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="預約輸入請輸入電話"
+              aria-describedby="basic-addon1"
+            />
+            <span class="input-group-text" id="basic-addon1">
+              <img src="@/assets/images/search.svg" alt="search">
+            </span>
+          </div>
+        </div>
     </template>
     <template v-slot:form_table >
       <table class="main_list">
@@ -19,14 +25,13 @@
           <td >{{ item.comics_order_no }}</td>
           <td>{{ item.menno }}</td>
           <td>{{ item.comics_order_date }}</td>
-          <td>{{ item.comics_borrow_date }}</td>
-          <td>{{ item.comics_return_date }}</td>
           <td>{{ item.comics_borrow}}</td>
         </tr>
       </table>
+      <!-- 黑底 -->
       <div class="modal-backdrop" v-show="showModal"></div>
        <!-- 彈窗 -->
-       <div v-show="showModal" class="com_reserve_modal">
+      <div v-show="showModal" class="com_reserve_modal">
             <div class="modal_title">
               <h5>預約明細</h5>
               <img src="@/assets/images/member/close.svg" alt="close" class="close_window" @click="closeModal"> 
@@ -37,7 +42,7 @@
                   <tr>
                     <td>
                       <p>會員電話</p>
-                      <span class="detail_content">{{ selectedItem.menno }}</span>
+                      <span class="detail_content">{{ selectedItem.mobile }}</span>
                     </td>
                     <td>
                       <p>訂單編號</p>
@@ -77,7 +82,7 @@
                     <tr v-for="(book, index) in selectedItem.books" :key="index">
                       <td>{{ index + 1 }}</td>
                       <td>{{ book.comics_no }}</td>
-                      <td>{{ book.title }}</td>
+                      <td>{{ book.title }} {{ book.comics_index }}</td>
                       <td>{{ book.amount }}</td>
                     </tr>
                 </table>
@@ -94,17 +99,19 @@
                 </div>
               </div>
             </div>
-        </div>
+      </div>
     </template>    
     </Form>
+    <Modal></Modal>
   </div>
 </template>
 <script>
 import Form from '@/components/Form.vue';
+import Modal from '@/components/comics/Modal.vue';
 
 export default {
   components: {
-    Form
+    Form,Modal
   },
   data() {
     return {
@@ -113,77 +120,80 @@ export default {
         '訂單編號',
         '姓名',
         '預約日期',
-        '取書日期',
-        '應還日期',
         '租借狀態'
       ],
       dataList:[
         {
           comics_order_no: 'CB0001',
-          menno:'忘記了',
+          menno:'王小明',
           comics_order_date:'2023-05-01',
-          comics_borrow_date:'2023-05-02',
-          comics_return_date:'2023-05-05',
-          comics_borrow: '已取書',
+          comics_borrow: '未取書',
+          mobile:'0988-000-123',
           books: [
           {
             comics_no: 'CM0001',
-            title: 'ONE PIECE航海王12',
+            title: 'ONE PIECE航海王',
+            comics_index:'12',
             amount: '$10',
           },
         ]
         },
         {
           comics_order_no: 'CB0002',
-          menno:'忘記了',
+          menno:'王小明',
           comics_order_date:'2023-05-04',
-          comics_borrow_date:'2023-05-05',
-          comics_return_date:'2023-05-07',
-          comics_borrow: '已取書',
+          comics_borrow: '未取書',
+          mobile:'0988-000-333',
           books: [
           {
             comics_no: 'CM0002',
-            title: 'ONE PIECE航海王12',
+            title: 'ONE PIECE航海王',
+            comics_index:'12',
             amount: '$10',
           },
           {
             comics_no: 'CM0006',
             title: '(日本版漫畫)咒術迴戰',
+            comics_index:'',
             amount: '$10',
           },
           {
             comics_no: 'CM0009',
             title: '鬼滅之刃',
+            comics_index:'',
             amount: '$10',
           },
         ]
         },
         {
           comics_order_no: 'CB0003',
-          menno:'忘記了',
+          menno:'王小明',
           comics_order_date:'2023-05-05',
-          comics_borrow_date:'2023-05-06',
-          comics_return_date:'2023-05-08',
-          comics_borrow: '已取書',
+          comics_borrow: '未取書',
+          mobile:'0988-000-123',
           books: [
           {
             comics_no: 'CM0003',
-            title: 'ONE PIECE航海王12',
+            title: 'ONE PIECE航海王',
+            comics_index:'12',
             amount: '$10',
           },
           {
             comics_no: 'CM0014',
-            title: '庫洛魔法使 透明牌篇1',
+            title: '庫洛魔法使 透明牌篇',
+            comics_index:'1',
             amount: '$10',
           },
           {
             comics_no: 'CM0019',
-            title: '庫洛魔法使 透明牌篇6',
+            title: '庫洛魔法使 透明牌篇',
+            comics_index:'6',
             amount: '$10',
           },
           {
             comics_no: 'CM0020',
-            title: '庫洛魔法使 透明牌篇7',
+            title: '庫洛魔法使 透明牌篇',
+            comics_index:'7',
             amount: '$10',
           },
           {
