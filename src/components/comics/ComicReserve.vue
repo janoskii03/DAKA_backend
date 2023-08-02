@@ -11,7 +11,7 @@
       <!-- <input type="search"> -->
     </template>
     <template v-slot:form_table >
-      <table>
+      <table class="main_list">
         <tr>
           <th v-for="order in comics_order" :key="order">{{ order }}</th>
         </tr>
@@ -24,6 +24,7 @@
           <td>{{ item.comics_borrow}}</td>
         </tr>
       </table>
+      <div class="modal-backdrop" v-show="showModal"></div>
        <!-- 彈窗 -->
        <div v-show="showModal" class="com_reserve_modal">
             <div class="modal_title">
@@ -73,22 +74,22 @@
                       <th>漫畫名稱</th>
                       <th>金額</th>
                     </tr>
-                    <tr v-for="(book, index) in books" :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ book.code }}</td>
-                            <td>{{ book.name }}</td>
-                            <td>{{ book.amount }}</td>
+                    <tr v-for="(book, index) in selectedItem.books" :key="index">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ book.comics_no }}</td>
+                      <td>{{ book.title }}</td>
+                      <td>{{ book.amount }}</td>
                     </tr>
                 </table>
               </div>
               <div class="check_line">
                 <div class="pickup_button">
-                  <button type="submit">取書</button>
+                  <button type="submit" @click="closeModal">取書</button>
                 </div>
                 <div class="total_amount">
                   <tr>
                     <p>總金額</p>
-                    <span>$30</span>
+                    <span>{{ countTotal() }}</span>
                   </tr>
                 </div>
               </div>
@@ -124,6 +125,13 @@ export default {
           comics_borrow_date:'2023-05-02',
           comics_return_date:'2023-05-05',
           comics_borrow: '已取書',
+          books: [
+          {
+            comics_no: 'CM0001',
+            title: 'ONE PIECE航海王12',
+            amount: '$10',
+          },
+        ]
         },
         {
           comics_order_no: 'CB0002',
@@ -132,6 +140,58 @@ export default {
           comics_borrow_date:'2023-05-05',
           comics_return_date:'2023-05-07',
           comics_borrow: '已取書',
+          books: [
+          {
+            comics_no: 'CM0002',
+            title: 'ONE PIECE航海王12',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0006',
+            title: '(日本版漫畫)咒術迴戰',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0009',
+            title: '鬼滅之刃',
+            amount: '$10',
+          },
+        ]
+        },
+        {
+          comics_order_no: 'CB0003',
+          menno:'忘記了',
+          comics_order_date:'2023-05-05',
+          comics_borrow_date:'2023-05-06',
+          comics_return_date:'2023-05-08',
+          comics_borrow: '已取書',
+          books: [
+          {
+            comics_no: 'CM0003',
+            title: 'ONE PIECE航海王12',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0014',
+            title: '庫洛魔法使 透明牌篇1',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0019',
+            title: '庫洛魔法使 透明牌篇6',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0020',
+            title: '庫洛魔法使 透明牌篇7',
+            amount: '$10',
+          },
+          {
+            comics_no: 'CM0013',
+            title: '鬼滅之刃12',
+            amount: '$10',
+          },
+        ]
         }
       ],
       selectedItem:{}
@@ -147,7 +207,20 @@ export default {
     },
     closeModal(){
       this.showModal=false;
-    }
+    },
+    countTotal() {
+      let totalAmount = 0;
+      if (this.selectedItem && this.selectedItem.books) {
+        for (const book of this.selectedItem.books) {
+          const amount = parseInt(book.amount.replace('$', ''), 10);
+          if (!isNaN(amount)) {
+            totalAmount += amount;
+          }
+        }
+      }
+
+      return `$${totalAmount}`;
+    },
   }
 }
 </script>
