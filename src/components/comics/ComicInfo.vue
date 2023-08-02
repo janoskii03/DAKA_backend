@@ -1,61 +1,92 @@
 <template>
   <div>
-    <Form >
+    <Form>
       <template v-slot:form_query>
-        <button class="btn btn-dark member_add" type="submit">
-        新增會員
-        <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus"> 
-      </button>
-     
-      <input type="search">
- </template>
+        <div class="col-md-2">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>請選擇</option>
+            <option value="1">建檔編號</option>
+            <option value="2">書籍名稱</option>
+            <option value="3">ISBN碼</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="請輸入"
+              aria-describedby="basic-addon1"
+            />
+            <span class="input-group-text" id="basic-addon1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-search"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                ></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </template>
 
-
-
-     
-        <template v-slot:form_table >
+      <template v-slot:form_table>
         <table>
-        <tr>
-          <th v-for="column in columns">{{ column }}</th>
-        </tr>
-        <tr v-for="(item, index) in dataList" :key="item.index" @click.prevent="memberInfo(index)">
-          <td>{{ item.name }}</td>
-          <td>{{ item.no }}</td>
-          <td>{{ item.rank }}</td>
-          <td>{{ item.mobile }}</td>
-          <td>{{ item.remain }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
-      </table>
+          <tr>
+            <th v-for="id in comics_id">{{ id }}</th>
+          </tr>
+          <tr
+            v-for="(item, index) in dataList"
+            :key="item.index"
+            @click.prevent="memberInfo(index)"
+          >
+            <td>{{ item.isbn }}</td>
+            <td>{{ item.comics_no }}</td>
+            <td><div class="row">{{ item.title + item.comics_index }}</div></td>
+            <td>{{ item.comics_price }}</td>
+            <td>{{ item.comics_status }}</td>
+          </tr>
+        </table>
       </template>
     </Form>
   </div>
 </template>
 <script>
-import Form from '@/components/Form.vue';
+import Form from "@/components/Form.vue";
 
 export default {
   components: {
-    Form
+    Form,
   },
   data() {
     return {
-      columns: [
-        '姓名',
-        '會員編號',
-        '會員等級',
-        '手機號碼',
-        '儲值餘額',
-        '當年度累積消費金額'
+      comics_id: ["ISBN編碼", "建檔編號", "書籍名稱", "進貨價格", "租借狀況"],
+      dataList:[
+        {
+          isbn: '9789861127224',
+          comics_no:'CM0001',
+          title:'ONE PIECE航海王',
+          comics_index:'12',
+          comics_price:'89元',
+          comics_status: '已報銷',
+        },
+        {
+          isbn: '9789861127224',
+          comics_no:'CM0021',
+          title:'ONE PIECE航海王',
+          comics_index:'12',
+          comics_price:'89元',
+          comics_status: '可租借',
+        },
       ],
-     
-
-    }
+    };
   },
-  methods: {
- 
-
-  }
-}
+  methods: {},
+};
 </script>
-
