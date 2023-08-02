@@ -1,8 +1,25 @@
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999;
+    pointer-events: none;
+  }
 .com_reserve_modal{
     display: flex;
     flex-direction: column;
-    width: 40%;
-    height: 500px;
+    width: 30%;
+    // height: 50%;
+    position: fixed;
+    z-index: 1000;
+    top: 30%;
+    right: 35%;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+    // transform: translate(-30%, -30%);
     background-color: $backstage_modal_color;
     border-radius: 10px;
     color: $main_bg;
@@ -10,7 +27,10 @@
         display: flex;
         justify-content: space-between;
         box-sizing: border-box;
-        padding: 12px;
+        padding: 15px;
+        img{
+            cursor: pointer;
+        }
     }
     .com_reserve_box{
         background-color: $main_txt_color;
@@ -34,6 +54,7 @@
         display: flex;
         border-top: 2px solid #4C6470;
         width: 50%;
+        // height: 35px;
     }
     .com_reserve_container p {
         width: 30%;
@@ -64,6 +85,7 @@
             border-top: 2px solid #4C6470;
         }
         td,th{
+            // height: 35px;
             border-right: 2px solid #4C6470;
             text-align: center;
             box-sizing: border-box;
