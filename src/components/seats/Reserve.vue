@@ -23,12 +23,10 @@
   </div>
 </template>
 <script>
-import Modal from '@/components/Modal.vue';
 import Form from '@/components/Form.vue';
 
 export default {
   components: {
-    Modal,
     Form
   },
   data() {
