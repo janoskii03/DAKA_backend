@@ -10,7 +10,7 @@
             <option value="3">ISBN碼</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           <div class="input-group">
             <input
               type="search"
@@ -19,14 +19,14 @@
               aria-describedby="basic-addon1"
             />
             <span class="input-group-text" id="basic-addon1">
-              <img src="/img/search.svg" alt="search">
+              <img src="@/assets/images/search.svg" alt="search">
             </span>
           </div>
         </div>
       </template>
 
       <template v-slot:form_table>
-        <table>
+        <table class="main_list">
           <tr>
             <th v-for="id in comics_id">{{ id }}</th>
           </tr>
@@ -37,7 +37,7 @@
           >
             <td>{{ item.isbn }}</td>
             <td>{{ item.comics_no }}</td>
-            <td><div class="row">{{ item.title + item.comics_index }}</div></td>
+            <td class="col-md-3">{{ item.title + item.comics_index }}</td>
             <td>{{ item.comics_price }}</td>
             <td>{{ item.comics_status }}</td>
           </tr>
