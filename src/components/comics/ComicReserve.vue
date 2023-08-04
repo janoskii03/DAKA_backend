@@ -28,7 +28,7 @@
         <!-- 黑底 -->
         <div class="modal-backdrop" v-show="showModal && step === 2"></div>
         <!-- 彈窗 -->
-        <div v-show="showModal" class="com_reserve_modal">
+        <div v-show="showModal && step === 2" class="com_reserve_modal">
           <div class="modal_title">
             <h5>預約明細</h5>
             <img src="@/assets/images/member/close.svg" alt="close" class="close_window" @click="closeModal">
@@ -214,9 +214,11 @@ export default {
     openModal(index) {
       this.showModal = !this.showModal;
       this.selectedItem = this.dataList[index];
+      this.step = 2;
     },
     closeModal() {
       this.showModal = false;
+      this.step = 1;
     },
     goConfirm() {
       this.showModal = false;
@@ -237,7 +239,6 @@ export default {
     },
     searchReserve() {
       if (this.search === '') {
-        this.filterDataList = this.dataList;
         this.step = 1;
       } else {
         this.filterDataList = this.dataList.filter((item) => {

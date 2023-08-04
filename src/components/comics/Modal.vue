@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     confirm() {
-      this.$emit('check-confirm',  this.$parent.step = 1);
+      this.$emit('check-confirm',  this.$parent.step = 0);
     },
     closeConfirm() {
       this.$emit('close-confirm',  this.$parent.step = 2,this.$parent.showModal=true);
