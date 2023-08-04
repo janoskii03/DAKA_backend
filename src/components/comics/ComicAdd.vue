@@ -105,7 +105,7 @@
                   </div>
                   <div class="mt-4">
                     <input
-                      class="form-check-input mb-2 checkbox-xl"
+                      class="form-check-input checkbox"
                       type="checkbox"
                       value=""
                       id="defaultCheck1"
@@ -113,7 +113,7 @@
                   </div>
                   <div class="mt-4">
                     <input
-                      class="form-check-input checkbox-xl"
+                      class="form-check-input checkbox"
                       type="checkbox"
                       value=""
                       id="defaultCheck1"
@@ -134,7 +134,10 @@
                     <label class="col-form-label">出版日期</label>
                   </div>
                   <div class="mb-3">
-                    <label class="col-form-label">圖片更新</label>
+                    <label class="col-form-label">封面更新</label>
+                  </div>
+                  <div class="mb-3">
+                    <label class="col-form-label">內頁更新</label>
                   </div>
                   <div class="imgpreview">
                     <img
@@ -174,19 +177,32 @@
                       placeholder="請輸入 最多12字"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div>
                     <input
                       type="text"
-                      class="form-control mt-3"
+                      class="form-control"
                       id="name"
                       placeholder="請輸入 西元年/月/日 (****/**/**)"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div class="fileup">
+                    <label for="formFileMultiple" class="form-label"></label>
                     <input
+                      class="form-control"
                       type="file"
-                      class="form-control-file"
-                      id="imageUpload"
+                      id="formFile"
+                      multiple
+                      name="imageUpload"
+                      @change="handleImageUpload"
+                    />
+                  </div>
+                  <div class="mb-3 fileup">
+                    <label for="formFile" class="form-label"></label>
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="formFile"
+                      multiple
                       name="imageUpload"
                       @change="handleImageUpload"
                     />
@@ -237,7 +253,7 @@ export default {
       text: "", // 绑定Textarea的输入内容
       wordCount: 0, // 用于显示字数的变量
       imageUrls: [], // 用于存储上传后图片的URL数组
-      inputValue: '', // 用于存储输入框的值
+      inputValue: "", // 用于存储输入框的值
     };
   },
   methods: {
@@ -267,7 +283,7 @@ export default {
     },
     validateInput() {
       // 使用正则表达式验证输入的内容是否为阿拉伯数字
-      this.inputValue = this.inputValue.replace(/[^\d]/g, '');
+      this.inputValue = this.inputValue.replace(/[^\d]/g, "");
     },
   },
 };
