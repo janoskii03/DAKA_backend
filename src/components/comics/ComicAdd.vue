@@ -225,8 +225,10 @@
                     <p class="wordCount">{{ wordCount }}/150</p>
                     <div class="com_add_btncontent">
                       <button
-                        type="submit"
-                        class="btn btn-outline-secondary com_add_btn"
+                        type="button"
+                        class="btnbtn-outline-secondary com_add_btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
                       >
                         確認
                       </button>

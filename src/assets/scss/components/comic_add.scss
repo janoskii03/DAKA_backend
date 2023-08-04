@@ -1,10 +1,6 @@
 .com_add {
-    display: flex;
-    flex-direction: column;
-    // width: 1170px;
     width: 100%;
     padding: 20px;
-    box-sizing: border-box;
     background-color: $backstage_modal_color;
     border-radius: 10px;
     p {
@@ -13,11 +9,10 @@
     }
     .com_add_content {
         padding-top: 20px;
-        display: flex;
-        flex-direction: column;
-        // width: 1130px;
+        // display: flex;
+        // flex-direction: column;
+        // box-sizing: border-box;
         width: 100%;
-        box-sizing: border-box;
         background-color: $main_txt_color;
     }
     .com_add_btncontent {
