@@ -223,12 +223,12 @@
                       maxlength="150"
                     ></textarea>
                     <p class="wordCount">{{ wordCount }}/150</p>
+                    <!-- 確認紐 -->
                     <div class="com_add_btncontent">
                       <button
                         type="button"
-                        class="btnbtn-outline-secondary com_add_btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
+                        class="com_add_btn"
+                        @click="openModal"
                       >
                         確認
                       </button>
@@ -238,10 +238,23 @@
               </div>
             </div>
           </div>
+<!-- 彈窗 -->
+          <div class="modal_container" v-if="showModal">
+            <div class="modal_overlay" @click="closeModal"></div>
+            <div class="modal-content">
+              <p>確定新增？</p>
+              <div class="popup_btnarea">
+                <button class="com_add_btn" @click="submitData">確定</button>
+                <button class="com_add_btn" @click="closeModal">取消</button>
+              </div>
+            </div>
+          </div>
         </div>
       </template>
     </Form>
   </div>
+
+  <!-- Modal -->
 </template>
 <script>
 import Form from "@/components/Form.vue";
@@ -256,6 +269,7 @@ export default {
       wordCount: 0, // 用于显示字数的变量
       imageUrls: [], // 用于存储上传后图片的URL数组
       inputValue: "", // 用于存储输入框的值
+      showModal: false,
     };
   },
   methods: {
@@ -286,6 +300,19 @@ export default {
     validateInput() {
       // 使用正则表达式验证输入的内容是否为阿拉伯数字
       this.inputValue = this.inputValue.replace(/[^\d]/g, "");
+    },
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+    submitData() {
+      // 处理提交数据逻辑
+      // ...
+
+      // 关闭弹窗
+      this.closeModal();
     },
   },
 };
