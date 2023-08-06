@@ -1,7 +1,7 @@
 <?php 
     $dbname = "daka";
     $user = "root";
-    $password = "root";
+    $password = "";
     $port = 3306;
 
     $dsn = "mysql:host=localhost;port=$port;dbname=$dbname;charset=utf8";

@@ -62,11 +62,6 @@ const routes = [
         name: "seat_info",
         component: () => import("../components/seats/SeatInfo.vue"),
       },
-      {
-        path: "/newsmodal",
-        name: "newsmodal",
-        component: () => import("../components/newsmodal.vue"),
-      },
       
     ],
   },
