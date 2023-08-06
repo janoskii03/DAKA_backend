@@ -14,6 +14,11 @@
         // box-sizing: border-box;
         width: 100%;
         background-color: $main_txt_color;
+        .time {
+          display: inline-flex;
+          align-items: center;
+          padding: 0px 5px;
+        }
     }
     .com_add_btncontent {
         margin-top: 130px;
@@ -28,6 +33,7 @@
         letter-spacing: 0.15rem;
         text-align:right;
     }
+
     .imgpreview {
         width: 200px;
         height: 150px;
@@ -60,8 +66,9 @@
         font-size: 0.75rem;
         background: $main_bg;
         color: $main_txt_color;
+        cursor: pointer; 
     }
-  // GPT
+
 .modal_container {
   position: fixed;
   top: 0;
