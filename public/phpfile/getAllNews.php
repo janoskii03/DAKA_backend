@@ -9,7 +9,7 @@ try {
 	$sql = "select * from news";
 	$products = $pdo->query($sql); 
 	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
-  echo json_encode($prodRows);
+ echo json_encode($prodRows);
 
 } catch (Exception $e) {
 	echo "錯誤行號 : ", $e->getLine(), "<br>";

@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="">編輯消息</h5>
                 <span>管理者：中壢分店</span>
                 <button type="button" @click="toggleReadOnly">編輯</button>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" @click="this.$emit('emit-modal')"></button>
             </div>
             <div class="news_body">
                 <!-- 標題 -->
@@ -13,7 +13,7 @@
                     <label for="news_title" class="col-1 col-form-label">標題</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="news_title" maxlength="20" placeholder="限制字數 20 字"
-                            :disabled="isReadOnly">
+                            :disabled="isReadOnly" v-model="news.news_title">
                     </div>
 
                 </div>
@@ -22,15 +22,14 @@
                 <div class="row mb-3">
                     <label for="news_date" class="col-1 col-form-label">日期</label>
                     <div class="col-3">
-                        <input type="date" class="form-control" id="news_date" :disabled="isReadOnly">
+                        <input type="date" class="form-control" id="news_date" :disabled="isReadOnly" v-model="news.news_date">
                     </div>
 
                     <label for="news_category" class="col-1 col-form-label">類別</label>
                     <div class="col-3">
-                        <select class="col-12 form-select form-control" id="news_category" :disabled="isReadOnly">
-                            <option selected>文章類別</option>
-                            <option value="1">NEWS</option>
-                            <option value="2">ACTIVITY</option>
+                        <select class="col-12 form-select form-control" id="news_category" :disabled="isReadOnly" v-model="news.news_category">
+                            <option :selected="news.news_category === 'NEWS'">NEWS</option>
+                            <option :selected="news.news_category === 'ACTIVITY'">ACTIVITY</option>
                         </select>
                     </div>
                 </div>
@@ -48,7 +47,7 @@
 
                     <label for="news_content" class="form-label col-1">內文</label>
                     <div class="col-11">
-                        <textarea class="form-control" id="news_content" rows="10" v-model="text" @input="countWords"
+                        <textarea class="form-control" id="news_content" rows="10" v-model="news.news_text" @input="countWords"
                             maxlength="1000" :disabled="isReadOnly">
 
                             <!-- <span class="wordCount"> {{ wordCount }} / 1000 </span> -->
@@ -70,7 +69,7 @@
 import { Form } from 'view-ui-plus';
 
 export default {
-    name: '',
+    props:['news'],
     data() {
         return {
             text: "", // 绑定Textarea的输入内容

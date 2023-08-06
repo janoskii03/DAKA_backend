@@ -4,6 +4,10 @@
     box-sizing: border-box;
     background-color: #BCCCD1;
     border-radius: 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     .news_header {
         flex-direction: column;

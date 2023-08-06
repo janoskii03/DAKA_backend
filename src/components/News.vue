@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <Form>
 
       <template v-slot:form_query>
@@ -33,7 +31,7 @@
             <th v-for="column in columns">{{ column }}</th>
           </tr>
           <!--  消息資料 -->
-          <tr v-for="(item, index) in dataList" :key="item.index" @click.prevent="memberInfo(index)">
+          <tr v-for="(item, index) in dataList" :key="item.index" @click="emitData(item)">
             <td>{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
             <td>{{ item.news_status }}</td>
@@ -48,29 +46,20 @@
 
       </template>
     </Form>
+    <NewsModal v-show="modalSwitch" @emit-modal="modalSwitch = false" :news="data"/>
   </div>
 </template>
 <script>
-
+import {GET} from '@/plugin/axios';
 import Form from '@/components/Form.vue';
 import { Step } from 'view-ui-plus';
-
+import NewsModal from '@/components/NewsModal.vue';
 export default {
   components: {
-    Form
+    Form, NewsModal,
   },
   data() {
     return {
-      news: {
-        news_title: '',
-        news_category: '',
-        news_status: '',
-        news_date: '',
-        news_pic: '',
-        news_text: '',
-        ename: '',
-        admin_no: ''
-      },
       dataList: [
         {
           news_title: '組隊集結，征服召喚峽谷！',
@@ -112,20 +101,26 @@ export default {
         '編輯者',
         '員工編號',
       ],
-      model: '',
-
+      data: [],
+      modalSwitch: false,
     }
   },
   methods: {
-    memberInfo(index) {
-      let { name, no, rank, mobile, remain, value } = this.dataList[index];
-
-      console.log(name, no, rank, mobile, remain, value);
-
-    },
-
-
-  }
+    emitData(data) {
+      this.data = data;
+      this.modalSwitch = true;
+    }
+  },
+  mounted() {
+      GET(`${this.$URL}/getAllNews.php`)
+        .then(res => {
+          console.log(res);
+          this.dataList = res;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+  },
 }
 </script>
 
