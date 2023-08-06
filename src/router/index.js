@@ -62,7 +62,11 @@ const routes = [
         name: "seat_info",
         component: () => import("../components/seats/SeatInfo.vue"),
       },
-      
+      {
+        path: "/seat_now",
+        name: "seat_now",
+        component: () => import("../components/seats/SeatNow.vue"),
+      },
     ],
   },
 
