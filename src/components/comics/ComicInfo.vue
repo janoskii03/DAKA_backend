@@ -3,8 +3,8 @@
     <Form>
       <template v-slot:form_query>
         <div class="col-md-2">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>請選擇</option>
+          <select class="form-select" v-model="searchOption" aria-label="Default select example">
+            <option value="0">請選擇</option>
             <option value="1">建檔編號</option>
             <option value="2">書籍名稱</option>
             <option value="3">ISBN碼</option>
@@ -15,12 +15,14 @@
             <input
               type="search"
               class="form-control"
+              v-model="searchInput"
+              @input="performSearch"
               placeholder="請輸入"
               aria-describedby="basic-addon1"
             />
-            <span class="input-group-text" id="basic-addon1">
-              <img src="@/assets/images/search.svg" alt="search">
-            </span>
+            <button class="input-group-text" id="basic-addon1"               >
+              <img @click="performSearch" src="@/assets/images/search.svg" alt="search">
+            </button>
           </div>
         </div>
       </template>
@@ -28,13 +30,9 @@
       <template v-slot:form_table>
         <table class="main_list">
           <tr>
-            <th v-for="id in comics_id">{{ id }}</th>
+            <th v-for="header in comics_id">{{ header }}</th>
           </tr>
-          <tr
-            v-for="(item, index) in dataList"
-            :key="item.index"
-            @click.prevent="memberInfo(index)"
-          >
+          <tr v-for="(item, index) in searchResults" :key="index" @click.prevent="memberInfo(index)">
             <td>{{ item.isbn }}</td>
             <td>{{ item.comics_no }}</td>
             <td class="col-md-3">{{ item.title + item.comics_index }}</td>
@@ -73,9 +71,35 @@ export default {
           comics_price:'89元',
           comics_status: '可租借',
         },
+        {
+          isbn: '9784088816081',
+          comics_no:'CM0006',
+          title:'(日本版漫畫)咒術迴戰',
+          comics_index:'2',
+          comics_price:'207元',
+          comics_status: '可租借',
+        },
       ],
+      searchOption: '0',
+      searchInput: '',
+      searchResults: [],
     };
   },
-  methods: {},
+  methods: {
+    performSearch() {
+      if (this.searchOption === '1') {
+        this.searchResults = this.dataList.filter(item => item.comics_no.includes(this.searchInput));
+      } else if (this.searchOption === '2') {
+        this.searchResults = this.dataList.filter(item => item.title.includes(this.searchInput));
+      } else if (this.searchOption === '3') {
+        this.searchResults = this.dataList.filter(item => item.isbn.includes(this.searchInput));
+      } else {
+        this.searchResults = this.dataList;
+      }
+    },
+    memberInfo(index) {
+      // 处理点击事件的逻辑
+    },
+  },
 };
 </script>
