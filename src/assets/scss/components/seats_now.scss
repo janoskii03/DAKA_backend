@@ -1,0 +1,19 @@
+.seats_now_all {
+    width: 95%;
+    height: 800px;
+    box-sizing: border-box;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 40px 10px 20px 10px;
+  .seats_now_info {
+    background-color: aqua;
+    width: 100%;
+    display: block;
+  }
+  .seats_now_map {
+    background-color: rgb(109, 41, 128);
+    width: 100%;
+  }
+}

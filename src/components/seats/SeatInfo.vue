@@ -8,10 +8,9 @@
             v-model="selectedOption"
             aria-label="Default select example"
           >
-            <option value="0" selected>--請選擇--</option>
-            <option value="1">使用者</option>
-            <option value="2">大廳區</option>
-            <option value="3">包廂區</option>
+            <option value="0" selected>使用者</option>
+            <option value="1">大廳區</option>
+            <option value="2">包廂區</option>
           </select>
           <div class="input-group">
             <input
@@ -246,13 +245,13 @@ export default {
 
       // 根据选择的选项进行不同的查询
       switch (this.selectedOption) {
-        case "1": // 使用者
+        case "0": // 使用者
           this.filterDataList = this.dataList.filter((item) =>
             item.mobile.includes(this.search)
           );
           break;
 
-        case "2": // 大廳區
+        case "1": // 大廳區
           this.filterDataList = this.dataList.filter((item) => {
             return item.seats.some(
               (seat) =>
@@ -262,7 +261,7 @@ export default {
           });
           break;
 
-        case "3": // 包廂區
+        case "2": // 包廂區
           this.filterDataList = this.dataList.filter((item) => {
             return item.seats.some(
               (seat) =>
