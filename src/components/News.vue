@@ -8,10 +8,10 @@
           <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
         </button>
         <div class="col-md-2">
-          <select class="form-select">
-            <option selected>請選擇類別</option>
-            <option value="1">NEWS</option>
-            <option value="2">ACTIVITY</option>
+          <select class="form-select" v-model="selectedCategory">
+            <option value="" selected>請選擇類別</option>
+            <option value="NEWS">NEWS</option>
+            <option value="ACTIVITY">ACTIVITY</option>
           </select>
         </div>
         <div class="col-md-2">
@@ -46,11 +46,11 @@
 
       </template>
     </Form>
-    <NewsModal v-show="modalSwitch" @emit-modal="modalSwitch = false" :news="data"/>
+    <NewsModal v-show="modalSwitch" @emit-modal="modalSwitch = false" :news="data" />
   </div>
 </template>
 <script>
-import {GET} from '@/plugin/axios';
+import { GET } from '@/plugin/axios';
 import Form from '@/components/Form.vue';
 import { Step } from 'view-ui-plus';
 import NewsModal from '@/components/NewsModal.vue';
@@ -103,23 +103,48 @@ export default {
       ],
       data: [],
       modalSwitch: false,
+      filteredDataList: [],
     }
   },
   methods: {
     emitData(data) {
       this.data = data;
       this.modalSwitch = true;
-    }
+    },
+    filterDataList() {
+      let filteredData = this.dataList;
+      const selectedCategoryText = this.selectedCategory;
+
+      if (selectedCategoryText) {
+        filteredData = filteredData.filter(item => item.news_category === selectedCategoryText);
+      }
+
+      if (this.search) {
+        filteredData = filteredData.filter(item => item.mobile.includes(this.search));
+      }
+
+      this.filteredDataList = filteredData;
+
+    },
   },
+  //   computed: {
+  //   filteredDataList() {
+  //     if (this.selectedCategory === '') {
+  //       return this.dataList;
+  //     } else {
+  //       return this.dataList.filter(item => item.news_category === this.selectedCategory);
+  //     }
+  //   }
+  // },
   mounted() {
-      GET(`${this.$URL}/getAllNews.php`)
-        .then(res => {
-          console.log(res);
-          this.dataList = res;
-        })
-        .catch(err => {
-          console.log(err);
-        })
+    GET(`${this.$URL}/getAllNews.php`)
+      .then(res => {
+        console.log(res);
+        this.dataList = res;
+      })
+      .catch(err => {
+        console.log(err);
+      })
   },
 }
 </script>

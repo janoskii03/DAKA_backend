@@ -47,11 +47,16 @@
 
                     <label for="news_content" class="form-label col-1">內文</label>
                     <div class="col-11">
-                        <textarea class="form-control" id="news_content" rows="10" v-model="news.news_text" @input="countWords"
-                            maxlength="1000" :disabled="isReadOnly">
-
-                            <!-- <span class="wordCount"> {{ wordCount }} / 1000 </span> -->
+                        <textarea 
+                        class="form-control"
+                        id="news_content"
+                        rows="10"
+                        v-model="news.news_text" @input="countWords"
+                        placeholder="限制字數1000字"
+                        maxlength="1000"
+                        :disabled="isReadOnly">
                         </textarea>
+                        <p class="wordCount">{{ wordCount }}/ 1000</p>
                     </div>
 
                 </div>
@@ -72,7 +77,7 @@ export default {
     props:['news'],
     data() {
         return {
-            text: "", // 绑定Textarea的输入内容
+            text: "", 
             wordCount: 0, // 用于显示字数的变量
             isReadOnly: true,
         };
