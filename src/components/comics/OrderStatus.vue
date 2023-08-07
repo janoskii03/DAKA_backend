@@ -14,19 +14,6 @@
           </select>
         </div>
         <Search @emit-txt= "getSearch" />
-        <!-- <div class="col-md-2">
-          <div class="input-group">
-            <input
-              type="search"
-              class="form-control"
-              placeholder="請輸入手機號碼"
-              aria-describedby="basic-addon1"
-            />
-            <span class="input-group-text" id="basic-addon1">
-              <img src="@/assets/images/search.svg" alt="search">
-            </span>
-          </div>
-        </div> -->
       </template>
       <template v-slot:form_table >
         <table class="main_list" v-show="filteredDataList.length > 0">
@@ -44,13 +31,13 @@
           <td>{{ item.comics_order_status}}</td>
         </tr>
       </table>
-      <div class="no_answer" v-if="search && filteredDataList.length === 0">
+      <div class="alert alert-warning" v-if="search && filteredDataList.length === 0">
         查無此手機號碼，請重新搜尋！
       </div>
       <!-- 黑底 -->
       <div class="modal-backdrop" v-show="showModal"></div>
       <!-- 彈窗 -->
-      <div v-show="showModal" class="com_reserve_modal">
+      <from v-show="showModal" class="com_reserve_modal">
         <div class="modal_title">
           <h5>{{ selectedItem.comics_order_status }}</h5>
           <img src="@/assets/images/member/close.svg" alt="close" class="close_window" @click="closeModal"> 
@@ -115,7 +102,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </from>
       </template>
     </Form>
   </div>
