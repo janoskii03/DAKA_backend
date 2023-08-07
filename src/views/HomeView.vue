@@ -9,7 +9,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/account')">
-              <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
+              <img src="@/assets/images/account.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
               帳號管理</button>
           </h2>
 
@@ -42,7 +42,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/news')">
-              <img src="@/assets/images/news.svg" alt="daka_logo" class="main_sub_three_img">
+              <img src="@/assets/images/bx_news.svg" alt="daka_logo" class="main_sub_three_img">
               最新消息管理
             </button>
           </h2>
