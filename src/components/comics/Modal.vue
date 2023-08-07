@@ -1,9 +1,9 @@
 <template>
-    <div class="confirm_modal">
+    <div class="confirm_modal" v-show="showConfirmationModal">
         <h1>確定取書？</h1>
         <div class="confirm_buttons">
             <button @click="confirm">確定</button>
-            <button @click="closeModal">取消</button>
+            <button @click="showConfirmationModal = false">取消</button>
         </div>
     </div>
 </template>
