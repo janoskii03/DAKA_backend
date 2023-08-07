@@ -28,10 +28,10 @@
         <table class="main_list">
           <tr>
             <!-- 資料表頭 -->
-            <th v-for="column in columns">{{ column }}</th>
+            <th v-for="column in columns" :key="column">{{ column }}</th>
           </tr>
           <!--  消息資料 -->
-          <tr v-for="(item, index) in dataList" :key="item.index" @click="emitData(item)">
+          <tr v-for="item in dataList" :key="item.index" @click="emitData(item)">
             <td>{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
             <td>{{ item.news_status }}</td>
@@ -53,7 +53,7 @@
 import {GET} from '@/plugin/axios';
 import Form from '@/components/Form.vue';
 import { Step } from 'view-ui-plus';
-import NewsModal from '@/components/News.vue';
+import NewsModal from '@/components/NewsModal.vue';
 export default {
   components: {
     Form, NewsModal,
