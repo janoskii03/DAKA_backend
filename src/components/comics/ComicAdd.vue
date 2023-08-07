@@ -267,8 +267,8 @@
               </div>
             </div>
           </div>
-          <!-- 彈窗 -->
-          <div class="modal_container" v-if="showModal">
+          <!-- 第一層彈窗 -->
+          <div class="modal_container" v-show="showModal">
             <div class="modal_overlay" @click="closeModal"></div>
             <div class="modal-content">
               <p>確定新增？</p>

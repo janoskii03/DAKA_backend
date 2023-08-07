@@ -3,8 +3,8 @@
     <Form>
       <template v-slot:form_query>
         <div class="col-md-2">
-          <select class="form-select" v-model="searchOption" aria-label="Default select example">
-            <option value="0">請選擇</option>
+          <select class="form-select" v-model="searchOption"> 
+            <option value="0" disabled selected>請選擇</option>
             <option value="1">建檔編號</option>
             <option value="2">書籍名稱</option>
             <option value="3">ISBN碼</option>
@@ -32,13 +32,14 @@
           <tr>
             <th v-for="header in comics_id">{{ header }}</th>
           </tr>
-          <tr v-for="(item, index) in searchResults" :key="index" @click.prevent="memberInfo(index)">
+          <tr v-for="(item, index) in searchResults" :key="index">
             <td>{{ item.isbn }}</td>
             <td>{{ item.comics_no }}</td>
             <td class="col-md-3">{{ item.title + item.comics_index }}</td>
             <td>{{ item.comics_price }}</td>
             <td>{{ item.comics_status }}</td>
           </tr>
+          
         </table>
       </template>
     </Form>
