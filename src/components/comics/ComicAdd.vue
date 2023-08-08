@@ -40,11 +40,7 @@
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input
-                      type="text"
-                      class="form-control border-0"
-                      readonly
-                    />
+                    <input type="text" class="form-control border-0" readonly />
                   </div>
                   <div class="mb-3">
                     <input
@@ -94,11 +90,7 @@
                     />
                   </div>
                   <div class="mb-3">
-                    <select
-                      class="form-select"
-
-                      v-model="type"
-                    >
+                    <select class="form-select" v-model="type">
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">冒險系列</option>
                       <option value="2">少男系列</option>
@@ -143,10 +135,16 @@
                   </div>
                   <div class="imgpreview">
                     <img
-                      v-for="(url, index) in imageUrls"
+                      v-for="(url, index) in imageUrls.img"
                       :key="index"
                       :src="url"
-                      alt="Uploaded Image"
+                      alt="comics_coverimage"
+                    />
+                    <img
+                      v-for="(url, index) in imageUrls.comics_readfirst"
+                      :key="index"
+                      :src="url"
+                      alt="comics_readfirst"
                     />
                   </div>
                 </div>
@@ -162,10 +160,7 @@
                     />
                   </div>
                   <div class="mb-3">
-                    <select
-                      class="form-select"
-                      v-model="language"
-                    >
+                    <select class="form-select" v-model="language">
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">繁體中文</option>
                       <option value="2">日語</option>
@@ -181,20 +176,18 @@
                     />
                   </div>
                   <div class="form-row form-group">
-                      <input
-                        type="date"
-                        class="form-control"
-                        v-model="publication_date"
-                      />
+                    <input
+                      type="date"
+                      class="form-control"
+                      v-model="publication_date"
+                    />
                   </div>
                   <div class="fileup">
                     <label for="formFileMultiple" class="form-label"></label>
                     <input
                       class="form-control"
                       type="file"
-                      multiple
-                      name="imageUpload"
-                      @change="handleImageUpload"
+                      @change="handleImageUpload($event, 'img')"
                     />
                   </div>
                   <div class="mb-3 fileup">
@@ -202,9 +195,7 @@
                     <input
                       class="form-control"
                       type="file"
-                      multiple
-                      name="imageUpload"
-                      @change="handleImageUpload"
+                      @change="handleImageUpload($event, 'comics_readfirst')"
                     />
                   </div>
                 </div>
@@ -277,8 +268,10 @@ export default {
       publication_date: "",
       language: "0",
       comics_price: "",
-
-      imageUrls: [],
+      imageUrls: {
+        img: [],
+        comics_readfirst: [],
+      },
       showWordcount: 0,
       showModal: false,
     };
@@ -297,9 +290,8 @@ export default {
         this.publication_date !== "" &&
         this.language !== "0" &&
         this.comics_price !== "" &&
-        
-        this.imageUrls.length > 1
-        
+        this.imageUrls.img.length > 0 &&
+        this.imageUrls.comics_readfirst.length > 0
       );
     },
   },
@@ -313,20 +305,21 @@ export default {
       this[inputType] = inputValue;
     },
     /*圖片*/
-    handleImageUpload(imgType) {
-      const files = imgType.target.files;
-      const maxImages = 2; // 最大图片张数
+    handleImageUpload(event, imgType) {
+      const files = event.target.files;
+      const maxImages = 1; // 最大图片张数
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const reader = new FileReader();
 
+        // 使用箭头函数以确保 reader.onload 内部能够访问到 imgType 变量
         reader.onload = () => {
-          if (this.imageUrls.length === maxImages) {
+          if (this.imageUrls[imgType].length === maxImages) {
             // 如果已有图片数量等于最大限制，则替换第一张图片
-            this.imageUrls.splice(0, 1);
+            this.imageUrls[imgType].splice(0, 1);
           }
-          this.imageUrls.push(reader.result); // 添加新上传的图片URL到数组中
+          this.imageUrls[imgType].push(reader.result); // 添加新上传的图片URL到数组中
         };
 
         if (file) {
