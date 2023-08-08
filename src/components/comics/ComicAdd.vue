@@ -43,8 +43,6 @@
                     <input
                       type="text"
                       class="form-control border-0"
-                      id="name"
-                      placeholder=""
                       readonly
                     />
                   </div>
@@ -52,51 +50,54 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 阿拉伯數字"
-                      v-model="inputValue1"
-                      @input="validateInput(1)"
+                      v-model="isbn"
+                      @input="noChinese('isbn')"
+                      maxlength="13"
                     />
                   </div>
                   <div class="mb-3">
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 最多64字"
+                      v-model="title"
+                      maxlength="64"
                     />
                   </div>
                   <div class="mb-3">
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 阿拉伯數字"
-                      v-model="inputValue2"
-                      @input="validateInput(2)"
+                      v-model="comics_index"
+                      @input="noChinese('comics_index')"
+                      maxlength="3"
                     />
                   </div>
                   <div class="mb-3">
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 最多32字"
+                      v-model="author"
+                      maxlength="32"
                     />
                   </div>
                   <div class="mb-3">
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 最多32字"
+                      v-model="translator"
+                      maxlength="32"
                     />
                   </div>
                   <div class="mb-3">
                     <select
                       class="form-select"
 
-                      v-model="selectedOption1"
+                      v-model="type"
                     >
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">冒險系列</option>
@@ -109,7 +110,7 @@
                       class="form-check-input checkbox"
                       type="checkbox"
                       value=""
-                      id="defaultCheck1"
+                      id="comics_new"
                     />
                   </div>
                   <div class="mt-4">
@@ -117,7 +118,7 @@
                       class="form-check-input checkbox"
                       type="checkbox"
                       value=""
-                      id="defaultCheck1"
+                      id="comics_hot"
                     />
                   </div>
                 </div>
@@ -154,16 +155,16 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 阿拉伯數字"
-                      v-model="inputValue3"
-                      @input="validateInput(3)"
+                      v-model="comics_price"
+                      @input="noChinese('comics_price')"
+                      maxlength="4"
                     />
                   </div>
                   <div class="mb-3">
                     <select
                       class="form-select"
-                      v-model="selectedOption2"
+                      v-model="language"
                     >
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">繁體中文</option>
@@ -174,51 +175,23 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
                       placeholder="請輸入 最多12字"
+                      v-model="publisher"
+                      maxlength="12"
                     />
                   </div>
                   <div class="form-row form-group">
-                    <div class="time">
                       <input
-                        type="text"
+                        type="date"
                         class="form-control"
-                        id="name"
-                        placeholder="****"
-                        v-model="inputValue4"
-                        @input="validateInput(4)"
-                        style="max-width: 70px"
-                      />年
-                    </div>
-                    <div class="time">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        placeholder="**"
-                        v-model="inputValue5"
-                        @input="validateInput(5)"
-                        style="max-width: 50px"
-                      />月
-                    </div>
-                    <div class="time">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        placeholder="**"
-                        v-model="inputValue6"
-                        @input="validateInput(6)"
-                        style="max-width: 50px"
-                      />日
-                    </div>
+                        v-model="publication_date"
+                      />
                   </div>
                   <div class="fileup">
                     <label for="formFileMultiple" class="form-label"></label>
                     <input
                       class="form-control"
                       type="file"
-                      id="formFile"
                       multiple
                       name="imageUpload"
                       @change="handleImageUpload"
@@ -229,7 +202,6 @@
                     <input
                       class="form-control"
                       type="file"
-                      id="formFile"
                       multiple
                       name="imageUpload"
                       @change="handleImageUpload"
@@ -246,11 +218,11 @@
                       class="form-control mb-5"
                       id="exampleFormControlTextarea1"
                       rows="10"
-                      v-model="text"
+                      v-model="intro"
                       @input="countWords"
                       maxlength="150"
                     ></textarea>
-                    <p class="wordCount">{{ wordCount }}/150</p>
+                    <p class="showWordcount">{{ showWordcount }}/150</p>
                     <!-- 確認紐 -->
                     <div class="com_add_btncontent">
                       <button
@@ -294,42 +266,55 @@ export default {
   },
   data() {
     return {
-      text: "", // 绑定Textarea的输入内容
-      wordCount: 0, // 用于显示字数的变量
-      imageUrls: [], // 用于存储上传后图片的URL数组
-      inputValue1: "",
-      inputValue2: "",
-      inputValue3: "",
-      inputValue4: "",
-      inputValue5: "",
-      inputValue6: "",
+      isbn: "",
+      title: "",
+      comics_index: "",
+      type: "0",
+      author: "",
+      translator: "",
+      intro: "",
+      publisher: "",
+      publication_date: "",
+      language: "0",
+      comics_price: "",
+
+      imageUrls: [],
+      showWordcount: 0,
       showModal: false,
-      selectedOption1: "0",
-      selectedOption2: "0",
     };
   },
   computed: {
     isFormValid() {
       return (
-        this.inputValue1 !== "" &&
-        this.inputValue2 !== "" &&
-        this.inputValue3 !== "" &&
-        this.inputValue4 !== "" &&
-        this.inputValue5 !== "" &&
-        this.inputValue6 !== "" &&
-        this.text !== "" &&
-        this.imageUrls.length > 1 &&
-        this.selectedOption1 !== "0" &&
-        this.selectedOption2 !== "0"
+        this.isbn !== "" &&
+        this.title !== "" &&
+        this.comics_index !== "" &&
+        this.type !== "0" &&
+        this.author !== "" &&
+        this.translator !== "" &&
+        this.intro !== "" &&
+        this.publisher !== "" &&
+        this.publication_date !== "" &&
+        this.language !== "0" &&
+        this.comics_price !== "" &&
+        
+        this.imageUrls.length > 1
+        
       );
     },
   },
   methods: {
-    countWords() {
-      this.wordCount = this.text.length;
+    /*檢查輸入值*/
+    noChinese(inputType) {
+      let inputValue = this[inputType];
+      // 使用正则表达式验证输入的内容是否为阿拉伯数字
+      inputValue = inputValue.replace(/[^\d]/g, "");
+      // 将验证后的值赋回到相应的输入框
+      this[inputType] = inputValue;
     },
-    handleImageUpload(event) {
-      const files = event.target.files;
+    /*圖片*/
+    handleImageUpload(imgType) {
+      const files = imgType.target.files;
       const maxImages = 2; // 最大图片张数
 
       for (let i = 0; i < files.length; i++) {
@@ -349,13 +334,11 @@ export default {
         }
       }
     },
-    validateInput(inputNumber) {
-      let inputValue = this[`inputValue${inputNumber}`];
-      // 使用正则表达式验证输入的内容是否为阿拉伯数字
-      inputValue = inputValue.replace(/[^\d]/g, "");
-      // 将验证后的值赋回到相应的输入框
-      this[`inputValue${inputNumber}`] = inputValue;
+    /*計算數字*/
+    countWords() {
+      this.showWordcount = this.intro.length;
     },
+    /*視窗*/
     openModal() {
       this.showModal = true;
     },
@@ -363,10 +346,6 @@ export default {
       this.showModal = false;
     },
     submitData() {
-      // 处理提交数据逻辑
-      // ...
-
-      // 关闭弹窗
       this.closeModal();
     },
   },
