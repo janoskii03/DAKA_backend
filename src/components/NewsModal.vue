@@ -2,9 +2,12 @@
     <form action="" class="news_modal" id="news_modal">
         <div class="news_edit">
             <div class="news_header mb-3">
-                <h5 class="modal-title" id="">編輯消息</h5>
+                <h5 class="modal-title" id="">{{ title }}</h5>
                 <span>管理者：中壢分店</span>
-                <button type="button" @click="toggleReadOnly">編輯</button>
+                <button
+                type="button"
+                @click="toggleReadOnly"
+                :class='{button_none:title === "新增消息"}'>編輯</button>
                 <button type="button" class="btn-close" @click="closeModal"></button>
             </div>
             <div class="news_body">
@@ -74,7 +77,7 @@
 import { Form } from 'view-ui-plus';
 
 export default {
-    props:['news'],
+    props:['news','title'],
     data() {
         return {
             text: "", 
@@ -92,6 +95,13 @@ export default {
         closeModal() {
             this.$emit('emit-modal');
             if (this.isReadOnly === false) {
+                this.toggleReadOnly();
+            }
+        }
+    },
+    watch: {
+        title() {
+            if(this.title === '新增消息') {
                 this.toggleReadOnly();
             }
         }

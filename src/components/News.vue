@@ -3,9 +3,7 @@
     <Form>
 
       <template v-slot:form_query>
-        <button class="btn btn-dark member_add" type="submit" @click="showModal">
-          新增消息
-          <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
+        <button class="btn btn-dark member_add" type="submit" @click="showModal">新增消息<img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
         </button>
         <div class="col-md-2">
           <select class="form-select" v-model="selectedCategory" @change="filterDataList">
@@ -31,7 +29,7 @@
             <th v-for="column in columns" :key="column">{{ column }}</th>
           </tr>
           <!--  消息資料 -->
-          <tr v-for="item in filteredDataList" :key="item.index" @click="emitData(item)">
+          <tr v-for="item in filteredDataList" :key="item.index" @click="emitData(item,$event)">
             <td>{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
             <td>{{ item.news_status }}</td>
@@ -49,7 +47,11 @@
 
       </template>
     </Form>
-    <NewsModal v-show="modalSwitch" @emit-modal="modalSwitch = false" :news="data" />
+    <NewsModal
+    v-show="modalSwitch"
+    @emit-modal="modalSwitch = false"
+    :news="data"
+    :title="title"/>
   </div>
 </template>
 <script>
@@ -109,16 +111,25 @@ export default {
       filteredDataList: [],
       search: '',
       selectedCategory: '',
+      title: '編輯消息',
     }
   },
   methods: {
-    showModal(){
+    showModal(e){
+      // console.log(e.target.textContent);
+      if(e.target.textContent === '新增消息') {
+        this.data = [];
+        this.title = '新增消息';
+        // this.modalSwitch = true;
+        // return;
+      } else {
+        this.title = '編輯消息';
+      }
       this.modalSwitch = true;
-
     },
-    emitData(data) {
+    emitData(data,e) {
       this.data = data;
-      this.modalSwitch = true;
+      this.showModal(e);
     },
     filterDataList() {
       let filteredData = this.dataList;
