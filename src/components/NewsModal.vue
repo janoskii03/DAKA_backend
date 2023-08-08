@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="">編輯消息</h5>
                 <span>管理者：中壢分店</span>
                 <button type="button" @click="toggleReadOnly">編輯</button>
-                <button type="button" class="btn-close" @click="this.$emit('emit-modal')"></button>
+                <button type="button" class="btn-close" @click="closeModal"></button>
             </div>
             <div class="news_body">
                 <!-- 標題 -->
@@ -62,8 +62,8 @@
                 </div>
             </div>
             <div class="news_footer mt-3">
-                <button type="button" class="btn btn-secondary m-1">儲存草稿</button>
-                <button type="button" class="btn btn-primary m-1">發佈送出</button>
+                <button type="button" class="btn btn-secondary m-1" @click="closeModal">儲存草稿</button>
+                <button type="button" class="btn btn-primary m-1" @click="closeModal">發佈送出</button>
             </div>
         </div>
     </form>
@@ -88,6 +88,12 @@ export default {
         },
         toggleReadOnly() {
             this.isReadOnly = !this.isReadOnly;
+        },
+        closeModal() {
+            this.$emit('emit-modal');
+            if (this.isReadOnly === false) {
+                this.toggleReadOnly();
+            }
         }
     },
     computed: {},

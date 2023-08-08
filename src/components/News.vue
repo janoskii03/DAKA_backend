@@ -3,12 +3,12 @@
     <Form>
 
       <template v-slot:form_query>
-        <button class="btn btn-dark member_add" type="submit">
+        <button class="btn btn-dark member_add" type="submit" @click="showModal">
           新增消息
           <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
         </button>
         <div class="col-md-2">
-          <select class="form-select" v-model="selectedCategory">
+          <select class="form-select" v-model="selectedCategory" @change="filterDataList">
             <option value="" selected>請選擇類別</option>
             <option value="NEWS">NEWS</option>
             <option value="ACTIVITY">ACTIVITY</option>
@@ -16,11 +16,11 @@
         </div>
         <div class="col-md-2">
           <div class="input-group">
-            <input type="search" class="form-control" placeholder="" aria-describedby="basic-addon1" v-model="search" />
-            <span class="input-group-text" id="basic-addon1" @click.prevent="searchReserve">
+            <input type="search" class="form-control" placeholder="請輸入標題關鍵字" aria-describedby="basic-addon1"
+              v-model="search" @keyup.enter="searchNews" />
+            <span class="input-group-text" id="basic-addon1" @click="searchNews">
               <img src="@/assets/images/search.svg" alt="search">
             </span>
-
           </div>
         </div>
       </template>
@@ -31,7 +31,7 @@
             <th v-for="column in columns" :key="column">{{ column }}</th>
           </tr>
           <!--  消息資料 -->
-          <tr v-for="item in dataList" :key="item.index" @click="emitData(item)">
+          <tr v-for="item in filteredDataList" :key="item.index" @click="emitData(item)">
             <td>{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
             <td>{{ item.news_status }}</td>
@@ -43,6 +43,9 @@
             </button>
           </tr>
         </table>
+        <div class="alert alert-warning" v-if="search && filteredDataList.length === 0">
+          查無此消息標題，請重新搜尋！
+        </div>
 
       </template>
     </Form>
@@ -104,9 +107,15 @@ export default {
       data: [],
       modalSwitch: false,
       filteredDataList: [],
+      search: '',
+      selectedCategory: '',
     }
   },
   methods: {
+    showModal(){
+      this.modalSwitch = true;
+
+    },
     emitData(data) {
       this.data = data;
       this.modalSwitch = true;
@@ -120,12 +129,26 @@ export default {
       }
 
       if (this.search) {
-        filteredData = filteredData.filter(item => item.mobile.includes(this.search));
+        filteredData = filteredData.filter(item => item.news_title.includes(this.search));
       }
 
       this.filteredDataList = filteredData;
 
     },
+    searchNews() {
+      if (this.search === '') {
+        // this.filteredDataList = this.dataList;
+        return;
+        
+      } else {
+        this.filteredDataList = this.dataList.filter(item => {
+          if(item.news_title.includes(this.search) && item.news_category === this.selectedCategory) {
+            return this;
+          }
+        });
+      }
+    },
+
   },
   //   computed: {
   //   filteredDataList() {
