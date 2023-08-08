@@ -245,8 +245,6 @@
       </template>
     </Form>
   </div>
-
-  <!-- Modal -->
 </template>
 <script>
 import Form from "@/components/Form.vue";
@@ -296,32 +294,26 @@ export default {
     },
   },
   methods: {
-    /*檢查輸入值*/
+    /*檢查輸入值是否是阿拉伯数字*/
     noChinese(inputType) {
       let inputValue = this[inputType];
-      // 使用正则表达式验证输入的内容是否为阿拉伯数字
       inputValue = inputValue.replace(/[^\d]/g, "");
-      // 将验证后的值赋回到相应的输入框
       this[inputType] = inputValue;
     },
     /*圖片*/
     handleImageUpload(event, imgType) {
       const files = event.target.files;
-      const maxImages = 1; // 最大图片张数
+      const maxImages = 1; 
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const reader = new FileReader();
-
-        // 使用箭头函数以确保 reader.onload 内部能够访问到 imgType 变量
         reader.onload = () => {
           if (this.imageUrls[imgType].length === maxImages) {
-            // 如果已有图片数量等于最大限制，则替换第一张图片
             this.imageUrls[imgType].splice(0, 1);
           }
-          this.imageUrls[imgType].push(reader.result); // 添加新上传的图片URL到数组中
+          this.imageUrls[imgType].push(reader.result); 
         };
-
         if (file) {
           reader.readAsDataURL(file);
         }
