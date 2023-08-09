@@ -1,0 +1,59 @@
+.member_deposit {
+    .management_all {
+        background-color: #D0DbDf;
+        width: 561px;
+        height: 345px;
+        padding: 10px 15px 15px;
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .gold {
+            font-size: 18px;
+            display: flex;
+            font-weight: 500;
+            margin-bottom: 5px;
+
+            .buy {
+                margin-right: 40px;
+                color: #FFA800;
+            }
+        }
+
+        .member_infor {
+            .infor {
+                background-color: rgb(255, 255, 255);
+                max-width: 540px;
+                height: 233.78px;
+                padding: 30px 40px;
+                position: relative;
+
+                .infor_text {
+                    display: inline-block;
+                    margin-left: 123px;
+                    margin-top: 70px;
+                }
+
+                #gold {
+                    margin-left: 15px;
+                    width: 120px;
+                }
+
+                .confirm {
+                    width: 92px;
+                    background-color: #263238;
+                    color: white;
+                    border-radius: 30px;
+                    position: absolute;
+                    bottom: 30px;
+                    right: 40px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+}
