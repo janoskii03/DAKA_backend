@@ -6,9 +6,11 @@
     </template>
     <template v-slot:form_table>
       <table class="main_list" v-show="search">
-        <tr>
-          <th v-for="column in columns">{{ column }}</th>
-        </tr>
+        <thead v-if="filteredDataList.length > 0">
+          <tr>
+            <th v-for="column in columns">{{ column }}</th>
+          </tr>
+        </thead>
         <tr v-for="(item, index) in filteredDataList" :key="index" @click="openModal(index)">
           <td >{{ item.comics_order_no }}</td>
           <td>{{ item.menno }}</td>
@@ -17,7 +19,7 @@
           <td>{{ item.comics_order_status}}</td>
         </tr>
       </table>
-      <div class="no_answer" v-if="search && filteredDataList.length === 0">
+      <div class="alert alert-warning" v-if="search && filteredDataList.length === 0">
         查無此手機號碼，請重新搜尋！
       </div>
       <!-- 黑底 -->
@@ -274,23 +276,6 @@ export default {
 
       return `$${totalAmount}`;
     },
-    searchReserve() {
-      if (this.search === '') {
-        this.step = 1;
-      } else {
-        this.filterDataList = this.dataList.filter((item) => {
-          this.step = 1;
-          return item.mobile.includes(this.search);
-        })
-      }
-    },
-    getCheckConfirm() {
-      this.step = 1;
-    },
-    getCloseConfirm() {
-      this.step = 2;
-    },
-
   },
   computed: {
 

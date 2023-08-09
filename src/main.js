@@ -12,12 +12,13 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 // ajax引入
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import { URL } from '@/assets/js/common.js';
+import { URL, URL_MAC } from '@/assets/js/common.js';
 import "@/assets/scss/_style.scss";
 
 
 const app = createApp(App);
 app.config.globalProperties.$URL = URL;
+app.config.globalProperties.$URL_MAC = URL_MAC;
 app.use(store);
 app.use(VueAxios, axios);
 app.use(router);

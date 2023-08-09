@@ -2,10 +2,13 @@
     <form action="" class="news_modal" id="news_modal">
         <div class="news_edit">
             <div class="news_header mb-3">
-                <h5 class="modal-title" id="">編輯消息</h5>
+                <h5 class="modal-title" id="">{{ title }}</h5>
                 <span>管理者：中壢分店</span>
-                <button type="button" @click="toggleReadOnly">編輯</button>
-                <button type="button" class="btn-close" @click="this.$emit('emit-modal')"></button>
+                <button
+                type="button"
+                @click="toggleReadOnly"
+                :class='{button_none:title === "新增消息"}'>編輯</button>
+                <button type="button" class="btn-close" @click="closeModal"></button>
             </div>
             <div class="news_body">
                 <!-- 標題 -->
@@ -47,18 +50,23 @@
 
                     <label for="news_content" class="form-label col-1">內文</label>
                     <div class="col-11">
-                        <textarea class="form-control" id="news_content" rows="10" v-model="news.news_text" @input="countWords"
-                            maxlength="1000" :disabled="isReadOnly">
-
-                            <!-- <span class="wordCount"> {{ wordCount }} / 1000 </span> -->
+                        <textarea 
+                        class="form-control"
+                        id="news_content"
+                        rows="10"
+                        v-model="news.news_text" @input="countWords"
+                        placeholder="限制字數1000字"
+                        maxlength="1000"
+                        :disabled="isReadOnly">
                         </textarea>
+                        <p class="wordCount">{{ wordCount }}/ 1000</p>
                     </div>
 
                 </div>
             </div>
             <div class="news_footer mt-3">
-                <button type="button" class="btn btn-secondary m-1">儲存草稿</button>
-                <button type="button" class="btn btn-primary m-1">發佈送出</button>
+                <button type="button" class="btn btn-secondary m-1" @click="closeModal">儲存草稿</button>
+                <button type="button" class="btn btn-primary m-1" @click="closeModal">發佈送出</button>
             </div>
         </div>
     </form>
@@ -69,10 +77,10 @@
 import { Form } from 'view-ui-plus';
 
 export default {
-    props:['news'],
+    props:['news','title'],
     data() {
         return {
-            text: "", // 绑定Textarea的输入内容
+            text: "", 
             wordCount: 0, // 用于显示字数的变量
             isReadOnly: true,
         };
@@ -83,6 +91,19 @@ export default {
         },
         toggleReadOnly() {
             this.isReadOnly = !this.isReadOnly;
+        },
+        closeModal() {
+            this.$emit('emit-modal');
+            if (this.isReadOnly === false) {
+                this.toggleReadOnly();
+            }
+        }
+    },
+    watch: {
+        title() {
+            if(this.title === '新增消息') {
+                this.toggleReadOnly();
+            }
         }
     },
     computed: {},

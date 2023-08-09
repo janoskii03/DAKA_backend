@@ -9,7 +9,6 @@
               <span class="input-group-text" id="basic-addon1" @click.prevent="searchReserve">
                 <img src="@/assets/images/search.svg" alt="search">
               </span>
-  
             </div>
           </div>
         </template>
