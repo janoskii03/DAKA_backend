@@ -22,9 +22,9 @@
             <th v-for="column in columns">{{ column }}</th>
           </tr>
           <tr v-for="(item, index) in dataList" :key="item.index" @click.prevent="memberInfo(index)">
-            <td>{{ item.name }}</td>
-            <td>{{ item.no }}</td>
-            <td>{{ item.rank }}</td>
+            <td>{{ item.mname }}</td>
+            <td>{{ item.mem_no }}</td>
+            <td>{{ item.grade }}</td>
             <td>{{ item.mobile }}</td>
             <td>{{ item.remain }}</td>
             <td>{{ item.value }}</td>
@@ -36,12 +36,13 @@
     </Form>
   </div>
   <!---------------------會員資料------------------------------  -->
+
   <div class="member_data">
     <div class="management_all">
-      <div class="title">{{ management_all.title }}</div>
+      <div class="title">{{ management_all.grade }}{{ management_all.mname }}</div>
       <div class="gold">
-        <div class="buy">{{ management_all.buy }}</div>
-        <div class="spend">{{ management_all.spend }}</div>
+        <div class="buy"><span>儲值金:</span>{{ management_all.remain }}<span>元</span></div>
+        <div class="spend"><span>當年度累積消費金額:</span>{{ management_all.value }}<span>元</span></div>
       </div>
       <div class="member_infor">
 
@@ -71,10 +72,10 @@
   <!-- ------------------------會員編輯---------------------------------------- -->
   <div class="member_edit">
     <div class="management_all">
-      <div class="title">{{ management_all.title }}</div>
+      <div class="title">{{ management_all.grade }}{{ management_all.mname }}</div>
       <div class="gold">
-        <div class="buy">{{ management_all.buy }}</div>
-        <div class="spend">{{ management_all.spend }}</div>
+        <div class="buy"><span>儲值金:</span>{{ management_all.remain }}<span>元</span></div>
+        <div class="spend"><span>當年度累積消費金額:</span>{{ management_all.value }}<span>元</span></div>
       </div>
       <div class="member_infor">
         <div class="infor">
@@ -122,10 +123,10 @@
   <!-- -------------------------會員儲值----------------------------------------- -->
   <div class="member_deposit">
     <div class="management_all">
-      <div class="title">{{ management_all.title }}</div>
+      <div class="title">{{ management_all.grade }}{{ management_all.ename }}</div>
       <div class="gold">
-        <div class="buy">{{ management_all.buy }}</div>
-        <div class="spend">{{ management_all.spend }}</div>
+        <div class="buy"><span>儲值金:</span>{{ management_all.remain }}<span>元</span></div>
+        <div class="spend"><span>當年度累積消費金額:</span>{{ management_all.value }}<span>元</span></div>
       </div>
       <div class="member_infor">
 
@@ -212,81 +213,82 @@ export default {
     return {
       management_all:
       {
-        title: '白金會員_周杰倫',
-        buy: '儲值金:5600元',
-        spend: '當年度累積消費金額:3670元',
+        grade: '白金會員_',
+        mname: '周杰倫',
+        remain: '5600',
+        value: '3670',
         mem_no: '1234567890ABCD',
         add: '新增會員',
       },
       memInfo: {
-        name: '',
-        no: '',
-        rank: '',
+        mname: '',
+        mem_no: '',
+        grade: '',
         mobile: '',
         remain: '',
         value: ''
       },
       dataList: [
         {
-          name: 1,
-          no: 1,
-          rank: 1,
+          mname: 1,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 2,
-          no: 1,
-          rank: 1,
+          mname: 2,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 3,
-          no: 1,
-          rank: 1,
+          mname: 3,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 4,
-          no: 1,
-          rank: 1,
+          mname: 4,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 5,
-          no: 1,
-          rank: 1,
+          mname: 5,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 6,
-          no: 1,
-          rank: 1,
+          mname: 6,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 7,
-          no: 1,
-          rank: 1,
+          mname: 7,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
         },
         {
-          name: 8,
-          no: 1,
-          rank: 1,
+          mname: 8,
+          mem_no: 1,
+          grade: 1,
           mobile: '',
           remain: 11,
           value: 1
@@ -306,9 +308,9 @@ export default {
   },
   methods: {
     memberInfo(index) {
-      let { name, no, rank, mobile, remain, value } = this.dataList[index];
+      let { mname, mem_no, grade, mobile, remain, value } = this.dataList[index];
 
-      console.log(name, no, rank, mobile, remain, value);
+      console.log(mname, mem_no, grade, mobile, remain, value);
 
     },
 
