@@ -47,6 +47,10 @@
             <td>{{ item.comics_price }}</td>
             <td>{{ item.comics_status }}</td>
           </tr>
+          
+
+
+
           <div class="comic_info">
             <!-- 第一層彈窗 -->
             <div class="modal_container" v-show="showModal1">
@@ -214,13 +218,13 @@
                         />
                       </div>
                       <div class="mt-3">
-                        <input type="date" class="form-control" readonly/>
+                        <input type="date" class="form-control" readonly />
                       </div>
                       <div class="mt-3">
-                        <input class="form-control" type="file" disabled/>
+                        <input class="form-control" type="file" disabled />
                       </div>
                       <div class="mt-3">
-                        <input class="form-control" type="file" disabled/>
+                        <input class="form-control" type="file" disabled />
                       </div>
                     </div>
                     <!-- 資料題 -->
@@ -436,13 +440,13 @@
                         />
                       </div>
                       <div class="mt-3">
-                        <input type="date" class="form-control" readonly/>
+                        <input type="date" class="form-control" readonly />
                       </div>
                       <div class="mt-3">
-                        <input class="form-control" type="file" disabled/>
+                        <input class="form-control" type="file" disabled />
                       </div>
                       <div class="mt-3">
-                        <input class="form-control" type="file" disabled/>
+                        <input class="form-control" type="file" disabled />
                       </div>
                     </div>
                     <!-- 資料題 -->
@@ -477,7 +481,7 @@
                         ></textarea>
                       </div>
                       <div class="com_info_top">
-                        <button class="com_info_btn " @click="openModal3">
+                        <button class="com_info_btn" @click="openModal3">
                           送出
                         </button>
                       </div>
@@ -497,12 +501,21 @@
                   <button class="com_info_btn" @click="confirmChanges">
                     確定
                   </button>
-                  <button class="com_info_btn" @click="closeModal3">取消</button>
+                  <button class="com_info_btn" @click="closeModal3">
+                    取消
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </table>
+
+        <!-- 搜尋 -->
+        <div
+            class="alert alert-warning"
+            v-if="search && searchResults.length === 0"
+          >查無此消息標題，請重新搜尋！
+          </div>
       </template>
     </Form>
   </div>
@@ -546,6 +559,7 @@ export default {
       searchOption: "0",
       searchInput: "",
       searchResults: [],
+      search: false, // 控制是否执行搜索
       showModal1: false,
       showModal2: false,
       showModal3: false,
@@ -553,6 +567,7 @@ export default {
   },
   methods: {
     performSearch() {
+      this.search = true; // 设置为 true 表示执行搜索
       if (this.searchOption === "1") {
         this.searchResults = this.dataList.filter((item) =>
           item.comics_no.includes(this.searchInput)
