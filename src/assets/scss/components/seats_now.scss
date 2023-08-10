@@ -1,19 +1,38 @@
 .seats_now_all {
-    width: 95%;
-    height: 800px;
-    box-sizing: border-box;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    padding: 40px 10px 20px 10px;
-  .seats_now_info {
-    background-color: aqua;
-    width: 100%;
-    display: block;
+  width: 98%;
+  height: 850px;
+  box-sizing: border-box;
+  justify-content: space-around;
+  margin: 10px;
+  .seats_now_all_info {
+    padding: 0 10px;
+    .seat_info{
+      width: 100%;
+      height: 50%;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background-color: #BCCCD1;
+      .seat_info_title{
+        font-weight: 600;
+        font-size: 25px;
+      }
+      .seat{
+        font-weight: 600;
+        font-size: 20px;
+        padding: 0 0 5px 0;
+      }
+      .seat_state,
+      .seat_user,
+      .seat_user_phone,
+      .seat_start_time,
+      .seat_end_time {
+        .seat_now_input {
+          width: 90px;
+        }
+      }
+    }
   }
   .seats_now_map {
     background-color: rgb(109, 41, 128);
-    width: 100%;
   }
 }
