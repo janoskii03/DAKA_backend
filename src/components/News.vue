@@ -171,7 +171,7 @@ export default {
   //   }
   // },
   mounted() {
-    GET(`${this.$URL}/getAllNews.php`)
+    GET(`${this.$URL_MAC}/getAllNews.php`)
       .then(res => {
         console.log(res);
         this.dataList = res;
