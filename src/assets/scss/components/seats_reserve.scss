@@ -1,0 +1,472 @@
+.seats_reserve {
+  width: 98%;
+  height: 750px;
+  box-sizing: border-box;
+  justify-content: space-around;
+  margin: 10px;
+  .seats_reserve_info {
+    padding: 0 10px;
+    height: 100%;
+    .reserve_info {
+      width: 100%;
+      height: auto;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background-color: #bcccd1;
+      .reserve_info_seat,
+      .reserve_user_title,
+      .reserve_seat_title {
+        font-weight: 600;
+        font-size: 20px;
+      }
+      .reserve_time_search_buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0 0 0;
+        .reserve_time_search {
+          background-color: #263238;
+          color: #fff;
+        }
+        .reserve_time_search_reset {
+          background-color: #263238;
+          color: #fff;
+        }
+      }
+      .reserve_seat_text {
+        border-radius: 10px;
+        background-color: #e9ecef;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .reserve_seat_search_buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0 0 0;
+        .reserve_seat_search {
+          background-color: #263238;
+          color: #fff;
+        }
+        .reserve_seat_search_reset {
+          background-color: #263238;
+          color: #fff;
+        }
+      }
+
+      .reserve_user_phone {
+        .reserve_user_phone_search {
+          background-color: #263238;
+          color: #fff;
+        }
+      }
+      .reserve_user_search {
+        background-color: #263238;
+        color: #fff;
+      }
+    }
+  }
+  .seats_reserve_map {
+    height: auto;
+    .reservation_seat {
+      .reservation_all_seat {
+        background-color: #fff;
+        width: 90%;
+        height: 100%;
+        justify-content: space-between;
+        margin: auto;
+        border-radius: 20px;
+        .tabs {
+          /*tab切換*/
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          .tabs_list {
+            display: flex;
+            flex-direction: row;
+            background-color: #dadada;
+            border-radius: 20px 20px 0 0;
+            .seat_tabs_item {
+              width: 50%;
+              height: 3%;
+              text-align: center;
+              padding: 5px;
+              cursor: pointer;
+              // transition: 100ms linear all;
+              font-size: 25px;
+              opacity: 0.5;
+              border-radius: 20px 20px 0 0;
+              color: #b4b4b4;
+            }
+            .seat_tabs_item.active {
+              opacity: 1;
+              background-color: #fff;
+              border-radius: 20px 20px 0 0;
+              color: #515a6e;
+            }
+          }
+          .color_state_seat_group {
+            display: flex;
+            padding: 0 10px 0 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 0 0 0;
+            .color_vacancy_seat_group,
+            .color_use_seat_group {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              margin: 1% 0 0 0;
+              .color_G_vacancy_seat,
+              .color_G_use_seat {
+                width: 20px;
+                height: 20px;
+                border-radius: 100%;
+              }
+              .color_G_vacancy_seat {
+                background-color: #54c1ba;
+              }
+              .color_G_vacancy_seat {
+                margin: 0;
+              }
+              .color_G_use_seat {
+                background-color: #daebea;
+                margin: 0;
+              }
+              p {
+                font-size: 20px;
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+
+        /*大廳區*/
+        .reservation_hall_seat {
+          padding: 0 10px 0 10px;
+          margin: auto;
+          border-radius: 10px;
+          display: flex;
+          justify-content: space-between;
+          /*電競區*/
+          .reservation_eSports_seat {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            padding: 1%;
+            .eSports_seat_title {
+              height: 80%;
+              width: 100%;
+              border-radius: 5px;
+              p {
+                line-height: 200%;
+                text-align: center;
+                justify-content: center;
+                font-size: 20px;
+                margin-bottom: 0;
+              }
+            }
+            .eSports_seat {
+              background-color: #54c1ba;
+            }
+            .selected {
+              outline: 2px solid #ff0055;
+            }
+            .seat_btn {
+              box-sizing: border-box;
+              margin: 10px 3px;
+              width: 18%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #263238;
+              border-radius: 5px;
+              border: none;
+              .content {
+                padding: 8px 5px;
+                text-align: center;
+                justify-content: center;
+                h4 {
+                  font-size: 20px;
+                  line-height: 20px;
+                }
+                .chair {
+                  width: 50%;
+                  height: 50%;
+                  min-width: 10px;
+                  min-height: 10px;
+                  margin: auto;
+                }
+              }
+            }
+            /* 0=空位樣式 */
+            .state-0 {
+              background-color: #54c1ba; /* 深綠色背景代表空位 */
+              cursor: pointer;
+            }
+            /*TODO 座位需要可以複選*/
+            /* .state-0:focus,
+            .state-0:hover {
+            outline: 0.3rem solid #263238;
+            }*/
+            /* 1=預約中樣式 */
+            .state-1 {
+              background-color: #daebea; /* 淡綠色背景代表使用中 */
+              color: #a6a6a6;
+              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+            }
+          }
+          /*一般區*/
+          .reservation_general_seat {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            padding: 1%;
+            .selected {
+              outline: 2px solid #ff0055;
+            }
+            .general_seat_title {
+              height: 80%;
+              width: 100%;
+              border-radius: 5px;
+              p {
+                line-height: 200%;
+                text-align: center;
+                justify-content: center;
+                font-size: 20px;
+                margin-bottom: 0;
+              }
+            }
+            .general_seat {
+              background-color: #54c1ba;
+            }
+            .seat_btn {
+              box-sizing: border-box;
+              margin: 10px 3px;
+              width: 18%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #263238;
+              border-radius: 5px;
+              border: none;
+              .content {
+                padding: 8px 5px;
+                text-align: center;
+                justify-content: center;
+                h4 {
+                  font-size: 20px;
+                  line-height: 20px;
+                }
+                .chair {
+                  width: 50%;
+                  height: 50%;
+                  min-width: 10px;
+                  min-height: 10px;
+                  margin: auto;
+                }
+              }
+            }
+            /* 櫃台*/
+            .counter {
+              height: 80%;
+              width: 100%;
+              border-radius: 5px;
+              background-color: #bcccd1;
+              font-size: 1rem;
+              margin: 20px 0 0 0;
+              p {
+                line-height: 200%;
+                text-align: center;
+                justify-content: center;
+                margin-bottom: 0;
+              }
+            }
+            /* 0=空位樣式 */
+            .state-0 {
+              background-color: #54c1ba; /* 深綠色背景代表空位 */
+              cursor: pointer;
+            }
+            /*TODO 座位需要可以複選*/
+            /* .state-0:focus,
+            .state-0:hover {
+            outline: 0.3rem solid #263238;
+            }*/
+            /* 1=預約中樣式 */
+            .state-1 {
+              background-color: #daebea; /* 淡綠色背景代表使用中 */
+              color: #a6a6a6;
+              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+            }
+          }
+        }
+        /*包廂區*/
+        .reservation_booth_seat {
+          padding: 1% 5% 0 5%;
+          margin: auto;
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          .booth_seat_title {
+            display: flex;
+            width: 100%;
+            .single_seat_title,
+            .double_seat_title {
+              width: 50%;
+              border-radius: 5px;
+              text-align: center;
+              p {
+                font-size: 20px;
+                margin-bottom: 0;
+              }
+            }
+          }
+          /*單人房*/
+          .reservation_single_seat {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 3% 0 3% 3%;
+            width: 45%;
+            height: 100%;
+            justify-content: center;
+            padding: 1%;
+            border-top: 1rem solid #7a7d7a;
+            border-left: 1rem solid #7a7d7a;
+            border-right: 1rem solid #7a7d7a;
+            .selected {
+              outline: 2px solid #ff0055;
+            }
+            .single_seat {
+              background-color: #54c1ba;
+            }
+            .seat_btn {
+              box-sizing: border-box;
+              margin: 10px 3px;
+              width: 25%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #263238;
+              border-radius: 5px;
+              border: none;
+              .content {
+                padding: 8px 5px;
+                text-align: center;
+                justify-content: center;
+                h4 {
+                  font-size: 20px;
+                  line-height: 20px;
+                }
+                .chair {
+                  width: 30%;
+                  min-width: 8px;
+                  min-height: 8px;
+                  margin: auto;
+                  margin: 20% auto 0 auto;
+                }
+              }
+            }
+            .seat_btn:nth-child(odd) {
+              margin: 1% 20% 5% 0;
+            }
+            .seat_btn:nth-child(even) {
+              margin: 1% 0 5% 20%;
+            }
+            /* 0=空位樣式 */
+            .state-0 {
+              background-color: #54c1ba; /* 深綠色背景代表空位 */
+              cursor: pointer;
+            }
+            /*TODO 座位需要可以複選*/
+            /* .state-0:focus,
+            .state-0:hover {
+            outline: 0.3rem solid #263238;
+            }*/
+            /* 1=預約中樣式 */
+            .state-1 {
+              background-color: #daebea; /* 淡綠色背景代表使用中 */
+              color: #a6a6a6;
+              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+            }
+          }
+          /*雙人房*/
+          .reservation_double_seat {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 3% 3% 3% 0;
+            width: 40%;
+            height: 100%;
+            justify-content: center;
+            padding: 1%;
+            border-top: 1rem solid #7a7d7a;
+            border-left: 1rem solid #7a7d7a;
+            border-right: 1rem solid #7a7d7a;
+            .selected {
+              outline: 2px solid #ff0055;
+            }
+            .double_seat {
+              background-color: #54c1ba;
+            }
+            .seat_btn {
+              box-sizing: border-box;
+              margin: 10px 3px;
+              width: 30%;
+              height: 100%;
+              padding: 1%;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              color: #263238;
+              border-radius: 5px;
+              border: none;
+              .content {
+                padding: 8px 5px;
+                text-align: center;
+                justify-content: center;
+                h4 {
+                  font-size: 20px;
+                  line-height: 20px;
+                }
+                .chair {
+                  width: 70%;
+                  min-width: 8px;
+                  min-height: 8px;
+                  margin: 20% auto 0 auto;
+                }
+              }
+            }
+            .seat_btn:nth-child(odd) {
+              margin: 1% 20% 5% 0;
+            }
+            .seat_btn:nth-child(even) {
+              margin: 1% 0 5% 20%;
+            }
+            /* 0=空位樣式 */
+            .state-0 {
+              background-color: #54c1ba; /* 深綠色背景代表空位 */
+              cursor: pointer;
+            }
+            /*TODO 座位需要可以複選*/
+            /* .state-0:focus,
+            .state-0:hover {
+            outline: 0.3rem solid #263238;
+            }*/
+            /* 1=預約中樣式 */
+            .state-1 {
+              background-color: #daebea; /* 淡綠色背景代表使用中 */
+              color: #a6a6a6;
+              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+            }
+          }
+        }
+      }
+    }
+  }
+}

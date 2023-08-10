@@ -37,7 +37,7 @@
       <!-- 黑底 -->
       <div class="modal-backdrop" v-show="showModal"></div>
       <!-- 彈窗 -->
-      <from v-show="showModal" class="com_reserve_modal">
+      <form v-show="showModal" class="com_reserve_modal">
         <div class="modal_title">
           <h5>{{ selectedItem.comics_order_status }}</h5>
           <img src="@/assets/images/member/close.svg" alt="close" class="close_window" @click="closeModal"> 
@@ -102,7 +102,7 @@
             </div>
           </div>
         </div>
-      </from>
+      </form>
       </template>
     </Form>
   </div>
@@ -294,39 +294,45 @@ export default {
   },
   
   methods: {
-    // getSearch(searchMobile) {
-    //   this.search = searchMobile;
-    //   if (this.search === '') {
-    //     this.filteredDataList = this.dataList;
-    //   } else {
-    //     this.filteredDataList = this.dataList.filter(item => item.mobile.includes(this.search));
-    //   }
-    // },
     getSearch(searchMobile) {
       this.search = searchMobile;
       this.filterDataList();
     },
-    filterDataList() {
-      let filteredData = this.dataList;
-      const selectedStatusText = this.selectedStatus;
+    // filterDataList() {
+    //   let filteredData = this.dataList;
+    //   const selectedStatusText = this.selectedStatus;
 
-      if (selectedStatusText) {
-        filteredData = filteredData.filter(item => item.comics_order_status === selectedStatusText);
+    //   if (selectedStatusText) {
+    //     filteredData = filteredData.filter(item => item.comics_order_status === selectedStatusText);
+    //   }
+
+    //   if (this.search) {
+    //     filteredData = filteredData.filter(item => item.mobile.includes(this.search));
+    //   }
+
+    //   this.filteredDataList = filteredData;
+      
+    // },
+
+    // openModal(index) {
+    //   this.showModal=!this.showModal;
+    //   this.selectedItem=this.dataList[index];
+    //   console.log(this.selecteditem);
+    // },
+    filterDataList() {
+      this.filteredDataList = this.dataList;
+
+      if (this.selectedStatus) {
+        this.filteredDataList = this.filteredDataList.filter(item => item.comics_order_status === this.selectedStatus);
       }
 
       if (this.search) {
-        filteredData = filteredData.filter(item => item.mobile.includes(this.search));
+        this.filteredDataList = this.filteredDataList.filter(item => item.mobile.includes(this.search));
       }
-
-      this.filteredDataList = filteredData;
-      
     },
-
     openModal(index) {
-      console.log(123);
-      this.showModal=!this.showModal;
-      this.selectedItem=this.dataList[index];
-      console.log(this.selecteditem);
+      this.showModal = true;
+      this.selectedItem = this.filteredDataList[index]; // 這裡應該使用filteredDataList而不是dataList
     },
     closeModal(){
       this.showModal=false;
@@ -346,9 +352,6 @@ export default {
     },
 
   },
-  // created() {
-  //   this.filterDataList(); 
-  // },
 }
 </script>
 
