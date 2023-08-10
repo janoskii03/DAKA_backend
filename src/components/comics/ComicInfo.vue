@@ -99,7 +99,7 @@
                           <div class="mt-1">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.comics_no"
@@ -108,7 +108,7 @@
                           <div class="mt-3">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.isbn"
@@ -117,7 +117,7 @@
                           <div class="mt-4">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.title"
@@ -126,7 +126,7 @@
                           <div class="mt-3">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.comics_index"
@@ -135,7 +135,7 @@
                           <div class="mt-3">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.author"
@@ -144,7 +144,7 @@
                           <div class="mt-3">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.translator"
@@ -153,16 +153,17 @@
                           <div class="mt-3">
                             <select
                               class="form-select"
-                              v-model="type"
+                              v-model="selectedItem.type"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                             >
                               <option value="0" disabled selected>
                                 請選擇
                               </option>
-                              <option value="1">冒險系列</option>
-                              <option value="2">少男系列</option>
-                              <option value="3">魔法系列</option>
+                              <option value="冒險系列">冒險系列</option>
+                              <option value="少男系列">少男系列</option>
+                              <option value="魔法系列">魔法系列</option>
+                              <option value="格鬥系列">格鬥系列</option>
                             </select>
                           </div>
                           <div class="mt-3">
@@ -175,7 +176,7 @@
                               :checked="selectedItem.comics_hot === '1'"
                             />
                           </div>
-                          <div class="mt-4">
+                          <div class="mt-3">
                             <input
                               class="form-check-input checkbox"
                               disabled
@@ -212,7 +213,7 @@
                           <div class="mt-1">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                               v-model="selectedItem.comics_price"
@@ -220,7 +221,7 @@
                           </div>
                           <div class="mt-3">
                             <select
-                              class="form-select"
+                            class="form-select"
                               v-model="selectedItem.language"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
@@ -228,14 +229,14 @@
                               <option value="0" disabled selected>
                                 請選擇
                               </option>
-                              <option value="1">繁體中文</option>
-                              <option value="2">日語</option>
+                              <option value="繁體中文">繁體中文</option>
+                              <option value="日語">日語</option>
                             </select>
                           </div>
                           <div class="mt-3">
                             <input
                               type="text"
-                              class="form-control border-0"
+                              class="form-control"
                               v-model="selectedItem.publisher"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
@@ -254,6 +255,7 @@
                             <input
                               class="form-control"
                               type="file"
+                              
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                             />
@@ -263,6 +265,7 @@
                               class="form-control"
                               type="file"
                               disabled
+                              
                               :readonly="isPreviewMode(selectedItemIndex)"
                             />
                           </div>
@@ -290,7 +293,7 @@
                           </div>
                           <div class="mb-3">
                             <textarea
-                              class="form-control border-0 mb-4"
+                              class="form-control mb-4"
                               id="exampleFormControlTextarea1"
                               rows="10"
                               v-model="selectedItem.intro"
@@ -366,7 +369,7 @@
                         <div class="mt-1">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.comics_no"
                           />
@@ -374,7 +377,7 @@
                         <div class="mt-3">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.isbn"
                           />
@@ -382,7 +385,7 @@
                         <div class="mt-4">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.title"
                           />
@@ -390,7 +393,7 @@
                         <div class="mt-3">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.comics_index"
                           />
@@ -398,7 +401,7 @@
                         <div class="mt-3">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.author"
                           />
@@ -406,20 +409,21 @@
                         <div class="mt-3">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.translator"
                           />
                         </div>
                         <div class="mt-3">
-                          <select class="form-select" v-model="type" disabled>
+                          <select class="form-select" :value="selectedItem.type">
                             <option value="0" disabled selected>請選擇</option>
-                            <option value="1">冒險系列</option>
-                            <option value="2">少男系列</option>
-                            <option value="3">魔法系列</option>
+                            <option value="冒險系列">冒險系列</option>
+                            <option value="少男系列">少男系列</option>
+                            <option value="魔法系列">魔法系列</option>
+                            <option value="格鬥系列">格鬥系列</option>
                           </select>
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-3">
                           <input
                             class="form-check-input checkbox"
                             type="checkbox"
@@ -464,7 +468,7 @@
                         <div class="mt-1">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.comics_price"
                           />
@@ -472,18 +476,17 @@
                         <div class="mt-3">
                           <select
                             class="form-select"
-                            v-model="language"
-                            disabled
+                            :value="selectedItem.language"
                           >
                             <option value="0" disabled selected>請選擇</option>
-                            <option value="1">繁體中文</option>
-                            <option value="2">日語</option>
+                            <option value="繁體中文">繁體中文</option>
+                            <option value="日語">日語</option>
                           </select>
                         </div>
                         <div class="mt-3">
                           <input
                             type="text"
-                            class="form-control border-0"
+                            class="form-control"
                             placeholder="請輸入 阿拉伯數字"
                             :value="selectedItem.publisher"
                           />
@@ -499,14 +502,12 @@
                           <input
                             class="form-control"
                             type="file"
-                            :value="disabled"
                           />
                         </div>
                         <div class="mt-3">
                           <input
                             class="form-control"
                             type="file"
-                            :value="disabled"
                           />
                         </div>
                       </div>
@@ -532,7 +533,7 @@
                         </div>
                         <div class="mb-3">
                           <textarea
-                            class="form-control border-0 mb-4"
+                            class="form-control mb-4"
                             id="exampleFormControlTextarea1"
                             rows="10"
                             @input="countWords"
