@@ -15,11 +15,11 @@
       <input type="search">
 
       
- </template>
+</template>
 
  
       <template v-slot:form_table >
-        <table>
+        <table class="main_list">
         <tr>
           <th v-for="column in columns">{{ column }}</th>
         </tr>
