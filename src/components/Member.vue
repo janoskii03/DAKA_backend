@@ -64,7 +64,7 @@
             <img src="../assets/images/member/barcode.png" alt="條碼">{{ management_all.mem_no }}
           </div>
           <button class="confirm">確認</button>
-
+          <button type="button" class="btn-close"></button>
         </div>
       </div>
     </div>
@@ -188,6 +188,9 @@
 
         </div>
       </div>
+      <button class="com_x_btn" @click="closeModal1" style="margin-left: 265px;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
   </div>
   <!-- --------------------確認新增-------------------------- -->
@@ -198,7 +201,11 @@
       </div>
       <button class="yes">確定</button>
       <button class="no">取消</button>
+      <button class="com_x_btn" @click="closeModal1" style="margin-left: 265px;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
+
   </div>
 </template>
 <script>

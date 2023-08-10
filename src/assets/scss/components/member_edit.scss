@@ -164,8 +164,17 @@
                     right: 46px;
                     font-size: 14px;
                 }
+                
 
+            
             }
         }
+        .com_x_btn {
+            font-size: 2rem;
+            cursor: pointer; 
+            border: none;
+            background-color: $backstage_modal_color;
+            }
     }
+    
 }
