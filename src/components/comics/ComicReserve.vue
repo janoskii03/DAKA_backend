@@ -13,7 +13,7 @@
         </thead>
         <tr v-for="(item, index) in filteredDataList" :key="index" @click="openModal(index)">
           <td >{{ item.comics_order_no }}</td>
-          <td>{{ item.menno }}</td>
+          <td>{{ item.mname }}</td>
           <td>{{ item.mobile }}</td>
           <td>{{ item.comics_order_date }}</td>
           <td>{{ item.comics_order_status}}</td>
@@ -25,7 +25,7 @@
       <!-- 黑底 -->
       <div class="modal-backdrop" v-show="showBackdrop"></div>
       <!-- 彈窗 -->
-      <from v-show="showModal" class="com_reserve_modal">
+      <form v-show="showModal" class="com_reserve_modal">
         <div class="modal_title">
           <h5>預約明細</h5>
           <img src="@/assets/images/member/close.svg" alt="close" class="close_window" @click="closeModal"> 
@@ -73,11 +73,11 @@
                   <th>漫畫名稱</th>
                   <th>金額</th>
                 </tr>
-                <tr v-for="(book, index) in selectedItem.books" :key="index">
+                <tr v-for="(item, index) in filteredDataList" :key="index">
                   <td>{{ index + 1 }}</td>
-                  <td>{{ book.comics_no }}</td>
-                  <td>{{ book.title }} {{ book.comics_index }}</td>
-                  <td>{{ book.amount }}</td>
+                  <td>{{ item.comics_no }}</td>
+                  <td>{{ item.title }} {{ item.comics_index }}</td>
+                  <td>{{ item.amount }}</td>
                 </tr>
             </table>
           </div>
@@ -93,7 +93,7 @@
             </div>
           </div>
         </div>
-      </from>
+      </form>
       <!-- 確認彈窗 -->
       <div class="confirm_modal" v-show="showConfirmationModal">
         <h1>確定取書？</h1>
@@ -127,110 +127,7 @@ export default {
         '預約日期',
         '租借狀態'
       ],
-      dataList: [
-        {
-          comics_order_no: 'CB0001',
-          menno:'王小明',
-          comics_order_date:'2023-05-01',
-          comics_order_status: '未取書',
-          mobile:'0978000123',
-          books: [
-            {
-              comics_no: 'CM0001',
-              title: 'ONE PIECE航海王',
-              comics_index: '12',
-              amount: '$10',
-            },
-          ]
-        },
-        {
-          comics_order_no: 'CB0002',
-          menno:'王小明',
-          comics_order_date:'2023-05-04',
-          comics_order_status: '未取書',
-          mobile:'0988000333',
-          books: [
-            {
-              comics_no: 'CM0002',
-              title: 'ONE PIECE航海王',
-              comics_index: '12',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0006',
-              title: '(日本版漫畫)咒術迴戰',
-              comics_index: '',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0009',
-              title: '鬼滅之刃',
-              comics_index: '',
-              amount: '$10',
-            },
-          ]
-        },
-        {
-          comics_order_no: 'CB0003',
-          menno:'王小明',
-          comics_order_date:'2023-05-05',
-          comics_order_status: '未取書',
-          mobile:'0988000123',
-          books: [
-          {
-            comics_no: 'CM0003',
-            title: 'ONE PIECE航海王',
-            comics_index:'12',
-            amount: '$10',
-          },
-          {
-            comics_no: 'CM0014',
-            title: '庫洛魔法使 透明牌篇',
-            comics_index:'1',
-            amount: '$10',
-          },
-          {
-            comics_no: 'CM0019',
-            title: '庫洛魔法使 透明牌篇',
-            comics_index:'6',
-            amount: '$10',
-          },
-          {
-            comics_no: 'CM0020',
-            title: '庫洛魔法使 透明牌篇',
-            comics_index:'7',
-            amount: '$10',
-          },
-          {
-            comics_no: 'CM0013',
-            title: '鬼滅之刃',
-            comics_index:'12',
-            amount: '$10',
-          },
-        ]
-        },
-        {
-          comics_order_no: 'CB0004',
-          menno:'王小明',
-          comics_order_date:'2023-05-02',
-          comics_order_status: '未取書',
-          mobile:'0966000888',
-          books: [
-          {
-            comics_no: 'CM0001',
-            title: 'ONE PIECE航海王',
-            comics_index:'12',
-            amount: '$10',
-          },
-          {
-            comics_no: 'CM0013',
-            title: '鬼滅之刃',
-            comics_index:'12',
-            amount: '$10',
-          },
-        ]
-        },
-      ],
+      dataList: [],
       selectedItem:{},
       filteredDataList: []
     }
@@ -248,7 +145,7 @@ export default {
       // console.log(123);
       this.showModal=!this.showModal;
       this.selectedItem=this.filteredDataList[index];
-      console.log(this.selecteditem);
+      console.log(this.selectedItem);
       this.showBackdrop=true;
     },
     closeModal(){
@@ -282,9 +179,15 @@ export default {
   }
   ,
   mounted() {
-
-
-  }
+      this.axios.get(`${this.$URL_MAC}/getComicReserve.php`)
+        .then(res => {
+          console.log(res);
+          this.dataList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+  },
 
 }
 </script>
