@@ -1,41 +1,176 @@
 <template>
   <div>
-    <Form >
+    <Form v-show="modals.index">
       <template v-slot:form_query>
-        <button class="btn btn-dark member_add" type="submit">
-        新增帳號
-        <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus"> 
-      </button>
-      <select class="form-select w-25" aria-label="Default select example">
-        <option selected>請選擇</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-      <input type="search">
+        <button class="btn btn-dark member_add" type="submit" @click="showModal('addMember')">
+          新增會員
+          <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
+        </button>
+        <select class="form-select w-25" aria-label="Default select example">
+          <option selected>請選擇</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
 
-      
-</template>
+        <div class="col-md-2">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control"
+              v-model="searchInput"
+              @input="performSearch"
+              placeholder="請輸入"
+              aria-describedby="basic-addon1"
+            />
+            <button class="input-group-text" id="basic-addon1">
+              <img
+                @click="performSearch"
+                src="@/assets/images/search.svg"
+                alt="search"
+              />
+            </button>
+          </div>
+        </div>
 
- 
-      <template v-slot:form_table >
+      </template>
+      <template v-slot:form_table>
         <table class="main_list">
-        <tr>
-          <th v-for="column in columns">{{ column }}</th>
-        </tr>
-        <tr v-for="(item, index) in dataList" :key="item.index" @click.prevent="memberInfo(index)">
-          <td >{{ item.name }}</td>
-          <td>{{ item.no }}</td>
-          <td>{{ item.rank }}</td>
-          <td>{{ item.mobile }}</td>
-          <td>{{ item.remain }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
-      </table>
-  
-      
+          <tr>
+            <th v-for="column in columns">{{ column }}</th>
+          </tr>
+          <tr v-for="(item, index) in dataList" :key="item.index" @click="memberInfo(index)">
+            <td>{{ item.ename }}</td>
+            <td>{{ item.admin_no }}</td>
+            <td>{{ item.branch }}</td>
+            <td>{{ item.ejob }}</td>
+            <td>{{ item.password }}</td>
+          </tr>
+        </table>
+
+
       </template>
     </Form>
+  </div>
+  <!---------------------會員資料------------------------------  -->
+
+  <div class="account_data" v-show="modals.info">
+    <div class="management_all">
+      <button class="com_x_btn" @click="showModal('info')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="title">帳號管理_{{ memInfo.ename }}</div>
+      <div class="member_infor">
+
+        <div class="infor">
+          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')">
+          <div class="first">
+            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname" :disabled="isReadOnly"></label>
+            <label for="password">分館<input type="text" class="password" id="password" :disabled="isReadOnly"></label>
+          </div>
+          <div class="second">
+
+            <label for="phone">編號<input type="text" class="phone" id="phone" :value="memInfo.mobile" :disabled="isReadOnly"></label>
+            <label for="birthday">職稱<input type="text" class="birthday" id="birthday" :value="memInfo.mobile" :disabled="isReadOnly"></label>
+          </div>
+          <div class="third">
+            <label for="mail">密碼<input type="text" class="mail" id="mail" :value="memInfo.mobile" :disabled="isReadOnly"></label>
+          </div>
+          <div class="barcode">
+            <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
+          </div>
+          <button class="confirm" @click="showModal('info')">確認</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ------------------------員工編輯---------------------------------------- -->
+  <div class="account_edit" v-show="modals.edit">
+    <div class="management_all">
+      <button class="com_x_btn" @click="showModal('edit')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="title">帳號編輯_{{ memInfo.mname }}</div>
+      <div class="member_infor">
+        <div class="infor">
+          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
+          <div class="first">
+            姓名<input type="text" class="name">
+            分館<input type="text" class="password">
+
+          </div>
+          <div class="second">
+            電話<input type="text" class="phone">
+            密碼<input type="text" class="password">
+          </div>
+          <div class="third">
+            地址<input type="text" class="address">
+          </div>
+          <div class="barcode">
+            <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
+          </div>
+          <button class="confirm" @click="handleEditConfirm">確認</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ----------------------------修改成功-------------------------------- -->
+  <div class="revise" v-show="modals.editSuccess">
+    <div class="back">
+      <div class="text">
+        修改成功！
+      </div>
+
+      <button class="confirm" @click="showModal('editSuccess')">返回</button>
+    </div>
+  </div>
+
+  <!-- -----------------------新增帳號---------------------------- -->
+  <div class="account_edit" v-show="modals.addMember">
+    <div class="management_all" style="height: 360px;">
+      <button class="com_x_btn" @click="handleAddMember">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="title">新增帳號</div>
+      <div class="member_infor">
+        <div class="infor">
+          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
+          <div class="first">
+            姓名<input type="text" class="name">
+            分館<input type="text" class="password">
+
+          </div>
+          <div class="second">
+            編號<input type="text" class="phone">
+            職稱<input type="text" class="password">
+          </div>
+          <div class="third">
+            密碼<input type="text" class="address">
+          </div>
+          <div class="barcode">
+            <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
+          </div>
+          <button class="confirm" @click="handleAddConfirm">確認</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- --------------------確認新增-------------------------- -->
+  <div class="add_confirm" v-show="modals.addMemberSuccess">
+    <div class="back">
+      <div class="text">
+        確認新增？
+      </div>
+      <button class="yes" @click="showModal('addMemberSuccess')">確定</button>
+      <button class="no" @click="showModal('addMemberSuccess')">取消</button>
+    </div>
   </div>
 </template>
 <script>
@@ -49,100 +184,117 @@ export default {
   data() {
     return {
       memInfo: {
-        name: '',
-        no: '',
-        rank: '',
-        mobile: '',
-        remain: '',
-        value: ''
+        ename: '111',
+        admin_no: '',
+        branc: '',
+        ejob: '',
+        password: '',
+        isReadOnly: true,
       },
       dataList: [
         {
-          name: 1,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 2,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '2132',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 3,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '1313',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 4,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '131',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 5,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '131',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 6,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          name: '111',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 7,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '1141',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
         {
-          name: 8,
-          no: 1,
-          rank: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
+          ename: '211',
+          admin_no: '',
+          branc: '',
+          ejob: '',
+          password: '',
         },
       ],
       columns: [
         '姓名',
-        '會員編號',
-        '會員等級',
-        '手機號碼',
-        '儲值餘額',
-        '當年度累積消費金額'
+        '員工編號',
+        '分館',
+        '職稱',
+        '密碼',
       ],
-      model: '',
-
+      modals: {
+        index: true,
+        info: false,
+        edit: false,
+        editSuccess: false,
+        deposit: false,
+        depositSuccess: false,
+        addMember: false,
+        addMemberSuccess: false
+      }
     }
   },
   methods: {
     memberInfo(index) {
-      let { name, no, rank, mobile, remain, value } = this.dataList[index];
-
-      console.log(name, no, rank, mobile, remain, value);
+      this.memInfo = this.dataList[index];
+      this.showModal('info');
+    },
+    showModal(type) {
+      this.modals[type] = !this.modals[type];
+    },
+    handleEditConfirm() {
+      this.showModal('edit');
+      this.showModal('editSuccess');
+    },
+    handleDepositConfirm() {
+      this.showModal('deposit');
+      this.showModal('depositSuccess');
+    },
+    handleAddConfirm() {
+      this.showModal('addMember');
+      this.showModal('addMemberSuccess');
+    },
+    handleAddMember() {
+      this.showModal('addMember');
 
     },
-
-
+    toggleReadOnly() {
+            this.isReadOnly = !this.isReadOnly;
+        },
   }
 }
 </script>

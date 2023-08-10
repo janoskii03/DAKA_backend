@@ -6,7 +6,6 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    pointer-events: none;
     .management_all {
         background-color: #D0DbDf;
         width: 561px;
@@ -22,6 +21,16 @@
         right: 35%;
         box-sizing: border-box;
         color: #263238;
+
+        .com_x_btn {
+            font-size: 2rem;
+            cursor: pointer; 
+            border: none;
+            background-color:#D0DbDf;;
+            position: absolute;
+            margin-left: 510px;
+            
+            }
         .title {
             font-size: 24px;
             font-weight: 600;
@@ -169,12 +178,7 @@
             
             }
         }
-        .com_x_btn {
-            font-size: 2rem;
-            cursor: pointer; 
-            border: none;
-            background-color: $backstage_modal_color;
-            }
+        
     }
     
 }

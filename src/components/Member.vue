@@ -12,7 +12,25 @@
           <option value="2">Two</option>
           <option value="3">Three</option>
         </select>
-        <input type="search">
+        <div class="col-md-2">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control"
+              v-model="searchInput"
+              @input="performSearch"
+              placeholder="請輸入"
+              aria-describedby="basic-addon1"
+            />
+            <button class="input-group-text" id="basic-addon1">
+              <img
+                @click="performSearch"
+                src="@/assets/images/search.svg"
+                alt="search"
+              />
+            </button>
+          </div>
+        </div>
 
 
       </template>
@@ -39,6 +57,9 @@
 
   <div class="member_data" v-show="modals.info">
     <div class="management_all" >
+      <button class="com_x_btn" @click="showModal('info')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <div class="title">{{ memInfo.grade }}{{ memInfo.mname }}</div>
       <div class="gold">
         <div class="buy"><span>儲值金:</span>{{ memInfo.remain }}<span>元</span></div>
@@ -72,10 +93,13 @@
   <!-- ------------------------會員編輯---------------------------------------- -->
   <div class="member_edit" v-show="modals.edit">
     <div class="management_all">
-     
+      <button class="com_x_btn" @click="showModal('edit')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
       <div class="title">{{ memInfo.grade }}{{ memInfo.mname }}</div>
       <div class="gold">
-        <div class="buy"><span> 我是編輯--儲值金:</span>{{ memInfo.remain }}<span>元</span></div>
+        <div class="buy"><span>儲值金:</span>{{ memInfo.remain }}<span>元</span></div>
         <div class="spend"><span> 當年度累積消費金額:</span>{{ memInfo.value }}<span>元</span></div>
       </div>
       <div class="member_infor">
@@ -121,7 +145,7 @@
     </div>
   </div>
 
-  <!-- -------------------------會員儲值----------------------------------------- -->
+  <!-- -------------------------會員儲值-----------------------------------------
   <div class="member_deposit" v-show="modals.deposit">
     <div class="management_all">
       <div class="title">{{ management_all.grade }}{{ management_all.ename }}</div>
@@ -146,10 +170,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- -----------------------儲值成功-------------------------------- -->
-
-  <div class="revise" v-show="modals.depositSuccess">
+  <!-- <div class="revise" v-show="modals.depositSuccess">
     <div class="back">
       <div class="text">
         儲值成功
@@ -157,10 +180,13 @@
 
       <button class="confirm" @click="showModal('depositSuccess')">確認</button>
     </div>
-  </div>
+  </div> -->
   <!-- -----------------------新增會員---------------------------- -->
-  <div class="member_edit" v-show="modals.addMember">
+  <div class="mem_add" v-show="modals.addMember">
     <div class="management_all" style="height: 360px;">
+      <button class="com_x_btn" @click="handleAddMember">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <div class="title">{{ management_all.add }}</div>
       <div class="member_infor">
         <div class="infor">
@@ -189,9 +215,6 @@
 
         </div>
       </div>
-      <button class="com_x_btn" @click="closeModal1" style="margin-left: 265px;">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
     </div>
   </div>
   <!-- --------------------確認新增-------------------------- -->
@@ -200,10 +223,9 @@
       <div class="text">
         確認新增？
       </div>
-      <button class="yes">確定</button>
-      <button class="no">取消</button>
+      <button class="yes" @click="showModal('addMemberSuccess')">確定</button>
+      <button class="no" @click="showModal('addMemberSuccess')">取消</button>
     </div>
-
   </div>
 </template>
 <script>
@@ -331,6 +353,10 @@ export default {
     handleAddConfirm(){
       this.showModal('addMember');
       this.showModal('addMemberSuccess');
+    },
+    handleAddMember(){
+      this.showModal('addMember');
+      
     }
   }
 }
