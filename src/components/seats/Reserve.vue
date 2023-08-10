@@ -4,28 +4,6 @@
       <div class="reserve_info">
         <div class="reserve_info_time">設定時間區間</div>
         <Date @convert-date="dateConvert" @convert-time="timeConvert"></Date>
-        <!-- <div class="reserve_start_time input-group input-group-sm mb-2">
-          <span class="input-group-text" id="reserve_start_time">開始時間</span>
-          <input
-            type="text"
-            class="form-control"
-            value="2023/07/30 PM02:00"
-            aria-label="2023/07/30 PM02:00"
-            aria-describedby="reserve_start_time"
-            disabled
-          />
-        </div> -->
-        <!-- <div class="reserve_end_time input-group input-group-sm mb-2">
-          <span class="input-group-text" id="reserve_end_time">結束時間</span>
-          <input
-            type="text"
-            class="form-control"
-            value="2023/07/30 PM08:00"
-            aria-label="2023/07/30 PM08:00"
-            aria-describedby="reserve_end_time"
-            disabled
-          />
-        </div> -->
         <div class="reserve_time input-group input-group-sm mb-2">
           <span class="input-group-text" id="reserve_time">總時數</span>
           <input
