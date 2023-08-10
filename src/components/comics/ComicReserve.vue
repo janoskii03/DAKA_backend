@@ -32,7 +32,7 @@
         <!-- 黑底 -->
         <div class="modal-backdrop" v-show="showBackdrop"></div>
         <!-- 彈窗 -->
-        <form v-show="showModal" class="com_reserve_modal">
+        <div v-show="showModal" class="com_reserve_modal">
           <div class="modal_title">
             <h5>預約明細</h5>
             <img
@@ -116,11 +116,11 @@
               </div>
             </div>
           </div>
-        </form>
-        <!-- 確認彈窗 -->
-        <div class="confirm_modal" v-show="showConfirmationModal">
-          <h1>確定取書？</h1>
-          <div class="confirm_buttons">
+        </div>
+      <!-- 確認彈窗 -->
+      <div class="confirm_modal" v-show="showConfirmationModal">
+        <h1>確定取書？</h1>
+        <div class="confirm_buttons">
             <button @click="goBackToSearch">確定</button>
             <button @click="closeModal">取消</button>
           </div>
