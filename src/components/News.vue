@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-import { GET } from '@/plugin/axios';
+// import { GET } from '@/plugin/axios';
 import Form from '@/components/Form.vue';
 import { Step } from 'view-ui-plus';
 import NewsModal from '@/components/NewsModal.vue';
@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     showModal(e){
-      // console.log(e.target.textContent);
+      console.log(e.target.textContent);
       if(e.target.textContent === '新增消息') {
         this.data = [];
         this.title = '新增消息';
@@ -129,6 +129,7 @@ export default {
     },
     emitData(data,e) {
       this.data = data;
+      // console.log("emitData::e",e)
       this.showModal(e);
     },
     filterDataList() {
@@ -149,6 +150,8 @@ export default {
     searchNews() {
       if (this.search === '') {
         // this.filteredDataList = this.dataList;
+        // console.log(7778);
+        alert('請輸入關鍵字');
         return;
         
       } else {
@@ -171,10 +174,10 @@ export default {
   //   }
   // },
   mounted() {
-    GET(`${this.$URL}/getAllNews.php`)
+    this.axios.get(`${this.$URL}/getAllNews.php`)
       .then(res => {
         console.log(res);
-        this.dataList = res;
+        this.dataList = res.data;
       })
       .catch(err => {
         console.log(err);
@@ -183,3 +186,8 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+[alt="plus"]{
+  pointer-events: none;
+}
+</style>
