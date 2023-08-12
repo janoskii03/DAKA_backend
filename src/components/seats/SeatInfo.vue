@@ -6,13 +6,15 @@
           <select
             class="form-select w-20"
             v-model="selectedOption"
+            @change="computeResults"
             aria-label="Default select example"
           >
             <option value="0" selected>使用者</option>
             <option value="1">大廳區</option>
             <option value="2">包廂區</option>
           </select>
-          <div class="input-group">
+
+          <!-- <div class="input-group">
             <input
               type="search"
               class="form-control"
@@ -27,8 +29,9 @@
             >
               <img src="@/assets/images/search.svg" alt="search" />
             </span>
-          </div>
+          </div> -->
         </div>
+        <Search @emit-txt="getSearch" />
       </template>
       <template v-slot:form_table>
         <table class="main_list" v-show="step === 1">
@@ -59,13 +62,16 @@
 </template>
 <script>
 import Form from "@/components/Form.vue";
+import Search from "@/components/comics/Search.vue";
 
 export default {
   components: {
-    Form
+    Form,
+    Search
   },
   data() {
     return {
+      searchTerm: "",
       title: "",
       src: "",
       areaMap: {
@@ -239,15 +245,18 @@ export default {
     };
   },
   methods: {
-    searchReserve() {
-      // 清空之前的搜索结果
+    getSearch(value) {
+      this.searchTerm = value;
+      this.computeResults();
+    },
+    computeResults() {
       this.filterDataList = [];
 
       // 根据选择的选项进行不同的查询
       switch (this.selectedOption) {
         case "0": // 使用者
           this.filterDataList = this.dataList.filter((item) =>
-            item.mobile.includes(this.search)
+            item.mobile.includes(this.searchTerm)
           );
           break;
 
@@ -255,7 +264,7 @@ export default {
           this.filterDataList = this.dataList.filter((item) => {
             return item.seats.some(
               (seat) =>
-                seat.seat_number.includes(this.search) &&
+                seat.seat_number.includes(this.searchTerm) &&
                 ["A", "B"].includes(seat.seat_area)
             );
           });
@@ -265,7 +274,7 @@ export default {
           this.filterDataList = this.dataList.filter((item) => {
             return item.seats.some(
               (seat) =>
-                seat.seat_number.includes(this.search) &&
+                seat.seat_number.includes(this.searchTerm) &&
                 ["C", "D"].includes(seat.seat_area)
             );
           });

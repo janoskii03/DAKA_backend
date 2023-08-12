@@ -13,11 +13,16 @@
       padding: 10px 13px;
       border-radius: 10px;
       background-color: #bcccd1;
-      .reserve_info_seat,
-      .reserve_user_title,
-      .reserve_seat_title {
+      .reserve_info_time{
         font-weight: 600;
-        font-size: 20px;
+        font-size: 25px;
+      }
+      .reserve_time_choose{
+        width: 100%;
+        padding: 10px 0;
+      }
+      .reserve_time{
+        width: 100%;
       }
       .reserve_time_search_buttons {
         display: flex;
@@ -31,6 +36,11 @@
           background-color: #263238;
           color: #fff;
         }
+      }
+      .reserve_user_title,
+      .reserve_seat_title {
+        font-weight: 600;
+        font-size: 20px;
       }
       .reserve_seat_text {
         border-radius: 10px;
