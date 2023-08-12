@@ -3,7 +3,13 @@
     <div class="seats_reserve_info col">
       <div class="reserve_info">
         <div class="reserve_info_time">設定時間區間</div>
-        <Date @convert-date="dateConvert" @convert-time="timeConvert"></Date>
+        <div class="reserve_time_choose">
+          <Date
+            @convert-date="dateConvert"
+            @convert-time="timeConvert"
+            :disabled="isSeatInputsDisabled"
+          ></Date>
+        </div>
         <div class="reserve_time input-group input-group-sm mb-2">
           <span class="input-group-text" id="reserve_time">總時數</span>
           <input
@@ -22,18 +28,29 @@
             type="submit"
             @click="toggleReserveSeat"
             :disabled="isSeatInputsDisabled"
+            v-if="!isReserveSeatVisible"
           >
             可使用座位搜尋
           </button>
-          <button
-            class="reserve_time_search_reset btn btn-sm"
-            type="submit"
-            @click="resetReserveSeat"
-            v-if="isReserveSeatVisible"
-            :disabled="isUserInputsDisabled"
+          <div               @mouseover="showWarningMessage"
+              @mouseleave="hideWarningMessage">
+            <button
+              class="reserve_time_search_reset btn btn-sm"
+              type="submit"
+              @click="resetReserveSeat"
+              v-if="isReserveSeatVisible"
+              :disabled="isUserInputsDisabled"
+
+            >
+              重新選擇日期
+            </button>
+          </div>
+          <div
+            v-if="isUserInputsDisabled && showWarning"
+            class="warning-message"
           >
-            重新選擇日期
-          </button>
+            取消座位選取才能更換日期
+          </div>
         </div>
 
         <div v-if="isReserveSeatVisible" class="reserve_seat">
@@ -52,6 +69,7 @@
               type="submit"
               @click="toggleReserveUser"
               :disabled="isUserInputsDisabled"
+              v-if="!isReserveUserVisible"
             >
               確認選擇座位
             </button>
@@ -131,175 +149,24 @@
       </div>
     </div>
     <div class="seats_reserve_map col-9">
-      <section class="reservation_seat">
-        <!-- <h2 class="reservation_text"><span>3</span> 選擇座位</h2> -->
-        <div class="reservation_all_seat">
-          <main class="tabs">
-            <div class="tabs_list">
-              <div
-                class="seat_tabs_item"
-                v-for="(item, key) in tabItems"
-                :class="{ active: key == tabActive }"
-                @click="updateTab(key)"
-                :key="item.key"
-              >
-                {{ item }}
-              </div>
-            </div>
-            <div class="color_state_seat_group">
-              <div class="color_vacancy_seat_group">
-                <div class="color_G_vacancy_seat"></div>
-                <p class="p_vacancy_seat">可預約</p>
-              </div>
-              <div class="color_use_seat_group">
-                <div class="color_G_use_seat"></div>
-                <p class="p_use_seat">不可預約</p>
-              </div>
-            </div>
-            <div v-if="tabActive == 1" class="reservation_hall_seat">
-              <div class="reservation_eSports_seat">
-                <div class="eSports_seat_title">
-                  <p>電競區</p>
-                </div>
-                <!-- `state-${item.state}`判定座位狀態 -->
-                <button
-                  v-for="item in seats_a"
-                  :key="item.no"
-                  :class="{
-                    seat_btn: true,
-                    eSports_seat: true,
-                    selected: selectedSeats.some(
-                      (seat) => seat.seat_id === item.seat_id
-                    )
-                  }"
-                  @click.prevent="seatSelected(item)"
-                >
-                  <div class="content">
-                    <h4 class="text">
-                      {{ item.seat_area }}
-                      {{ item.seat_no }}
-                    </h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
-                    <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
-                  </div>
-                </button>
-              </div>
-              <div class="reservation_general_seat">
-                <div class="general_seat_title">
-                  <p>一般區</p>
-                </div>
-                <!--狀態管理 class="`state-${item.state}`" -->
-                <button
-                  :class="{
-                    seat_btn: true,
-                    general_seat: true,
-                    selected: selectedSeats.some(
-                      (seat) => seat.seat_id === item.seat_id
-                    )
-                  }"
-                  v-for="item in seats_b"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
-                  <div class="content">
-                    <h4>
-                      {{ item.seat_area }}
-                      {{ item.seat_no }}
-                    </h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
-                    <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
-                  </div>
-                </button>
-                <div class="counter">
-                  <p>櫃台</p>
-                </div>
-              </div>
-            </div>
-            <div v-if="tabActive == 2" class="reservation_booth_seat">
-              <div class="booth_seat_title">
-                <div class="single_seat_title">
-                  <p>單人包廂</p>
-                </div>
-                <div class="double_seat_title">
-                  <p>雙人包廂</p>
-                </div>
-              </div>
-              <!--狀態管理 :class="`state-${item.state}`" -->
-              <div class="reservation_single_seat">
-                <button
-                  :class="{
-                    seat_btn: true,
-                    single_seat: true,
-                    selected: selectedSeats.some(
-                      (seat) => seat.seat_id === item.seat_id
-                    )
-                  }"
-                  v-for="item in seats_c"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
-                  <div class="content">
-                    <h4>{{ item.seat_area }} {{ item.seat_no }}</h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
-                    <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
-                  </div>
-                </button>
-              </div>
-              <!-- 狀態管理:class="`state-${item.state}`" -->
-              <div class="reservation_double_seat">
-                <button
-                  :class="{
-                    seat_btn: true,
-                    double_seat: true,
-                    selected: selectedSeats.some(
-                      (seat) => seat.seat_id === item.seat_id
-                    )
-                  }"
-                  v-for="item in seats_d"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
-                  <div class="content">
-                    <h4>{{ item.seat_area }} {{ item.seat_no }}</h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/double_chair.svg"
-                      alt=""
-                    />
-                    <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
-                  </div>
-                </button>
-              </div>
-            </div>
-          </main>
-        </div>
-      </section>
+      <Seat></Seat>
     </div>
   </div>
 </template>
 <script>
 import Date from "@/components/seats/Date.vue";
+import Seat from "@/components/seats/Seat.vue";
 import axios from "axios";
 import { mapMutations, mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   components: {
-    Date
+    Date,
+    Seat
   },
   data() {
     return {
+      showWarning: false,
       isReserveSeatVisible: false,
       isReserveUserVisible: false,
       isSeatInputsDisabled: false,
@@ -342,6 +209,16 @@ export default {
   methods: {
     ...mapMutations(["toggleLogin", "toggleForgotPsw", "toggleRegister"]),
 
+    showWarningMessage() {
+      console.log('aaa')
+      if (this.isUserInputsDisabled) {
+        this.showWarning = true;
+      }
+    },
+    hideWarningMessage() {
+      this.showWarning = false;
+    },
+
     toggleReserveSeat() {
       this.isReserveSeatVisible = !this.isReserveSeatVisible;
       if (this.isReserveSeatVisible) {
@@ -349,6 +226,7 @@ export default {
       }
     },
     resetReserveSeat() {
+      console.log('bbbb')
       this.isReserveSeatVisible = false;
       this.isSeatInputsDisabled = false;
     },
