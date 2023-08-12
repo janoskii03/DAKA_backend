@@ -13,9 +13,9 @@
           </thead>
           <tr v-for="(item, index) in filteredDataList" :key="index" @click="openModal(index)">
             <td>{{ item.comics_order_no }}</td>
-            <td>{{ item.menno }}</td>
+            <td>{{ item.mname }}</td>
             <td>{{ item.mobile }}</td>
-            <td>{{ item.comics_order_date }}</td>
+            <td>{{ item.comics_return_duedate }}</td>
             <td>{{ item.comics_order_status }}</td>
           </tr>
         </table>
@@ -50,13 +50,13 @@
                   </td>
                   <td>
                     <p>取書日期</p>
-                    <span class="detail_content">{{ selectedItem.comics_borrow_duedate }}</span>
+                    <span class="detail_content">{{ selectedItem.comics_borrow_date }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <p>應還日期</p>
-                    <span class="detail_content">{{ selectedItem.comics_return_date }}</span>
+                    <span class="detail_content">{{ selectedItem.comics_return_duedate }}</span>
                   </td>
                   <td>
                     <p>歸還日期</p>
@@ -73,11 +73,11 @@
                   <th>漫畫名稱</th>
                   <th>金額</th>
                 </tr>
-                <tr v-for="(book, index) in selectedItem.books" :key="index">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ book.comics_no }}</td>
-                  <td>{{ book.title }} {{ book.comics_index }}</td>
-                  <td>{{ book.amount }}</td>
+                <tr v-for="(item, itemIndex) in selectedItem.items" :key="'selected-item-' + itemIndex">
+                  <td>{{ itemIndex + 1 }}</td>
+                  <td>{{ item.comics_no }}</td>
+                  <td>{{ item.title }} {{ item.comics_index }}</td>
+                  <td>$10</td>
                 </tr>
               </table>
             </div>
@@ -116,106 +116,12 @@ export default {
   },
   data() {
     return {
-      search: '',
+      search: "",
       showModal: false,
       showBackdrop: false,
       showConfirmationModal: false,
-      columns: [
-        '訂單編號',
-        '姓名',
-        '手機',
-        '預約日期',
-        '租借狀態'
-      ],
-      dataList: [
-        {
-          comics_order_no: 'CB0001',
-          menno: '王小明',
-          comics_order_date: '2023-05-03',
-          comics_borrow_duedate: '2023-05-04',
-          comics_return_date: '2023-05-07',
-          comics_order_status: '未歸還',
-          mobile: '0988000123',
-          books: [
-            {
-              comics_no: 'CM0001',
-              title: 'ONE PIECE航海王',
-              comics_index: '12',
-              amount: '$10',
-            },
-          ]
-        },
-        {
-          comics_order_no: 'CB0002',
-          menno: '王小明',
-          comics_order_date: '2023-05-04',
-          comics_borrow_duedate: '2023-05-04',
-          comics_return_date: '2023-05-07',
-          comics_order_status: '未歸還',
-          mobile: '0988000333',
-          books: [
-            {
-              comics_no: 'CM0002',
-              title: 'ONE PIECE航海王',
-              comics_index: '12',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0006',
-              title: '(日本版漫畫)咒術迴戰',
-              comics_index: '',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0009',
-              title: '鬼滅之刃',
-              comics_index: '',
-              amount: '$10',
-            },
-          ]
-        },
-        {
-          comics_order_no: 'CB0003',
-          menno: '王小明',
-          comics_order_date: '2023-05-05',
-          comics_borrow_duedate: '2023-05-06',
-          comics_return_date: '2023-05-09',
-          comics_order_status: '未歸還',
-          mobile: '0988000123',
-          books: [
-            {
-              comics_no: 'CM0003',
-              title: 'ONE PIECE航海王',
-              comics_index: '12',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0014',
-              title: '庫洛魔法使 透明牌篇',
-              comics_index: '1',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0019',
-              title: '庫洛魔法使 透明牌篇',
-              comics_index: '6',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0020',
-              title: '庫洛魔法使 透明牌篇',
-              comics_index: '7',
-              amount: '$10',
-            },
-            {
-              comics_no: 'CM0013',
-              title: '鬼滅之刃',
-              comics_index: '12',
-              amount: '$10',
-            },
-          ]
-        }
-      ],
+      columns: ["訂單編號", "姓名", "手機", "應還日期", "租借狀態"],
+      dataList: [],
       selectedItem: {},
       filteredDataList: []
     }
@@ -223,7 +129,7 @@ export default {
   methods: {
     getSearch(searchMobile) {
       this.search = searchMobile;
-      if (this.search === '') {
+      if (this.search === "") {
         this.filteredDataList = this.dataList;
       } else {
         this.filteredDataList = this.dataList.filter(item => item.mobile.includes(this.search));
@@ -233,7 +139,7 @@ export default {
       // console.log(123);
       this.showModal = !this.showModal;
       this.selectedItem = this.filteredDataList[index];
-      console.log(this.selecteditem);
+      console.log(this.selectedItem);
       this.showBackdrop = true;
     },
     closeModal() {
@@ -245,22 +151,27 @@ export default {
       this.showModal = false;
     },
     goBackToSearch() {
-      this.search = '';
+      this.search = "";
       this.showConfirmationModal = this.showBackdrop = false;
     },
     countTotal() {
       let totalAmount = 0;
-      if (this.selectedItem && this.selectedItem.books) {
-        for (const book of this.selectedItem.books) {
-          const amount = parseInt(book.amount.replace('$', ''), 10);
-          if (!isNaN(amount)) {
-            totalAmount += amount;
-          }
-        }
+      if (this.selectedItem && this.selectedItem.items) {
+        totalAmount = this.selectedItem.items.length * 10; // 因為每本書都是$10
       }
-
       return `$${totalAmount}`;
-    },
+    }
+  },
+  mounted() {
+    this.axios
+      .get(`${this.$URL}/getComicReturn.php`)
+      .then((res) => {
+        console.log(res);
+        this.dataList = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 </script>

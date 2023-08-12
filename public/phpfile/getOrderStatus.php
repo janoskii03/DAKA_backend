@@ -6,12 +6,11 @@ try {
     require_once("connectDaka.php");
 
     // 執行sql指令並取得pdoStatement
-    $sql = "select m.mname, m.mobile, c.comics_order_no, c.comics_order_status, c.comics_order_date, co.comics_order_detail_id, co.comics_order_id, co.comics_id, cc.comics_no, cc.title, cc.comics_index
+    $sql = "select m.mname, m.mobile, c.comics_order_no, c.comics_order_status, c.comics_order_date, c.comics_borrow_date, c.comics_return_date, c.comics_return_duedate, co.comics_order_detail_id, co.comics_order_id, co.comics_id, cc.comics_no, cc.title, cc.comics_index
             FROM member m 
             JOIN comics_order c ON m.mem_id = c.mem_id
             JOIN comics_order_detail co ON c.comics_order_id = co.comics_order_id
             JOIN comics_collection cc ON co.comics_id = cc.comics_id
-            WHERE c.comics_order_status = 1
             ORDER BY co.comics_order_id"; // 根據 comics_order_id 排序结果
 
     $products = $pdo->query($sql); 
@@ -37,6 +36,9 @@ try {
                 'mobile' => $row['mobile'],
                 'comics_order_no' => $row['comics_order_no'],
                 'comics_order_date' => $row['comics_order_date'],
+                'comics_borrow_date' => $row['comics_borrow_date'],
+                'comics_return_date' => $row['comics_return_date'],
+                'comics_return_duedate' => $row['comics_return_duedate'],
                 'comics_order_status' => $statusMapping[$row['comics_order_status']],
                 'items' => array()
             );
