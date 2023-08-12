@@ -178,9 +178,13 @@ export default {
     },
     //我產不出來
     updateOrderStatus() {
-      const order_id = this.selectedItem.comics_order_id;
+      const order_id = this.selectedItem.order_id;
+      console.log('aaa', order_id)
+      var params = new URLSearchParams();
+      params.append('order_id', order_id)
+      params.append('new_status', 3)      
       this.axios
-        .post(`${this.$URL_MAC}/editComicReserve.php`, { order_id, new_status: 3 }) // 將新狀態傳遞給後端
+        .post(`${this.$URL}/editComicReserve.php`, params) // 將新狀態傳遞給後端
         .then(response => {
           this.getSearch(this.search); // 更新數據
           this.closeModal(); // 關閉彈窗
@@ -205,7 +209,7 @@ export default {
   computed: {},
   mounted() {
     this.axios
-      .get(`${this.$URL_MAC}/getComicReserve.php`)
+      .get(`${this.$URL}/getComicReserve.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
