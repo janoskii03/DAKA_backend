@@ -205,7 +205,7 @@ export default {
   computed: {},
   mounted() {
     this.axios
-      .get(`${this.$URL}/getComicReserve.php`)
+      .get(`${this.$URL_MAC}/getComicReserve.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;

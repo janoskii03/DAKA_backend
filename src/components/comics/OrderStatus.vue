@@ -181,7 +181,7 @@ export default {
   },
   mounted() {
     this.axios
-      .get(`${this.$URL}/getOrderStatus.php`)
+      .get(`${this.$URL_MAC}/getOrderStatus.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
