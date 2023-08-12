@@ -176,9 +176,23 @@ export default {
       this.showConfirmationModal = true;
       this.showModal = false;
     },
+    //我產不出來
+    updateOrderStatus() {
+      const order_id = this.selectedItem.comics_order_id;
+      this.axios
+        .post(`${this.$URL_MAC}/editComicReserve.php`, { order_id, new_status: 3 }) // 將新狀態傳遞給後端
+        .then(response => {
+          this.getSearch(this.search); // 更新數據
+          this.closeModal(); // 關閉彈窗
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     goBackToSearch() {
       this.search = "";
       this.showConfirmationModal = this.showBackdrop = false;
+      this.updateOrderStatus();
     },
     countTotal() {
       let totalAmount = 0;
