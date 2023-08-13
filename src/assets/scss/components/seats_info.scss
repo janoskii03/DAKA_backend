@@ -1,0 +1,11 @@
+.scrollable-table {
+    max-height: 650px; /* Adjust the height as needed */
+    overflow-y: auto;
+    margin-bottom: 40px; /* Give space for pagination */
+  }
+  
+  .pagination-wrapper {
+    position: absolute;
+    right: 40px;
+    bottom: 100px;
+  }
