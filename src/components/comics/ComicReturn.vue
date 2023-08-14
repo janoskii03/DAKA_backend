@@ -60,7 +60,7 @@
                   </td>
                   <td>
                     <p>歸還日期</p>
-                    <span class="detail_content"></span>
+                    <span class="detail_content">{{ selectedItem.comics_return_date }}</span>
                   </td>
                 </tr>
               </table>
@@ -150,9 +150,30 @@ export default {
       this.showConfirmationModal = true;
       this.showModal = false;
     },
+    updateOrderStatus() {
+      const order_id = this.selectedItem.order_id;
+      console.log('aaa', order_id)
+      var params = new URLSearchParams();
+      params.append('order_id', order_id);
+      params.append('new_status', 4);
+      // 取得當前日期
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+      params.append('return_date', formattedDate);      
+      this.axios
+        .post(`${this.$URL}/editComicReturn.php`, params) // 將新狀態傳遞給後端
+        .then(response => {
+          this.getSearch(this.search); // 更新數據
+          this.closeModal(); // 關閉彈窗
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     goBackToSearch() {
       this.search = "";
       this.showConfirmationModal = this.showBackdrop = false;
+      this.updateOrderStatus();
     },
     countTotal() {
       let totalAmount = 0;

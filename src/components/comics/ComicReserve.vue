@@ -68,14 +68,14 @@
                   </td>
                   <td>
                     <p>取書日期</p>
-                    <span class="detail_content"></span>
+                    <span class="detail_content">{{ selectedItem.comics_borrow_date }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <p>應還日期</p>
                     <span class="detail_content">{{
-                      selectedItem.comics_return_date
+                      selectedItem.comics_return_duedate
                     }}</span>
                   </td>
                   <td>
@@ -181,8 +181,18 @@ export default {
       const order_id = this.selectedItem.order_id;
       console.log('aaa', order_id)
       var params = new URLSearchParams();
-      params.append('order_id', order_id)
-      params.append('new_status', 3)      
+      params.append('order_id', order_id);
+      params.append('new_status', 3);
+      // 取得當前日期
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+      params.append('pickup_date', formattedDate);   
+      // 計算還書日期
+      const comics_quantity = this.selectedItem.items.length; // 書籍數量
+      const returnDate = new Date(currentDate);
+      returnDate.setDate(returnDate.getDate() + 3 + (comics_quantity - 1));
+      const formattedReturnDate = `${returnDate.getFullYear()}-${(returnDate.getMonth() + 1).toString().padStart(2, '0')}-${returnDate.getDate().toString().padStart(2, '0')}`;
+      params.append('return_duedate', formattedReturnDate);   
       this.axios
         .post(`${this.$URL}/editComicReserve.php`, params) // 將新狀態傳遞給後端
         .then(response => {
@@ -209,7 +219,7 @@ export default {
   computed: {},
   mounted() {
     this.axios
-      .get(`${this.$URL}/getComicReserve.php`)
+      .get(`${this.$URL_MAC}/getComicReserve.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
