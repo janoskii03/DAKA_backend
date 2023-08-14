@@ -16,7 +16,7 @@
                         </button>
                     </h5>
 
-                    <span>管理者：中壢分店</span>
+                    <span>編輯者：{{ news.ename }}</span>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
                 <div class="news_body">
@@ -69,8 +69,8 @@
                             v-model="news.news_status"
                             name="news_status">
                                 
-                                <option :selected="news.news_status === '上架中'">上架中</option>
-                                <option :selected="news.news_status === '下架'">下架</option>
+                                <option :selected="news.news_status === 1">1</option>
+                                <option :selected="news.news_status === 0">0</option>
                             </select>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     <button type="button" class="btn btn-secondary m-1" :disabled="isReadOnly"
                         @click="closeModal">儲存草稿</button>
                     <button type="button" class="btn btn-primary m-1" :disabled="isReadOnly"
-                        @click="closeModal">發佈送出</button>
+                        @click="closeModal">{{ btn_text }}</button>
                 </div>
             </div>
         </form>
@@ -134,7 +134,7 @@
 import { Form } from 'view-ui-plus';
 
 export default {
-    props: ['news', 'title'],
+    props: ['news', 'title', 'btn_text'],
     data() {
         return {
             tempImg: "",
@@ -160,7 +160,7 @@ export default {
                 // console.log(7778);
                 this.isReadOnly = false;
                 this.addNewsData();
-            } else if(this.title === '編輯消息' && e.target.textContent === '發佈送出'){
+            } else if(this.title === '編輯消息' && e.target.textContent === '儲存編輯'){
                 this.isReadOnly = false;
                 this.updateNewsData();
             }

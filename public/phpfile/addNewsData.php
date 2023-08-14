@@ -25,15 +25,20 @@ try {
         try {
             require_once("connectDaka.php");
             
-            $sql = "INSERT INTO news (news_pic, news_title, news_date, news_category, news_text) 
-                    VALUES (:news_pic, :news_title, :news_date, :news_category, :news_text)";
+            $admin_id = 2;
+
+            $sql = "INSERT INTO news (news_pic, news_title, news_date, news_category, news_status, news_text, admin_id) 
+                    VALUES (:news_pic, :news_title, :news_date, :news_category, :news_status,:news_text, :admin_id)";
             $products = $pdo->prepare($sql); 
             // $products->bindValue(":news_id", $_POST["news_id"]);
             $products->bindValue(":news_pic", $fileName);
             $products->bindValue(":news_title", $_POST["news_title"]);
             $products->bindValue(":news_date", $_POST["news_date"]);
             $products->bindValue(":news_category", $_POST["news_category"]);
+            $products->bindValue(":news_status", $_POST["news_status"]);
             $products->bindValue(":news_text", $_POST["news_text"]);
+            $products->bindValue(":admin_id", $admin_id);
+
             $products->execute();
 
             $news_id = $pdo->lastInsertId();
