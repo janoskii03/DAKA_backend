@@ -20,7 +20,7 @@
         <tr>
           <th v-for="column in columns">{{ column }}</th>
         </tr>
-        <tr v-for="(item, index) in filteredDataList" :key="index" @click="openModal(index)">
+        <tr v-for="(item, index) in displayedDataList" :key="index" @click="openModal(index)">
           <td >{{ item.comics_order_no }}</td>
           <td>{{ item.mname }}</td>
           <td>{{ item.mobile }}</td>
@@ -33,6 +33,38 @@
       </table>
       <div class="alert alert-warning" v-if="search && filteredDataList.length === 0">
         查無此手機號碼，請重新搜尋！
+      </div>
+      <div class="pagination-wrapper" v-if="totalPages > 1">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li
+                class="page-item"
+                @click="setCurrentPage(currentPage - 1)"
+                :class="{ disabled: currentPage === 1 }"
+              >
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li
+                v-for="page in totalPages"
+                :key="page"
+                @click="setCurrentPage(page)"
+                :class="{ active: page === currentPage }"
+              >
+                <a class="page-link" href="#"> {{ page }} </a>
+              </li>
+              <li
+                class="page-item"
+                @click="setCurrentPage(currentPage + 1)"
+                :class="{ disabled: currentPage === totalPages }"
+              >
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
       </div>
       <!-- 黑底 -->
       <div class="modal-backdrop" v-show="showModal"></div>
@@ -117,6 +149,8 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
+      itemsPerPage: 10,
       search: "",
       showModal:false,
       selectedStatus: "",
@@ -128,31 +162,18 @@ export default {
   },
   
   methods: {
+    setCurrentPage(pageNumber) { 
+      console.log(this.totalPages)
+      if (pageNumber <= 0 || pageNumber > this.totalPages) {
+        console.log('this.totalPages')
+        return;
+      }
+      this.currentPage = pageNumber;
+    },
     getSearch(searchMobile) {
       this.search = searchMobile;
       this.filterDataList();
     },
-    // filterDataList() {
-    //   let filteredData = this.dataList;
-    //   const selectedStatusText = this.selectedStatus;
-
-    //   if (selectedStatusText) {
-    //     filteredData = filteredData.filter(item => item.comics_order_status === selectedStatusText);
-    //   }
-
-    //   if (this.search) {
-    //     filteredData = filteredData.filter(item => item.mobile.includes(this.search));
-    //   }
-
-    //   this.filteredDataList = filteredData;
-      
-    // },
-
-    // openModal(index) {
-    //   this.showModal=!this.showModal;
-    //   this.selectedItem=this.dataList[index];
-    //   console.log(this.selecteditem);
-    // },
     filterDataList() {
       this.filteredDataList = this.dataList;
 
@@ -177,6 +198,16 @@ export default {
         totalAmount = this.selectedItem.items.length * 10; // 因為每本書都是$10
       }
       return `$${totalAmount}`;
+    }
+  },
+  computed: {
+    displayedDataList() {
+      let start = (this.currentPage - 1) * this.itemsPerPage;
+      let end = start + this.itemsPerPage;
+      return this.filteredDataList.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredDataList.length / this.itemsPerPage);
     }
   },
   mounted() {
