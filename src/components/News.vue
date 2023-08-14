@@ -29,14 +29,18 @@
             <th v-for="column in columns" :key="column">{{ column }}</th>
           </tr>
           <!--  消息資料 -->
-          <tr v-for="item in filteredDataList" :key="item.index" @click="emitData(item,$event)">
+          <tr 
+          v-for="item in filteredDataList" 
+          :key="item.index" 
+          @click="emitData(item,$event)"
+          class="align-middle">
             <td>{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
             <td>{{ item.news_status }}</td>
             <td>{{ item.news_date }}</td>
             <td>{{ item.ename }}</td>
             <td>{{ item.admin_no }}</td>
-            <button class="btn btn-dark member_add" type="submit">
+            <button class="btn btn-dark align-middle" type="submit">
               delete
             </button>
           </tr>
@@ -65,39 +69,7 @@ export default {
   },
   data() {
     return {
-      dataList: [
-        {
-          news_title: '組隊集結，征服召喚峽谷！',
-          news_category: 'ACTIVITY',
-          news_status: '上架',
-          news_date: '2023-05-20',
-          news_pic: '',
-          news_text: '',
-          ename: 'Ellie',
-          admin_no: '1234-5678'
-        },
-        {
-          news_title: '打咖設備大升級！',
-          news_category: 'NEWS',
-          news_status: '上架',
-          news_date: '2023-05-10',
-          news_pic: '',
-          news_text: '',
-          ename: 'Twiggy',
-          admin_no: '1234-7777'
-        },
-        {
-          news_title: '打咖五月會員好禮！',
-          news_category: 'NEWS',
-          news_status: '上架',
-          news_date: '2023-05-01',
-          news_pic: '',
-          news_text: '',
-          ename: 'Yun',
-          admin_no: '1234-6666'
-        },
-
-      ],
+      dataList: [],
       columns: [
         '標題',
         '類別',
@@ -116,7 +88,7 @@ export default {
   },
   methods: {
     showModal(e){
-      console.log(e.target.textContent);
+      // console.log(e.target.textContent);
       if(e.target.textContent === '新增消息') {
         this.data = [];
         this.title = '新增消息';
@@ -190,4 +162,5 @@ export default {
 [alt="plus"]{
   pointer-events: none;
 }
+
 </style>
