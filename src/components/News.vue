@@ -39,7 +39,7 @@
             <td>{{ item.news_status }}</td>
             <td>{{ item.news_date }}</td>
             <td>{{ item.ename }}</td>
-            <td>{{ item.admin_no }}</td>
+            <td>{{ item.admin_id }}</td>
             <button class="btn btn-dark align-middle" type="submit">
               delete
             </button>
@@ -55,7 +55,8 @@
     v-show="modalSwitch"
     @emit-modal="modalSwitch = false"
     :news="data"
-    :title="title"/>
+    :title="title"
+    :btn_text="btn_text"/>
   </div>
 </template>
 <script>
@@ -84,6 +85,7 @@ export default {
       search: '',
       selectedCategory: '',
       title: '編輯消息',
+      btn_text: '發佈送出',
     }
   },
   methods: {
@@ -92,10 +94,12 @@ export default {
       if(e.target.textContent === '新增消息') {
         this.data = [];
         this.title = '新增消息';
+        this.btn_text = '發佈送出'
         // this.modalSwitch = true;
         // return;
       } else {
         this.title = '編輯消息';
+        this.btn_text = '儲存編輯';
       }
       this.modalSwitch = true;
     },

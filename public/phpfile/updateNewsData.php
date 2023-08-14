@@ -8,6 +8,7 @@ try {
     $sql = "update news set news_title = :news_title,
                             news_date = :news_date,
                             news_category = :news_category,
+                            news_status = :news_status,
                             news_text = :news_text
             where news_id = :news_id";
     
@@ -16,6 +17,7 @@ try {
     $products->bindValue(":news_title", $_POST["news_title"]);
     $products->bindValue(":news_date", $_POST["news_date"]);
     $products->bindValue(":news_category", $_POST["news_category"]);
+    $products->bindValue(":news_status", $_POST["news_status"]);
     $products->bindValue(":news_text", $_POST["news_text"]);
     
     $updateResult = $products->execute();
