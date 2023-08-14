@@ -6,11 +6,7 @@ try {
 	require_once("connectDaka.php");
 	
 	//執行sql指令並取得pdoStatement
-	$sql = "select n.news_title, n.news_date, n.news_category, n.news_status, n.news_text, a.admin_id, a.ename
-	from news n
-	join administrator a on n.admin_id = a.admin_id
-	order by n.news_id";
-
+	$sql = "select * from comics_collection";
 	$products = $pdo->query($sql); 
 	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
  echo json_encode($prodRows);

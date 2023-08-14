@@ -8,7 +8,7 @@
       <div class="accordion accordion-flush w-100 mt-5 main_nav" id="accordionFlushExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/account')">
+            <button class="accordion-button collapsed main_nav_btn fs-5" @click="this.$router.push('/account')">
               <img src="@/assets/images/account.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
               帳號管理</button>
           </h2>
@@ -16,7 +16,7 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/member')">
+            <button class="accordion-button collapsed main_nav_btn fs-5" @click="this.$router.push('/member')">
               <img src="@/assets/images/customer.svg" alt="daka_logo" class="main_sub_one_img" to="/member.vue">
               會員管理
             </button>
@@ -25,7 +25,7 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
+            <button class="accordion-button collapsed main_nav_btn fs-5" type="button" data-bs-toggle="collapse"
               data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
               >
               <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
@@ -34,14 +34,14 @@
           </h2>
           <div id="flush-collapseTwo" class="accordion-collapse collapse " data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-            <div class="accordion-body nav_btn_inside fs-5" @click="this.$router.push('/seat_now')"><a>即時座位狀態</a></div>
-            <div class="accordion-body nav_btn_inside fs-5" @click="this.$router.push('/reserve')"><a>預約座位</a></div>
-            <div class="accordion-body nav_btn_inside fs-5" @click="this.$router.push('/seat_info')"><a>資料查詢</a></div>
+            <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/seat_now')"><a>即時座位狀態</a></div>
+            <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/reserve')"><a>預約座位</a></div>
+            <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/seat_info')"><a>資料查詢</a></div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed main_nav_btn fs-4" @click="this.$router.push('/news')">
+            <button class="accordion-button collapsed main_nav_btn fs-5" @click="this.$router.push('/news')">
               <img src="@/assets/images/bx_news.svg" alt="daka_logo" class="main_sub_three_img">
               最新消息管理
             </button>
@@ -49,7 +49,7 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed main_nav_btn fs-4" type="button" data-bs-toggle="collapse"
+            <button class="accordion-button collapsed main_nav_btn fs-5" type="button" data-bs-toggle="collapse"
               data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
               <img src="@/assets/images/comics.svg" alt="daka_logo" class="main_sub_four_img">
               漫畫租借管理
@@ -57,11 +57,11 @@
           </h2>
           <div id="flush-collapseFour" class="accordion-collapse collapse " data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
-            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_reserve')"><a>預約取書</a></div>
-            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_return')"><a>歸還書籍</a></div>
-            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/order_status')"><a>訂單查詢</a> </div>
-            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_info')"><a>書籍資料</a></div>
-            <div class="accordion-body fs-5 nav_btn_inside" @click="this.$router.push('/comic_add')"><a>新書上架</a></div>
+            <div class="accordion-body fs-6 nav_btn_inside" @click="this.$router.push('/comic_reserve')"><a>預約取書</a></div>
+            <div class="accordion-body fs-6 nav_btn_inside" @click="this.$router.push('/comic_return')"><a>歸還書籍</a></div>
+            <div class="accordion-body fs-6 nav_btn_inside" @click="this.$router.push('/order_status')"><a>訂單查詢</a> </div>
+            <div class="accordion-body fs-6 nav_btn_inside" @click="this.$router.push('/comic_info')"><a>書籍資料</a></div>
+            <div class="accordion-body fs-6 nav_btn_inside" @click="this.$router.push('/comic_add')"><a>新書上架</a></div>
           </div>
         </div>
       </div>

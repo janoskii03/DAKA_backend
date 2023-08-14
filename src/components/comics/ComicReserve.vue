@@ -12,7 +12,7 @@
             </tr>
           </thead>
           <tr
-            v-for="(item, index) in filteredDataList"
+            v-for="(item, index) in displayedDataList"
             :key="index"
             @click="openModal(index)"
           >
@@ -28,6 +28,46 @@
           v-if="search && filteredDataList.length === 0"
         >
           查無此手機號碼，請重新搜尋！
+        </div>
+        <!-- 頁數 -->
+        <div class="pagination-wrapper" v-if="totalPages > 1">
+          <!-- <button
+            v-for="page in totalPages"
+            :key="page"
+            @click="setCurrentPage(page)"
+          >
+            {{ page }}
+          </button> -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li
+                class="page-item"
+                @click="setCurrentPage(currentPage - 1)"
+                :class="{ disabled: currentPage === 1 }"
+              >
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li
+                v-for="page in totalPages"
+                :key="page"
+                @click="setCurrentPage(page)"
+                :class="{ active: page === currentPage }"
+              >
+                <a class="page-link" href="#"> {{ page }} </a>
+              </li>
+              <li
+                class="page-item"
+                @click="setCurrentPage(currentPage + 1)"
+                :class="{ disabled: currentPage === totalPages }"
+              >
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
         <!-- 黑底 -->
         <div class="modal-backdrop" v-show="showBackdrop"></div>
@@ -68,14 +108,14 @@
                   </td>
                   <td>
                     <p>取書日期</p>
-                    <span class="detail_content"></span>
+                    <span class="detail_content">{{ selectedItem.comics_borrow_date }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <p>應還日期</p>
                     <span class="detail_content">{{
-                      selectedItem.comics_return_date
+                      selectedItem.comics_return_duedate
                     }}</span>
                   </td>
                   <td>
@@ -124,7 +164,7 @@
             <button @click="goBackToSearch">確定</button>
             <button @click="closeModal">取消</button>
           </div>
-        </div>
+      </div>
       </template>
     </Form>
   </div>
@@ -140,6 +180,8 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
+      itemsPerPage: 10,
       search: "",
       showModal: false,
       showBackdrop: false,
@@ -151,6 +193,14 @@ export default {
     };
   },
   methods: {
+    setCurrentPage(pageNumber) {
+      console.log(this.totalPages)
+      if (pageNumber <= 0 || pageNumber > this.totalPages) {
+        console.log('this.totalPages')
+        return;
+    }
+      this.currentPage = pageNumber;
+    },
     getSearch(searchMobile) {
       this.search = searchMobile;
       if (this.search === "") {
@@ -176,9 +226,57 @@ export default {
       this.showConfirmationModal = true;
       this.showModal = false;
     },
+    //我產不出來
+    updateOrderStatus() {
+      const order_id = this.selectedItem.order_id;
+      console.log('aaa', order_id)
+      var params = new URLSearchParams();
+      params.append('order_id', order_id);
+      params.append('new_status', 3);
+      // 取得當前日期
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+      params.append('pickup_date', formattedDate);   
+      // 計算還書日期
+      const comics_quantity = this.selectedItem.items.length; // 書籍數量
+      const returnDate = new Date(currentDate);
+      returnDate.setDate(returnDate.getDate() + 3 + (comics_quantity - 1));
+      const formattedReturnDate = `${returnDate.getFullYear()}-${(returnDate.getMonth() + 1).toString().padStart(2, '0')}-${returnDate.getDate().toString().padStart(2, '0')}`;
+      params.append('return_duedate', formattedReturnDate); 
+      // 漫畫狀態修改  
+      for (const item of this.selectedItem.items) {
+      const comics_id = item.comics_id;
+      this.axios
+        .post(`${this.$URL}/editComicReserve.php`, params) // 將新狀態傳遞給後端
+        .then(response => {
+          this.getData();
+          this.getSearch(this.search); // 更新數據
+          this.updateComicStatus(comics_id); // 在成功更新訂單資料後，更新漫畫書的狀態
+          this.closeModal(); // 關閉彈窗
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
+    },
+    updateComicStatus(comics_id) {
+      var params = new URLSearchParams();
+      params.append('comics_id', comics_id);
+      params.append('new_status', 3); // 將狀態更新為"已借出"（代碼=3）
+
+      this.axios
+        .post(`${this.$URL}/editComicStatus.php`, params) // 更新每本漫畫書的狀態
+        .then(response => {
+          // 成功處理漫畫書狀態的更新
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     goBackToSearch() {
       this.search = "";
       this.showConfirmationModal = this.showBackdrop = false;
+      this.updateOrderStatus();
     },
     countTotal() {
       let totalAmount = 0;
@@ -186,12 +284,10 @@ export default {
         totalAmount = this.selectedItem.items.length * 10; // 因為每本書都是$10
       }
       return `$${totalAmount}`;
-    }
-  },
-  computed: {},
-  mounted() {
-    this.axios
-      .get(`${this.$URL}/getComicReserve.php`)
+    },
+    getData() {
+      this.axios
+      .get(`${this.$URL_MAC}/getComicReserve.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
@@ -199,6 +295,20 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    }
+  },
+  computed: {
+    displayedDataList() {
+      let start = (this.currentPage - 1) * this.itemsPerPage;
+      let end = start + this.itemsPerPage;
+      return this.filteredDataList.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredDataList.length / this.itemsPerPage);
+    }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>

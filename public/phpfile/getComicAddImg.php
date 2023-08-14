@@ -11,21 +11,12 @@ try {
             JOIN comics_order c ON m.mem_id = c.mem_id
             JOIN comics_order_detail co ON c.comics_order_id = co.comics_order_id
             JOIN comics_collection cc ON co.comics_id = cc.comics_id
-            WHERE c.comics_order_status = 1
-            ORDER BY co.comics_order_id"; // 根據 comics_order_id 排序结果
+            ORDER BY co.comics_order_id"; // 根据 comics_order_id 排序结果
 
     $products = $pdo->query($sql); 
     $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
-    // 定義狀態對應陣列
-    $statusMapping = array(
-        0 => '預約過期',
-        1 => '未取書',
-        2 => '已取消',
-        3 => '已取書',
-        4 => '已歸還',
-        5 => '有罰金'
-    );
-    // 對查詢結果進行分組處理
+
+    // 对查询结果进行分组处理
     $orders = array();
 
     foreach ($prodRows as $row) {
@@ -37,7 +28,7 @@ try {
                 'mobile' => $row['mobile'],
                 'comics_order_no' => $row['comics_order_no'],
                 'comics_order_date' => $row['comics_order_date'],
-                'comics_order_status' => $statusMapping[$row['comics_order_status']],
+                'comics_order_status' => $row['comics_order_status'],
                 'items' => array()
             );
         }
@@ -51,7 +42,7 @@ try {
         );
     }
 
-    echo json_encode(array_values($orders)); // 轉換為索引數組並輸出
+    echo json_encode(array_values($orders)); // 转换为索引数组并输出
 
 } catch (Exception $e) {
     echo "錯誤行號 : ", $e->getLine(), "<br>";

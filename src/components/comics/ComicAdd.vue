@@ -319,6 +319,33 @@ export default {
         }
       }
     },
+    getImage(e) {
+      const file = e.target.files.item(0);
+      if(file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
+        alert('只能上傳圖檔');
+        return;
+      }
+      const reader = new FileReader();
+      reader.addEventListener('load', this.imageLoaded);
+      reader.readAsDataURL(file);
+    },
+    imageLoaded(e) {
+      this.member_img = e.target.result;
+    },
+    uploadImg() {
+      console.log('触发上传');
+      const formData = new FormData(document.getElementById('pic'));
+      this.axios.post(`${this.$URL}/uploadMemberImg.php`, formData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getContent(title) {
+      this.content = title;
+    },
     /*計算數字*/
     countWords() {
       this.showWordcount = this.intro.length;

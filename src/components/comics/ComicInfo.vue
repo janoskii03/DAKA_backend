@@ -221,7 +221,7 @@
                           </div>
                           <div class="mt-3">
                             <select
-                            class="form-select"
+                              class="form-select"
                               v-model="selectedItem.language"
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
@@ -255,7 +255,6 @@
                             <input
                               class="form-control"
                               type="file"
-                              
                               disabled
                               :readonly="isPreviewMode(selectedItemIndex)"
                             />
@@ -265,7 +264,6 @@
                               class="form-control"
                               type="file"
                               disabled
-                              
                               :readonly="isPreviewMode(selectedItemIndex)"
                             />
                           </div>
@@ -415,7 +413,10 @@
                           />
                         </div>
                         <div class="mt-3">
-                          <select class="form-select" :value="selectedItem.type">
+                          <select
+                            class="form-select"
+                            :value="selectedItem.type"
+                          >
                             <option value="0" disabled selected>請選擇</option>
                             <option value="冒險系列">冒險系列</option>
                             <option value="少男系列">少男系列</option>
@@ -499,16 +500,10 @@
                           />
                         </div>
                         <div class="mt-3">
-                          <input
-                            class="form-control"
-                            type="file"
-                          />
+                          <input class="form-control" type="file" />
                         </div>
                         <div class="mt-3">
-                          <input
-                            class="form-control"
-                            type="file"
-                          />
+                          <input class="form-control" type="file" />
                         </div>
                       </div>
                       <!-- 資料題 -->
@@ -527,8 +522,10 @@
                             class="form-check-input checkbox"
                             type="checkbox"
                             value=""
-                            :value="selectedItem.author"
+                            :value="selectedItem.comics_status"
                             :checked="selectedItem.comics_status === '0'"
+        @click="handleCheckboxClick"
+        :disabled="selectedItem.comics_status === '0'"
                           />
                         </div>
                         <div class="mb-3">
@@ -564,6 +561,40 @@
                     確定
                   </button>
                   <button class="com_info_btn" @click="closeModal3">
+                    取消
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 第四層彈窗 -->
+            <div class="showModal4" v-show="showModal4">
+              <div class="modal_overlay" @click="closeModal4"></div>
+              <div @click="closeModal4"></div>
+              <div class="modal-content">
+                <p>確定報銷？</p>
+                <div class="popup_btnarea">
+                  <button class="com_info_btn" @click="closeModal4AndToggleFirstClick">
+                    確定
+                  </button>
+                  <button class="com_info_btn" @click="closeModal4">
+                    取消
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 第五層彈窗 -->
+            <div class="showModal5" v-show="showModal5">
+              <div class="modal_overlay" @click="closeModal5"></div>
+              <div @click="closeModal5"></div>
+              <div class="modal-content">
+                <p>確定取消報銷？</p>
+                <div class="popup_btnarea">
+                  <button class="com_info_btn" @click="closeModal5AndToggleFirstClick">
+                    確定
+                  </button>
+                  <button class="com_info_btn" @click="closeModal5">
                     取消
                   </button>
                 </div>
@@ -686,9 +717,12 @@ export default {
       showModal1: false,
       showModal2: false,
       showModal3: false,
+      showModal4: false,
+      showModal5: false,
       selectedItem: null, // 选中的数据项
       editModes: [],
       selectedItemIndex: null,
+      isFirstClick: true,
     };
   },
   computed: {
@@ -739,6 +773,20 @@ export default {
     closeModal3() {
       this.showModal3 = false;
     },
+    // 打开第四层弹窗
+    openModal4() {
+      this.showModal4 = true;
+    },
+    closeModal4() {
+      this.showModal4 = false;
+    },
+        // 打开第五层弹窗
+        openModal5() {
+      this.showModal5 = true;
+    },
+    closeModal5() {
+      this.showModal5 = false;
+    },
     // 确认修改，处理数据提交等逻辑
     confirmChanges() {
       // 处理数据修改逻辑...
@@ -747,9 +795,38 @@ export default {
       this.closeModal1();
       this.closeModal2();
       this.closeModal3();
+      this.closeModal4();
+      this.closeModal5();
     },
-    // 其他方法...
 
+
+    // 其他方法...
+    handleCheckboxClick() {
+      if (this.selectedItem.comics_status === '1') {
+        if (this.isFirstClick) {
+          this.openModal4();
+        } else {
+          this.openModal5();
+        } 
+      } else {
+        this.closeModals();
+      }
+    },
+
+    closeModal4AndToggleFirstClick() {
+      this.closeModal4();
+      this.isFirstClick = true;
+    },
+
+    closeModal5AndToggleFirstClick() {
+      this.closeModal5();
+      this.isFirstClick = false;
+    },
+
+    closeModals() {
+      this.closeModal4();
+      this.closeModal5();
+    },
     // ...其它方法...
 
     // 打开第一層弹窗，并设置选中的书籍索引
@@ -774,6 +851,16 @@ export default {
       this.showModal1 = false; // 关闭预览模式
       this.showModal2 = true;
     },
+  },
+  mounted() {
+    this.axios.get(`${this.$URL}/getComicInfoImg.php`)
+      .then(res => {
+        console.log(res);
+        this.dataList = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
   },
 };
 </script>
