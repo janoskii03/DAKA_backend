@@ -14,20 +14,10 @@
         </select>
         <div class="col-md-2">
           <div class="input-group">
-            <input
-              type="search"
-              class="form-control"
-              v-model="searchInput"
-              @input="performSearch"
-              placeholder="請輸入"
-              aria-describedby="basic-addon1"
-            />
+            <input type="search" class="form-control" v-model="searchInput" @input="performSearch" placeholder="請輸入"
+              aria-describedby="basic-addon1" />
             <button class="input-group-text" id="basic-addon1">
-              <img
-                @click="performSearch"
-                src="@/assets/images/search.svg"
-                alt="search"
-              />
+              <img @click="performSearch" src="@/assets/images/search.svg" alt="search" />
             </button>
           </div>
         </div>
@@ -39,7 +29,7 @@
           <tr>
             <th v-for="column in columns">{{ column }}</th>
           </tr>
-          <tr v-for="(item, index) in dataList" :key="item.index" @click="memberInfo(index)">
+          <tr v-for="(item, index) in memberData" :key="item.index" @click="memberInfo(index)">
             <td>{{ item.mname }}</td>
             <td>{{ item.mem_no }}</td>
             <td>{{ item.grade }}</td>
@@ -56,7 +46,7 @@
   <!---------------------會員資料------------------------------  -->
 
   <div class="member_data" v-show="modals.info">
-    <div class="management_all" >
+    <div class="management_all">
       <button class="com_x_btn" @click="showModal('info')">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -67,24 +57,27 @@
       </div>
       <div class="member_infor">
 
-        <div class="infor">
-          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')">
+        <div class="infor" style="position: relative;">
+          <button class="pen_box" style="position: absolute; border: none;"><img
+              src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')"
+              style="position: absolute; right: -465px; top: -23px;"></button>
           <div class="first">
             <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname"></label>
-            <label for="password">密碼<input type="text" class="password" id="password" ></label>
+            <label for="password">密碼<input type="text" class="password" id="password" :value="memInfo.password"></label>
           </div>
           <div class="second">
 
             <label for="phone">電話<input type="text" class="phone" id="phone" :value="memInfo.mobile"></label>
-            <label for="birthday">生日<input type="text" class="birthday" id="birthday"></label>
+            <label for="birthday">生日<input type="text" class="birthday" id="birthday"
+                :value="memInfo.member_birth"></label>
           </div>
           <div class="third">
-            <label for="mail">信箱<input type="text" class="mail" id="mail"></label>
+            <label for="mail">信箱<input type="text" class="mail" id="mail" :value="memInfo.email"></label>
           </div>
           <div class="barcode">
-            <img src="../assets/images/member/barcode.png" alt="條碼">{{ management_all.mem_no }}
+            <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
-          <button class="confirm"  @click="showModal('info')">確認</button>
+          <button class="confirm" @click="showModal('info')">確認</button>
 
         </div>
       </div>
@@ -104,24 +97,24 @@
       </div>
       <div class="member_infor">
         <div class="infor">
-          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" >
+          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name">
-            性別<select name="" id="sex">
+            姓名<input type="text" class="name" :value="memInfo.mname">
+            性別<select name="" id="sex" :value="memInfo.sex">
               <option selected disabled hidden></option>
               <option>男</option>
               <option>女</option>
             </select>
           </div>
           <div class="second">
-            電話<input type="text" class="phone">
-            密碼<input type="text" class="password">
+            電話<input type="text" class="phone" :value="memInfo.mobile">
+            密碼<input type="text" class="password" :value="memInfo.password">
           </div>
           <div class="third">
-            生日<input type="text" class="birthday">
-            信箱<input type="text" class="mail">
+            生日<input type="text" class="birthday" :value="memInfo.member_birth">
+            信箱<input type="text" class="mail" :value="memInfo.email">
           </div>
-          地址<input type="text" class="address">
+          地址<input type="text" class="address" :value="memInfo.address">
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
@@ -187,7 +180,7 @@
       <button class="com_x_btn" @click="handleAddMember">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <div class="title">{{ management_all.add }}</div>
+      <div class="title">新增會員</div>
       <div class="member_infor">
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
@@ -211,7 +204,7 @@
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
-          <button class="confirm"  @click="handleAddConfirm">確認</button>
+          <button class="confirm" @click="handleAddConfirm">確認</button>
 
         </div>
       </div>
@@ -231,89 +224,14 @@
 <script>
 
 import Form from '@/components/Form.vue';
-
+import axios from 'axios';
 export default {
   components: {
     Form
   },
   data() {
     return {
-      management_all:
-      {
-        grade: '白金會員_',
-        mname: '周杰倫',
-        remain: '5600',
-        value: '3670',
-        mem_no: '1234567890ABCD',
-        add: '新增會員',
-      },
       memInfo: [],
-      dataList: [
-        {
-          mname: 1,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 2,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 3,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 4,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 5,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 6,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 7,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-        {
-          mname: 8,
-          mem_no: 1,
-          grade: 1,
-          mobile: '',
-          remain: 11,
-          value: 1
-        },
-      ],
       columns: [
         '姓名',
         '會員編號',
@@ -323,41 +241,55 @@ export default {
         '當年度累積消費金額'
       ],
       modals: {
-        index:true,
-        info:false,
+        index: true,
+        info: false,
         edit: false,
         editSuccess: false,
         deposit: false,
         depositSuccess: false,
         addMember: false,
         addMemberSuccess: false
-      }
+      },
+      memberData: [],
     }
   },
   methods: {
     memberInfo(index) {
-      this.memInfo = this.dataList[index];
+      this.memInfo = this.memberData[index];
       this.showModal('info');
     },
     showModal(type) {
       this.modals[type] = !this.modals[type];
     },
-    handleEditConfirm(){
+    handleEditConfirm() {
       this.showModal('edit');
       this.showModal('editSuccess');
     },
-    handleDepositConfirm(){
+    handleDepositConfirm() {
       this.showModal('deposit');
       this.showModal('depositSuccess');
     },
-    handleAddConfirm(){
+    handleAddConfirm() {
       this.showModal('addMember');
       this.showModal('addMemberSuccess');
     },
-    handleAddMember(){
+    handleAddMember() {
       this.showModal('addMember');
-      
+
+    },
+    fetchMemberData() {
+      axios.get(`${this.$URL}/getMember.php`)
+        .then((res) => {
+          console.log(res);
+          this.memberData = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
+  },
+  mounted() {
+    this.fetchMemberData();
   }
 }
 </script>

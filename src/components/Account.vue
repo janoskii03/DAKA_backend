@@ -15,20 +15,10 @@
 
         <div class="col-md-2">
           <div class="input-group">
-            <input
-              type="search"
-              class="form-control"
-              v-model="searchInput"
-              @input="performSearch"
-              placeholder="請輸入"
-              aria-describedby="basic-addon1"
-            />
+            <input type="search" class="form-control" v-model="searchInput" @input="performSearch" placeholder="請輸入"
+              aria-describedby="basic-addon1" />
             <button class="input-group-text" id="basic-addon1">
-              <img
-                @click="performSearch"
-                src="@/assets/images/search.svg"
-                alt="search"
-              />
+              <img @click="performSearch" src="@/assets/images/search.svg" alt="search" />
             </button>
           </div>
         </div>
@@ -39,7 +29,7 @@
           <tr>
             <th v-for="column in columns">{{ column }}</th>
           </tr>
-          <tr v-for="(item, index) in dataList" :key="item.index" @click="memberInfo(index)">
+          <tr v-for="(item, index) in memberData" :key="item.index" @click="memberInfo(index)">
             <td>{{ item.ename }}</td>
             <td>{{ item.admin_no }}</td>
             <td>{{ item.branch }}</td>
@@ -52,7 +42,7 @@
       </template>
     </Form>
   </div>
-  <!---------------------會員資料------------------------------  -->
+  <!---------------------員工資料------------------------------  -->
 
   <div class="account_data" v-show="modals.info">
     <div class="management_all">
@@ -62,19 +52,25 @@
       <div class="title">帳號管理_{{ memInfo.ename }}</div>
       <div class="member_infor">
 
-        <div class="infor">
-          <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')">
+        <div class="infor" style="position: relative;">
+          <button class="pen_box" style="position: absolute; border: none;"><img
+              src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')"
+              style="position: absolute; right: -465px; top: -18px;"></button>
           <div class="first">
-            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname" :disabled="isReadOnly"></label>
-            <label for="password">分館<input type="text" class="password" id="password" :disabled="isReadOnly"></label>
+            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.ename"
+                :disabled="isReadOnly"></label>
+            <label for="password">分館<input type="text" class="password" id="password" :disabled="isReadOnly" :value="memInfo.branch"></label>
           </div>
           <div class="second">
 
-            <label for="phone">編號<input type="text" class="phone" id="phone" :value="memInfo.mobile" :disabled="isReadOnly"></label>
-            <label for="birthday">職稱<input type="text" class="birthday" id="birthday" :value="memInfo.mobile" :disabled="isReadOnly"></label>
+            <label for="phone">編號<input type="text" class="phone" id="phone" :value="memInfo.admin_no"
+                :disabled="isReadOnly"></label>
+            <label for="birthday">職稱<input type="text" class="birthday" id="birthday" :value="memInfo.ejob"
+                :disabled="isReadOnly"></label>
           </div>
           <div class="third">
-            <label for="mail">密碼<input type="text" class="mail" id="mail" :value="memInfo.mobile" :disabled="isReadOnly"></label>
+            <label for="mail">密碼<input type="text" class="mail" id="mail" :value="memInfo.password"
+                :disabled="isReadOnly"></label>
           </div>
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
@@ -92,21 +88,21 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="title">帳號編輯_{{ memInfo.mname }}</div>
+      <div class="title">帳號編輯_{{ memInfo.ename }}</div>
       <div class="member_infor">
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name">
-            分館<input type="text" class="password">
+            姓名<input type="text" class="name" :value="memInfo.ename">
+            分館<input type="text" class="password" :value="memInfo.branch">
 
           </div>
           <div class="second">
-            電話<input type="text" class="phone">
-            密碼<input type="text" class="password">
+            編號<input type="text" class="phone" :value="memInfo.admin_no">
+            職稱<input type="text" class="password" :value="memInfo.ejob">
           </div>
           <div class="third">
-            地址<input type="text" class="address">
+            密碼<input type="text" class="address" :value="memInfo.password">
           </div>
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
@@ -176,79 +172,14 @@
 <script>
 
 import Form from '@/components/Form.vue';
-
+import axios from 'axios';
 export default {
   components: {
     Form
   },
   data() {
     return {
-      memInfo: {
-        ename: '111',
-        admin_no: '',
-        branc: '',
-        ejob: '',
-        password: '',
-        isReadOnly: true,
-      },
-      dataList: [
-        {
-          ename: '',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '2132',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '1313',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '131',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '131',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          name: '111',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '1141',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-        {
-          ename: '211',
-          admin_no: '',
-          branc: '',
-          ejob: '',
-          password: '',
-        },
-      ],
+      memInfo: [],
       columns: [
         '姓名',
         '員工編號',
@@ -265,12 +196,13 @@ export default {
         depositSuccess: false,
         addMember: false,
         addMemberSuccess: false
-      }
+      },
+      memberData: [],
     }
   },
   methods: {
     memberInfo(index) {
-      this.memInfo = this.dataList[index];
+      this.memInfo = this.memberData[index];
       this.showModal('info');
     },
     showModal(type) {
@@ -293,8 +225,21 @@ export default {
 
     },
     toggleReadOnly() {
-            this.isReadOnly = !this.isReadOnly;
-        },
+      this.isReadOnly = !this.isReadOnly;
+    },
+    fetchMemberData() {
+      axios.get(`${this.$URL}/getAdministrator.php`)
+        .then((res) => {
+          console.log(res);
+          this.memberData = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  },
+  mounted() {
+    this.fetchMemberData();
   }
 }
 </script>
