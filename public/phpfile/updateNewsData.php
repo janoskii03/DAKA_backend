@@ -37,12 +37,12 @@ try {
                 $updateImageStmt->bindValue(":news_pic", $fileName);
                 $updateImageStmt->execute();
                 
-                echo "更新成功（包括图像）";
+                echo "更新成功（含圖片）";
             } else {
-                echo "更新成功（无法上传图像）";
+                echo "更新成功（無法上傳圖片）";
             }
         } else {
-            echo "更新成功（没有新图像上传）";
+            echo "更新成功（不含圖片）";
         }
     } else {
         echo "更新失败";
