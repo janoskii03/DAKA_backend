@@ -9,14 +9,12 @@ try {
     if (isset($_POST["order_id"])) {
         $order_id = $_POST["order_id"];
         $newStatus = $_POST["new_status"]; // 設定新的狀態值
-        $pickup_date = $_POST["pickup_date"];
-        $return_duedate = $_POST["return_duedate"];
-        $sql = "UPDATE comics_order SET comics_order_status = :new_status, comics_borrow_date = :pickup_date, comics_return_duedate = :return_duedate WHERE comics_order_id = :order_id";
+        $return_date = $_POST["return_date"];
+        $sql = "UPDATE comics_order SET comics_order_status = :new_status, comics_return_date = :return_date WHERE comics_order_id = :order_id";
         $comics_order = $pdo->prepare($sql);
 
         $comics_order->bindValue(":new_status", $newStatus);
-        $comics_order->bindValue(":pickup_date", $pickup_date);
-        $comics_order->bindValue(":return_duedate", $return_duedate);
+        $comics_order->bindValue(":return_date", $return_date);
         $comics_order->bindValue(":order_id", $order_id);
         $comics_order->execute();
         
