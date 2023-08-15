@@ -287,7 +287,7 @@ export default {
     },
     getData() {
       this.axios
-      .get(`${this.$URL_MAC}/getComicReserve.php`)
+      .get(`${this.$URL}/getComicReserve.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
