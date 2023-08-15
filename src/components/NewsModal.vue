@@ -69,8 +69,8 @@
                             v-model="news.news_status"
                             name="news_status">
                                 
-                                <option :selected="news.news_status === 1">1</option>
-                                <option :selected="news.news_status === 0">0</option>
+                                <option :selected="news.news_status === '1'" value="1">上架中</option>
+                                <option :selected="news.news_status === '0'" value="0">下架</option>
                             </select>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             type="file"
                             class="form-control col-10"
                             required
-                            accept=".jpg, .png"
+                            accept=".jpg, .png, .webp"
                             :disabled="isReadOnly"
                             @change="previewObjectURL"
                             name="news_pic"
@@ -143,7 +143,7 @@ export default {
             isReadOnly: true,
             dataURI: null,
             objectURL: null,
-
+            newsData:{},
         };
     },
     methods: {
@@ -161,7 +161,8 @@ export default {
                 this.isReadOnly = false;
                 this.addNewsData();
             } else if(this.title === '編輯消息' && e.target.textContent === '儲存編輯'){
-                this.isReadOnly = false;
+                // console.log('wuwu');
+                this.isReadOnly = true;
                 this.updateNewsData();
             }
             else if(this.title === '新增消息'){
@@ -199,6 +200,7 @@ export default {
         updateNewsData() {
         console.log('觸發上傳');
         const formData = new FormData(document.getElementById('news_modal'));
+
         this.axios.post(`${this.$URL}/updateNewsData.php`, formData)
         .then(res => {
             console.log(res);
@@ -210,6 +212,7 @@ export default {
         addNewsData() {
         console.log('觸發上傳');
         const formData = new FormData(document.getElementById('news_modal'));
+
         this.axios.post(`${this.$URL}/addNewsData.php`, formData)
         .then(res => {
             console.log(res);
@@ -229,7 +232,6 @@ export default {
         }
     },
     computed: {},
-    component: {},
-    components: { Form }
+    components: { Form },
 }
 </script>
