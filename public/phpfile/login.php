@@ -34,9 +34,6 @@ try {
       $_SESSION["branch"] = $memRow["branch"];
       $_SESSION["ejob"] = $memRow["ejob"];
       $_SESSION["password"] = $memRow["password"];
-     
-     
-      
 
       //送出登入者的資料
       $result = ["admin_no" => $_SESSION["admin_no"], "admin_id" => $_SESSION["admin_id"], "ename" => $_SESSION["ename"],"branch" => $_SESSION["branch"],"ejob" => $_SESSION["ejob"],"password" => $_SESSION["password"]];

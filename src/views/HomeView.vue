@@ -1,7 +1,6 @@
 
 <template>
   <Login v-if="$store.state.isLoginOpen"></Login>
-
   <div class="main_container d-flex">
     <aside class=" d-flex flex-column align-items-center">
       <img src="@/assets/images/logo.svg" alt="daka_logo" class="main_container_logo" @click="this.$router.push('/')">
@@ -26,8 +25,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed main_nav_btn fs-5" type="button" data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
-              >
+              data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
               <img src="@/assets/images/calendar.svg" alt="daka_logo" class="main_sub_two_img">
               座位管理
             </button>
@@ -67,7 +65,7 @@
       </div>
       <div class="main_aside_bottom">
         <img src="@/assets/images/user.svg" alt="daka_user" class="bottom_img">
-        <span>林育緯</span>
+        <span>{{ member.ename }}</span>
       </div>
     </aside>
     <main>
@@ -215,12 +213,13 @@ import ComicReturn from '@/components/comics/ComicReturn.vue'
 import ComicAdd from '@/components/comics/ComicAdd.vue'
 import News from '@/components/News.vue'
 import Login from '@/components/Login.vue'
-
+import axios from 'axios';
+import { mapMutations, mapActions, mapGetters, mapState } from "vuex";
 
 
 export default {
   components: {
-    Member, Login, News, Reserve, SeatInfo, SeatNow, Comics,Order,ComicInfo,ComicReserve,ComicReturn,ComicAdd
+    Member, Login, News, Reserve, SeatInfo, SeatNow, Comics, Order, ComicInfo, ComicReserve, ComicReturn, ComicAdd
   },
   data() {
     return {
@@ -292,6 +291,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["isLoginOpen", "member", 'login']),
     title() {
 
       for (let i = 0; i < this.nav.length; i++) {
@@ -304,9 +304,14 @@ export default {
       }
       return this.current;
     },
-    methods: {
-      
+    
+  },
+  methods: {
+      ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut']),
+      signOut() {
+        this.loginOut();
+        this.toggleLoginModal(true);
+      },
     }
-  }
 }
 </script>

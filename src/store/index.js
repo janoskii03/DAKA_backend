@@ -24,8 +24,6 @@ export default createStore({
     },
     loginOut(state) {
       state.islogin = false;
-      state.keepLoginStatus = false;
-      localStorage.clear(state.userTokenKey, state.member.email);
       state.member = {};
     },
   },

@@ -1,7 +1,7 @@
 <template>
     <div class="login_container">
-
         <div class="login">
+            <img src="@/assets/images/logo.png" alt="DAKA">
             <form action="" class="login_form">
                 <p>帳號登入</p>
                 <input type="text" placeholder="帳號" v-model="addId">
@@ -29,14 +29,13 @@ export default {
             addId: '',
             addPsw: '',
             responseData: [],
-
         }
     },
     computed: {
-        ...mapState(["isLoginOpen", "forgotPsw", 'login', 'member', 'keepLoginStatus', 'userTokenKey', 'loginModal'])
+        ...mapState(["isLoginOpen", "member", 'login']),
     },
     methods: {
-        ...mapMutations(["toggleLogin"]),
+        ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut']),
         checkLogin() {
 
             const loginData = {
@@ -51,20 +50,16 @@ export default {
                 }
             })
                 .then(response => {
-                    this.responseData = response.data;
+                    const responseData = response.data;
 
                     //登入成功
                     if (responseData.admin_no) {
-                        this.setInfo(this.responseData);
+                        this.setInfo(responseData);
                         this.loginOk(true);
                         setTimeout(() => {
                             this.toggleLoginModal(false);
                         }, 3000);
-                    } else {
-                        this.errorMsg = "帳號密碼錯誤"; // 登入失敗
                     }
-
-
                 })
                 .catch(error => {
                     console.log(error);
@@ -74,7 +69,6 @@ export default {
     watch: {
 
     },
-
 
 }
 
@@ -88,11 +82,11 @@ export default {
     top: 0;
     position: fixed;
     z-index: 999;
-    background-color: rgba(68, 68, 68, 0.5);
+    background-color: rgba(0, 0, 0);
 
     .login {
         width: 600px;
-        height: 400px;
+        height: 450px;
         position: fixed;
         left: 50%;
         top: 50%;
@@ -103,23 +97,24 @@ export default {
         background-color: #fff;
         flex-direction: column;
 
+        img {
+            width: 300px;
+            margin: 20px auto;
+        }
+
         .login_form {
             display: flex;
             justify-content: center;
-            padding: 30px 0;
-            margin: 15px;
             flex-direction: column;
-            gap: 30px;
-            margin: auto;
+            gap: 20px;
+            margin: 0 auto;
             width: 50%;
 
             p {
                 font-size: 2rem;
             }
 
-
             input {
-
                 width: 300px;
                 font-size: 1.2rem;
                 margin-bottom: 20px;
@@ -130,14 +125,18 @@ export default {
                 padding: 10px 0;
                 align-self: center;
                 width: 100px;
+                background-color: #FF5E1E;
+
+                &:hover {
+                    background-color: #fff;
+                    color: #FF5E1E;
+                    border: 1px solid #FF5E1E;
+                }
             }
-
-
         }
     }
 
 
 
-}
-</style>
+}</style>
 
