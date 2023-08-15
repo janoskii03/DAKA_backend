@@ -138,20 +138,18 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name">
-            分館<input type="text" class="password">
+            姓名<input type="text" class="name" name="ename">
+            分館<input type="text" class="password" name="ename">
 
           </div>
           <div class="second">
-            編號<input type="text" class="phone">
-            職稱<input type="text" class="password">
+            編號<input type="text" class="phone" name="admin_no">
+            職稱<input type="text" class="password" name="ejob">
           </div>
           <div class="third">
-            密碼<input type="text" class="address">
+            密碼<input type="text" class="address" name="password">
           </div>
-          <div class="barcode">
-            <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
-          </div>
+          
           <button class="confirm" @click="handleAddConfirm">確認</button>
 
         </div>
