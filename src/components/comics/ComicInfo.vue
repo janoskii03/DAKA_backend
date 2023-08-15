@@ -1,318 +1,315 @@
 <template>
-  <div>
-    <Form>
-      <template v-slot:form_query>
-        <div class="col-md-2">
-          <select class="form-select" v-model="searchOption">
-            <option value="0" disabled selected>請選擇</option>
-            <option value="1">建檔編號</option>
-            <option value="2">書籍名稱</option>
-            <option value="3">ISBN碼</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <div class="input-group">
-            <input
-              type="search"
-              class="form-control"
-              v-model="searchInput"
-              @input="performSearch"
-              placeholder="請輸入"
-              aria-describedby="basic-addon1"
+  <Form>
+    <template v-slot:form_query>
+      <div class="col-md-2">
+        <select class="form-select" v-model="searchOption">
+          <option value="0" disabled selected>請選擇</option>
+          <option value="1">建檔編號</option>
+          <option value="2">書籍名稱</option>
+          <option value="3">ISBN碼</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control"
+            v-model="searchInput"
+            @input="performSearch"
+            placeholder="請輸入"
+            aria-describedby="basic-addon1"
+          />
+          <button class="input-group-text" id="basic-addon1">
+            <img
+              @click="performSearch"
+              src="@/assets/images/search.svg"
+              alt="search"
             />
-            <button class="input-group-text" id="basic-addon1">
-              <img
-                @click="performSearch"
-                src="@/assets/images/search.svg"
-                alt="search"
-              />
-            </button>
-          </div>
+          </button>
         </div>
-      </template>
+      </div>
+    </template>
 
-      <template v-slot:form_table>
-        <div class="scrollable-table">
-          
-          <table class="main_list">
-            <tr>
-              <th v-for="header in comics_id">{{ header }}</th>
-            </tr>
-            <tr
-              v-for="(item, index) in paginatedResults"
-              :key="index"
-              @click="openModal1(item, index)"
-            >
-              <td>{{ item.isbn }}</td>
-              <td>{{ item.comics_no }}</td>
-              <td class="col-md-3">{{ item.title + item.comics_index }}</td>
-              <td>{{ item.comics_price }} 元</td>
-              <td>{{ item.comics_status }}</td>
-            </tr>
-            
-            <div class="comic_info">
-              <!-- 第一層彈窗 -->
-              <div v-if="selectedItemIndex !== null">
-                <div class="modal_container" v-show="showModal1">
-                  <div v-if="selectedItem">
-                    <div class="modal_overlay" @click="closeModal1"></div>
-                    <div class="showModal1">
-                      <div class="titleare">
-                        <p>預覽書籍資料</p>
-                        <button class="com_x_btn" @click="closeModal1">
-                          <i class="fa-solid fa-xmark"></i>
-                        </button>
-                      </div>
-                      <div class="com_whiteinfo_content">
-                        <div class="row">
-                          <!-- 資料題 -->
+    <template v-slot:form_table>
+      <div class="scrollable-table">
+        <table class="main_list">
+          <tr>
+            <th v-for="header in comics_id">{{ header }}</th>
+          </tr>
+          <tr
+            v-for="(item, index) in paginatedResults"
+            :key="index"
+            @click="openModal1(item, index)"
+          >
+            <td>{{ item.isbn }}</td>
+            <td>{{ item.comics_no }}</td>
+            <td class="col-md-3">{{ item.title + item.comics_index }}</td>
+            <td>{{ item.comics_price }} 元</td>
+            <td>{{ item.comics_status }}</td>
+          </tr>
 
-                          <div class="col-md-1">
-                            <div class="mb-3">
-                              <label class="col-form-label">建檔編號</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">I S B N號</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍名稱</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍集數</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍作者</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍譯者</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">漫畫分類</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">熱門書籍</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">新書推薦</label>
-                            </div>
+          <div class="comic_info">
+            <!-- 第一層彈窗 -->
+            <div v-if="selectedItemIndex !== null">
+              <div class="modal_container" v-show="showModal1">
+                <div v-if="selectedItem">
+                  <div class="modal_overlay" @click="closeModal1"></div>
+                  <div class="showModal1">
+                    <div class="titleare">
+                      <p>預覽書籍資料</p>
+                      <button class="com_x_btn" @click="closeModal1">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </div>
+                    <div class="com_whiteinfo_content">
+                      <div class="row">
+                        <!-- 資料題 -->
+
+                        <div class="col-md-1">
+                          <div class="mb-3">
+                            <label class="col-form-label">建檔編號</label>
                           </div>
-                          <!-- 填寫區 -->
-                          <div class="col-md-3">
-                            <div class="mt-1">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.comics_no"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.isbn"
-                              />
-                            </div>
-                            <div class="mt-4">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.title"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.comics_index"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.author"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.translator"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <select
-                                class="form-select"
-                                v-model="selectedItem.type"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              >
-                                <option value="0" disabled selected>
-                                  請選擇
-                                </option>
-                                <option value="冒險系列">冒險系列</option>
-                                <option value="少男系列">少男系列</option>
-                                <option value="魔法系列">魔法系列</option>
-                                <option value="格鬥系列">格鬥系列</option>
-                              </select>
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                class="form-check-input checkbox"
-                                disabled
-                                type="checkbox"
-                                value=""
-                                :disabled="isPreviewMode(selectedItemIndex)"
-                                :checked="selectedItem.comics_hot === '1'"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                class="form-check-input checkbox"
-                                disabled
-                                type="checkbox"
-                                value=""
-                                :disabled="isPreviewMode(selectedItemIndex)"
-                                :checked="selectedItem.comics_new === '1'"
-                              />
-                            </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">I S B N號</label>
                           </div>
-                          <!-- 資料題 -->
-                          <div class="col-md-1">
-                            <div class="mb-3">
-                              <label class="col-form-label">進貨價格</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍語言</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">出版社</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">出版日期</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">封面更新</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">內頁更新</label>
-                            </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍名稱</label>
                           </div>
-                          <!-- 填寫區 -->
-                          <div class="col-md-3">
-                            <div class="mt-1">
-                              <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                                v-model="selectedItem.comics_price"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <select
-                                class="form-select"
-                                v-model="selectedItem.language"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              >
-                                <option value="0" disabled selected>
-                                  請選擇
-                                </option>
-                                <option value="繁體中文">繁體中文</option>
-                                <option value="日語">日語</option>
-                              </select>
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="text"
-                                class="form-control"
-                                v-model="selectedItem.publisher"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                type="date"
-                                class="form-control"
-                                v-model="selectedItem.publication_date"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                class="form-control"
-                                type="file"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              />
-                            </div>
-                            <div class="mt-3">
-                              <input
-                                class="form-control"
-                                type="file"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              />
-                            </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍集數</label>
                           </div>
-                          <!-- 資料題 -->
-                          <div class="col-md-1">
-                            <div class="mb-3">
-                              <label class="col-form-label">報銷書籍</label>
-                            </div>
-                            <div class="mb-3">
-                              <label class="col-form-label">書籍簡介</label>
-                            </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍作者</label>
                           </div>
-                          <!-- 填寫區 -->
-                          <div class="col-md-3">
-                            <div class="">
-                              <input
-                                class="form-check-input checkbox"
-                                disabled
-                                type="checkbox"
-                                value=""
-                                :disabled="isPreviewMode(selectedItemIndex)"
-                                :checked="selectedItem.comics_status === '0'"
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <textarea
-                                class="form-control mb-4"
-                                id="exampleFormControlTextarea1"
-                                rows="10"
-                                v-model="selectedItem.intro"
-                                @input="countWords"
-                                maxlength="150"
-                                disabled
-                                :readonly="isPreviewMode(selectedItemIndex)"
-                              ></textarea>
-                            </div>
-                            <div class="mb-3">
-                              <button class="com_write_btn" @click="openModal2">
-                                <i class="fa-solid fa-pen"></i>
-                              </button>
-                            </div>
-                            <div class="mb-3">
-                              <button class="com_info_btn" @click="closeModal1">
-                                確定
-                              </button>
-                            </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍譯者</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">漫畫分類</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">熱門書籍</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">新書推薦</label>
+                          </div>
+                        </div>
+                        <!-- 填寫區 -->
+                        <div class="col-md-3">
+                          <div class="mt-1">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.comics_no"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.isbn"
+                            />
+                          </div>
+                          <div class="mt-4">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.title"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.comics_index"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.author"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.translator"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <select
+                              class="form-select"
+                              v-model="selectedItem.type"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            >
+                              <option value="0" disabled selected>
+                                請選擇
+                              </option>
+                              <option value="冒險系列">冒險系列</option>
+                              <option value="少男系列">少男系列</option>
+                              <option value="魔法系列">魔法系列</option>
+                              <option value="格鬥系列">格鬥系列</option>
+                            </select>
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              class="form-check-input checkbox"
+                              disabled
+                              type="checkbox"
+                              value=""
+                              :disabled="isPreviewMode(selectedItemIndex)"
+                              :checked="selectedItem.comics_hot === '1'"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              class="form-check-input checkbox"
+                              disabled
+                              type="checkbox"
+                              value=""
+                              :disabled="isPreviewMode(selectedItemIndex)"
+                              :checked="selectedItem.comics_new === '1'"
+                            />
+                          </div>
+                        </div>
+                        <!-- 資料題 -->
+                        <div class="col-md-1">
+                          <div class="mb-3">
+                            <label class="col-form-label">進貨價格</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍語言</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">出版社</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">出版日期</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">封面更新</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">內頁更新</label>
+                          </div>
+                        </div>
+                        <!-- 填寫區 -->
+                        <div class="col-md-3">
+                          <div class="mt-1">
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                              v-model="selectedItem.comics_price"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <select
+                              class="form-select"
+                              v-model="selectedItem.language"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            >
+                              <option value="0" disabled selected>
+                                請選擇
+                              </option>
+                              <option value="繁體中文">繁體中文</option>
+                              <option value="日語">日語</option>
+                            </select>
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="text"
+                              class="form-control"
+                              v-model="selectedItem.publisher"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              type="date"
+                              class="form-control"
+                              v-model="selectedItem.publication_date"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              class="form-control"
+                              type="file"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <input
+                              class="form-control"
+                              type="file"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            />
+                          </div>
+                        </div>
+                        <!-- 資料題 -->
+                        <div class="col-md-1">
+                          <div class="mb-3">
+                            <label class="col-form-label">報銷書籍</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="col-form-label">書籍簡介</label>
+                          </div>
+                        </div>
+                        <!-- 填寫區 -->
+                        <div class="col-md-3">
+                          <div class="">
+                            <input
+                              class="form-check-input checkbox"
+                              disabled
+                              type="checkbox"
+                              value=""
+                              :disabled="isPreviewMode(selectedItemIndex)"
+                              :checked="selectedItem.comics_status === '0'"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <textarea
+                              class="form-control mb-4"
+                              id="exampleFormControlTextarea1"
+                              rows="10"
+                              v-model="selectedItem.intro"
+                              @input="countWords"
+                              maxlength="150"
+                              disabled
+                              :readonly="isPreviewMode(selectedItemIndex)"
+                            ></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <button class="com_write_btn" @click="openModal2">
+                              <i class="fa-solid fa-pen"></i>
+                            </button>
+                          </div>
+                          <div class="mb-3">
+                            <button class="com_info_btn" @click="closeModal1">
+                              確定
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -321,50 +318,50 @@
                 </div>
               </div>
             </div>
-          </table>
-
-          <!-- 搜尋 -->
-          <div
-            class="alert alert-warning"
-            v-if="search && searchResults.length === 0"
-          >
-            查無此消息標題，請重新搜尋！
           </div>
-          <nav class="container" v-if="showPagination && searchResults.length > 0">
-            <ul class="pagination pagination_btn_position">
-            <li
-              class="page-item"
-              @click="setCurrentPage(currentPage - 1)"
-              :class="{ disabled: currentPage === 1 }"
-            >
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li
-              v-for="page in totalPages"
-              :key="page"
-              @click="setCurrentPage(page)"
-              :class="{ active: page === currentPage }"
-            >
-              <a class="page-link" href="#"> {{ page }} </a>
-            </li>
-            <li
-              class="page-item"
-              @click="setCurrentPage(currentPage + 1)"
-              :class="{ disabled: currentPage === totalPages }"
-            >
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        </div>
+        </table>
 
-      </template>
-    </Form>
-  </div>
+      <!-- 搜尋 -->
+      <div
+        class="alert alert-warning"
+        v-if="search && searchResults.length === 0"
+      >
+        查無此消息標題，請重新搜尋！
+      </div>
+      <nav class="container" v-if="showPagination && searchResults.length > 0">
+        <ul class="pagination pagination_btn_position">
+          <li
+            class="page-item"
+            @click="setCurrentPage(currentPage - 1)"
+            :class="{ disabled: currentPage === 1 }"
+          >
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li
+            v-for="page in totalPages"
+            :key="page"
+            @click="setCurrentPage(page)"
+            :class="{ active: page === currentPage }"
+          >
+            <a class="page-link" href="#"> {{ page }} </a>
+          </li>
+          <li
+            class="page-item"
+            @click="setCurrentPage(currentPage + 1)"
+            :class="{ disabled: currentPage === totalPages }"
+          >
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+            </div>
+    </template>
+    
+  </Form>
 </template>
 <script>
 import Form from "@/components/Form.vue";
@@ -399,7 +396,8 @@ export default {
       return this.search && this.searchResults.length > 0;
     },
     isDisabled() {
-      return this.mode === "preview" && this.dataList === 0;},
+      return this.mode === "preview" && this.dataList === 0;
+    },
     // 根据当前页数和每页显示项数计算分页结果
     paginatedResults() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -409,7 +407,9 @@ export default {
     // 计算总页数
     totalPages() {
       return Math.max(
-        Math.ceil(this.searchResults.length / this.itemsPerPage), 1);
+        Math.ceil(this.searchResults.length / this.itemsPerPage),
+        1
+      );
     },
     // 判断是否为最后一页
     isLastPage() {
