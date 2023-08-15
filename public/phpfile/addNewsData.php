@@ -25,6 +25,7 @@ try {
         try {
             require_once("connectDaka.php");
             
+            // 尚未連動管理員登入，先暫且固定管理員編號
             $admin_id = 2;
 
             $sql = "INSERT INTO news (news_pic, news_title, news_date, news_category, news_status, news_text, admin_id) 
