@@ -1,7 +1,11 @@
+
 .pagination_btn_position {
-  margin-top: 20px;
-  margin-left: 91%;
-  position: sticky;
+  display: flex;
+  position: absolute; /* 將整個容器置於絕對定位 */
+  justify-content: flex-end; /* 將元素靠右對齊 */
+  bottom: 0;
+  margin-left: 129px;
+  min-height: 27vh;
 }
 
 .comic_info {
