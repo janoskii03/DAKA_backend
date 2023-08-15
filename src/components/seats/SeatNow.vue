@@ -2,8 +2,23 @@
   <div class="seats_now_all row">
     <div class="seats_now_all_info col">
       <div class="seat_info">
-        <div class="seat_info_title"><p>座位狀態</p></div>
-        <div class="seat">大廳電競區A-05</div>
+        <div class="seat_info_title">
+          <p>座位狀態<br><span>{{ currentTime }}</span></p>
+        </div>
+        <div class="seat">
+          {{
+            selectedSeat.seat_area === "A"
+              ? "大廳電競"
+              : selectedSeat.seat_area === "B"
+              ? "大廳一般"
+              : selectedSeat.seat_area === "C"
+              ? "單人包廂"
+              : selectedSeat.seat_area === "D"
+              ? "雙人包廂"
+              : "請選擇座位"
+          }}
+          {{ selectedSeat.seat_area }}-{{ selectedSeat.seat_number }}
+        </div>
         <div class="seat_state input-group mb-3">
           <span class="input-group-text seat_now_input" id="seat_state"
             >狀態</span
@@ -11,7 +26,7 @@
           <input
             type="text"
             class="form-control"
-            value="使用中"
+            :value="seatState"
             aria-label="使用中"
             aria-describedby="seat_state"
             disabled
@@ -72,24 +87,167 @@
       </div>
     </div>
     <div class="seats_now_map col-9">
-      <Seat></Seat>
+      <section class="reservation_seat">
+        <!-- <h2 class="reservation_text"><span>3</span> 選擇座位</h2> -->
+        <div class="reservation_all_seat">
+          <main class="tabs">
+            <div class="tabs_list">
+              <div
+                class="seat_tabs_item"
+                v-for="(item, key) in tabItems"
+                :class="{ active: key == tabActive }"
+                @click="updateTab(key)"
+                :key="item.key"
+              >
+                {{ item }}
+              </div>
+            </div>
+            <div class="color_state_seat_group">
+              <div class="color_vacancy_seat_group">
+                <div class="color_G_vacancy_seat"></div>
+                <p class="p_vacancy_seat">可預約</p>
+              </div>
+              <div class="color_use_seat_group">
+                <div class="color_G_use_seat"></div>
+                <p class="p_use_seat">不可預約</p>
+              </div>
+            </div>
+            <div v-if="tabActive == 1" class="reservation_hall_seat">
+              <div class="reservation_eSports_seat">
+                <div class="eSports_seat_title">
+                  <p>電競區</p>
+                </div>
+                <!-- `state-${item.state}`判定座位狀態 -->
+                <button
+                  v-for="item in seats_a"
+                  :key="item.no"
+                  :class="{
+                    seat_btn: true,
+                    eSports_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTimeNum, currentTimeNum+1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  @click.prevent="seatSelected(item)"
+                >
+                  <div class="content">
+                    <h4 class="text">
+                      {{ item.seat_area }}
+                      {{ item.seat_number }}
+                    </h4>
+                    <img
+                      class="chair"
+                      src="../../assets/images/seats/chair.svg"
+                      alt=""
+                    />
+                  </div>
+                </button>
+              </div>
+              <div class="reservation_general_seat">
+                <div class="general_seat_title">
+                  <p>一般區</p>
+                </div>
+                <!--狀態管理 class="`state-${item.state}`" -->
+                <button
+                  :class="{
+                    seat_btn: true,
+                    general_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_b"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
+                  <div class="content">
+                    <h4>
+                      {{ item.seat_area }}
+                      {{ item.seat_number }}
+                    </h4>
+                    <img
+                      class="chair"
+                      src="../../assets/images/seats/chair.svg"
+                      alt=""
+                    />
+                  </div>
+                </button>
+                <div class="counter">
+                  <p>櫃台</p>
+                </div>
+              </div>
+            </div>
+            <div v-if="tabActive == 2" class="reservation_booth_seat">
+              <div class="booth_seat_title">
+                <div class="single_seat_title">
+                  <p>單人包廂</p>
+                </div>
+                <div class="double_seat_title">
+                  <p>雙人包廂</p>
+                </div>
+              </div>
+              <!--狀態管理 :class="`state-${item.state}`" -->
+              <div class="reservation_single_seat">
+                <button
+                  :class="{
+                    seat_btn: true,
+                    single_seat: true,
+                    [`state-${item.seat_status?.split('').slice((+currentTime.substring(12,1)), 1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_c"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
+                  <div class="content">
+                    <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
+                    <img
+                      class="chair"
+                      src="../../assets/images/seats/chair.svg"
+                      alt=""
+                    />
+                  </div>
+                </button>
+              </div>
+              <!-- 狀態管理:class="`state-${item.state}`" -->
+              <div class="reservation_double_seat">
+                <button
+                  :class="{
+                    seat_btn: true,
+                    double_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_d"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
+                  <div class="content">
+                    <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
+                    <img
+                      class="chair"
+                      src="../../assets/images/seats/double_chair.svg"
+                      alt=""
+                    />
+                    <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
+                  </div>
+                </button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import Date from "@/components/seats/Date.vue";
-import Seat from "@/components/seats/Seat.vue";
+// import Seat from "@/components/seats/Seat.vue";
 import axios from "axios";
 import { mapMutations, mapActions, mapGetters, mapState } from "vuex";
+import { ref } from "vue";
 
 export default {
-  components: {
-    Date,
-    Seat
-  },
+  components: {},
   data() {
     return {
+      siteNowStatus: [],
+      seatOrder: [],
+      selectedSeat: {},
       isReserveSeatVisible: false,
       isReserveUserVisible: false,
       isSeatInputsDisabled: false,
@@ -111,22 +269,9 @@ export default {
         1: "大廳區",
         2: "包廂區"
       },
-      selectedArea: "",
-      selectedAreaWord: "",
-      selectedSeats: [],
-      seatData: [],
-      modalSwitch: false,
-      id: "",
-      area: "",
-      no: "",
-      sal: "",
-      totalSal: [],
-      totalTime: 0,
-      seatLobby: [],
-      seatRoom: [],
-      isSelected: false,
-      maxAandB: 5,
-      maxCandD: 2
+      currentTime: new Date().toLocaleString(),
+      timer: null,
+      currentTimeNum:null
     };
   },
   methods: {
@@ -157,151 +302,80 @@ export default {
     updateTab(index) {
       this.tabActive = index;
     },
-    //轉換日期
-    dateConvert(date) {
-      this.reservation.startDate = date.toString().substr(4, 11);
-    },
-    //轉換時間
-    timeConvert(time) {
-      this.reservation.startTime = time.toString().substr(0, 5);
-      this.reservation.endTime = time.toString().substr(9, 5);
-      this.reservation.startTimeNum = time.toString().substr(0, 2);
-      this.reservation.endTimeNum = time.toString().substr(9, 2);
-    },
-
-    seatSelected(item) {
-      // let { seat_id, seat_area, seat_no, seat_sal } = item;
-
-      this.totalTime =
-        +this.reservation.endTimeNum - this.reservation.startTimeNum;
-      // this.id = seat_id;
-      // this.area = seat_area;
-      // this.no = seat_no;
-      // this.sal = seat_sal;
-
-      const selectedAandB = this.selectedSeats.filter(
-        (seat) => seat.seat_area === "A" || seat.seat_area === "B"
-      );
-      const selectedCandD = this.selectedSeats.filter(
-        (seat) => seat.seat_area === "C" || seat.seat_area === "D"
-      );
-      const indexA = selectedAandB[0];
-      const indexC = selectedCandD[0];
-      //點一下選，再點一下取消
-
-      if (this.selectedSeats.length < 7) {
-        if (this.selectedSeats.includes(item)) {
-          this.deselectSeat(item);
-        } else {
-          if (
-            (item.seat_area === "A" || item.seat_area === "B") &&
-            selectedAandB.length >= this.maxAandB
-          ) {
-            this.selectedSeats.splice(indexA, 1);
-          } else if (
-            (item.seat_area === "C" || item.seat_area === "D") &&
-            selectedCandD.length >= this.maxCandD
-          ) {
-            this.selectedSeats.splice(indexC, 1);
-          }
-          this.selectSeat(item);
-        }
-
-        this.totalSal = this.selectedSeats.reduce(
-          (total, seat) => total + seat.seat_sal * this.totalTime,
-          0
-        );
-      }
-    },
-    selectSeat(item) {
-      this.selectedSeats.push(item);
-    },
-
-    deselectSeat(item) {
-      //原本選到的座位刪除
-      const index = this.selectedSeats.findIndex(
-        (seat) => seat.seat_id === item.seat_id
-      );
-      if (index !== -1) {
-        this.selectedSeats.splice(index, 1);
-      }
-    },
-    confirmReserve() {
-      this.modalSwitch = true;
-    },
 
     fetchSeatData() {
-      axios
-        .get("data/seat.json")
+      this.axios
+        .get(`${this.$URL}/getSeatNowStatus.php`)
         .then((res) => {
-          this.seatData = res.data;
-          this.seats_a = this.seatData.filter((item) => item.seat_id <= 30);
-          this.seats_b = this.seatData.filter(
+          console.log(res);
+          this.siteNowStatus = res.data;
+          this.seats_a = this.siteNowStatus.filter(
+            (item) => item.seat_id <= 30
+          );
+          this.seats_b = this.siteNowStatus.filter(
             (item) => 31 <= item.seat_id && item.seat_id <= 55
           );
-          this.seats_c = this.seatData.filter(
+          this.seats_c = this.siteNowStatus.filter(
             (item) => 56 <= item.seat_id && item.seat_id <= 65
           );
-          this.seats_d = this.seatData.filter(
+          this.seats_d = this.siteNowStatus.filter(
             (item) => 66 <= item.seat_id && item.seat_id <= 71
           );
+
+
+
         })
         .catch((err) => {
           console.log(err);
         });
+
+        
     },
-    checkLogin() {
-      if (!this.login) {
-        this.toggleLogin();
-      } else {
-        return;
-      }
-    },
-    goReservation() {
-      this.$router.push("/member_center/member_seat_reservation");
-      this.modalSwitch = false;
+    seatSelected(item) {
+      this.selectedSeat = item;
     }
+    // formatDateString() {
+    //   const now = new Date();
+    //   this.currentTime = now.toLocaleString();
+    //   console.log(this.currentTime);
+    // }
   },
   computed: {
-    ...mapState([
-      "isLoginOpen",
-      "forgotPsw",
-      "login",
-      "member",
-      "keepLoginStatus",
-      "userTokenKey"
-    ]),
-    // isSelected() {
-    //   return this.seat_b.includes(this.seatNumber);
-    // },
-    convertWord() {
-      return this.selectedSeat;
+    ...mapState(["isLoginOpen", "forgotPsw", "login", "member"]),
+    seatState() {
+      if (this.selectedSeat.seat_status?.split('').slice(this.currentTimeNum, this.currentTimeNum+1).includes('1')) {
+        return '使用中';
+      }
+      return '空位';
     }
+  
   },
   mounted() {
-    this.axios
-      .get(`${this.$URL}/getSeatNowStatus.php`)
-      .then((res) => {
-        console.log(res);
-        this.dataList = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.fetchSeatData();
 
-      this.axios
+    this.axios
       .get(`${this.$URL}/getSeatNowOrder.php`)
       .then((res) => {
         console.log(res);
-        this.dataList = res.data;
+        this.seatOrder = res.data;
       })
       .catch((err) => {
         console.log(err);
       });
+      let a=this.currentTime.substring(10,12)==='下午'?12:0;
+      let b = +(this.currentTime.substring(12,13));
+
+       this.currentTimeNum=a+b;
+
   },
   watch: {},
   created() {
-    this.fetchSeatData();
+    this.timer = setInterval(() => {
+      this.currentTime = new Date().toLocaleString();
+    }, 1000); // 每秒更新一次
+  },
+  beforeDestroy() {
+    clearInterval(this.timer); // 清除計時器以避免記憶體洩漏
   }
 };
 </script>
