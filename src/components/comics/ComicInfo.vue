@@ -33,13 +33,12 @@
 
       <template v-slot:form_table>
         <div class="scrollable-table">
-          
           <table class="main_list">
             <tr>
               <th v-for="header in comics_id">{{ header }}</th>
             </tr>
             <tr
-              v-for="(item, index) in paginatedResults"
+              v-for="(item, index) in displayedDataList"
               :key="index"
               @click="openModal1(item, index)"
             >
@@ -49,7 +48,7 @@
               <td>{{ item.comics_price }} 元</td>
               <td>{{ item.comics_status }}</td>
             </tr>
-            
+
             <div class="comic_info">
               <!-- 第一層彈窗 -->
               <div v-if="selectedItemIndex !== null">
@@ -322,7 +321,38 @@
               </div>
             </div>
           </table>
-
+          <div class="pagination-wrapper" v-if="totalPages > 1">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  @click="setCurrentPage(currentPage - 1)"
+                  :class="{ disabled: currentPage === 1 }"
+                >
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li
+                  v-for="page in totalPages"
+                  :key="page"
+                  @click="setCurrentPage(page)"
+                  :class="{ active: page === currentPage }"
+                >
+                  <a class="page-link" href="#"> {{ page }} </a>
+                </li>
+                <li
+                  class="page-item"
+                  @click="setCurrentPage(currentPage + 1)"
+                  :class="{ disabled: currentPage === totalPages }"
+                >
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
           <!-- 搜尋 -->
           <div
             class="alert alert-warning"
@@ -330,38 +360,7 @@
           >
             查無此消息標題，請重新搜尋！
           </div>
-          <nav class="container" v-if="showPagination && searchResults.length > 0">
-            <ul class="pagination pagination_btn_position">
-            <li
-              class="page-item"
-              @click="setCurrentPage(currentPage - 1)"
-              :class="{ disabled: currentPage === 1 }"
-            >
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li
-              v-for="page in totalPages"
-              :key="page"
-              @click="setCurrentPage(page)"
-              :class="{ active: page === currentPage }"
-            >
-              <a class="page-link" href="#"> {{ page }} </a>
-            </li>
-            <li
-              class="page-item"
-              @click="setCurrentPage(currentPage + 1)"
-              :class="{ disabled: currentPage === totalPages }"
-            >
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
         </div>
-
       </template>
     </Form>
   </div>
@@ -371,7 +370,7 @@ import Form from "@/components/Form.vue";
 
 export default {
   components: {
-    Form,
+    Form
   },
   data() {
     return {
@@ -391,36 +390,51 @@ export default {
       isFirstClick: true,
       currentPage: 1, // 当前页数
       itemsPerPage: 10, // 每页显示的项数
-      showPagination: true, // 控制是否显示分页选项
+      // showPagination: true // 控制是否显示分页选项
     };
   },
   computed: {
-    showPagination() {
-      return this.search && this.searchResults.length > 0;
+    displayedDataList() {
+      let start = (this.currentPage - 1) * this.itemsPerPage;
+      let end = start + this.itemsPerPage;
+      return this.searchResults.slice(start, end);
     },
-    isDisabled() {
-      return this.mode === "preview" && this.dataList === 0;},
-    // 根据当前页数和每页显示项数计算分页结果
-    paginatedResults() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.searchResults.slice(startIndex, endIndex);
-    },
-    // 计算总页数
     totalPages() {
-      return Math.max(
-        Math.ceil(this.searchResults.length / this.itemsPerPage), 1);
+      return Math.ceil(this.searchResults.length / this.itemsPerPage);
     },
+    // showPagination() {
+    //   return this.search && this.searchResults.length > 0;
+    // },
+    // isDisabled() {
+    //   return this.mode === "preview" && this.dataList === 0;
+    // },
+    // 根据当前页数和每页显示项数计算分页结果
+    // paginatedResults() {
+    //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    //   const endIndex = startIndex + this.itemsPerPage;
+    //   return this.searchResults.slice(startIndex, endIndex);
+    // },
+    // 计算总页数
+    // totalPages() {
+    //   return Math.max(
+    //     Math.ceil(this.searchResults.length / this.itemsPerPage),
+    //     1
+    //   );
+    // },
     // 判断是否为最后一页
-    isLastPage() {
-      return this.currentPage === this.totalPages;
-    },
+    // isLastPage() {
+    //   return this.currentPage === this.totalPages;
+    // }
   },
   methods: {
-    setCurrentPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
+    setCurrentPage(pageNumber) {
+      console.log(this.totalPages);
+
+      if (pageNumber <= 0 || pageNumber > this.totalPages) {
+        console.log("this.totalPages");
+        return;
       }
+      this.currentPage = pageNumber;
     },
     performSearch() {
       this.search = true;
@@ -544,7 +558,7 @@ export default {
     openModal2() {
       this.showModal1 = false; // 关闭预览模式
       this.showModal2 = true;
-    },
+    }
   },
   mounted() {
     this.axios
@@ -556,6 +570,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
+  }
 };
 </script>
