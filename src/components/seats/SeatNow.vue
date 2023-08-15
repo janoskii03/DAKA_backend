@@ -8,81 +8,40 @@
         <div class="seat">
           {{
             selectedSeat.seat_area === "A"
-              ? "大廳電競"
-              : selectedSeat.seat_area === "B"
+            ? "大廳電競"
+            : selectedSeat.seat_area === "B"
               ? "大廳一般"
               : selectedSeat.seat_area === "C"
-              ? "單人包廂"
-              : selectedSeat.seat_area === "D"
-              ? "雙人包廂"
-              : "請選擇座位"
+                ? "單人包廂"
+                : selectedSeat.seat_area === "D"
+                  ? "雙人包廂"
+                  : "請選擇座位"
           }}
           {{ selectedSeat.seat_area }}-{{ selectedSeat.seat_number }}
         </div>
         <div class="seat_state input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_state"
-            >狀態</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            :value="seatState"
-            aria-label="使用中"
-            aria-describedby="seat_state"
-            disabled
-          />
+          <span class="input-group-text seat_now_input" id="seat_state">狀態</span>
+          <input type="text" class="form-control" :value="seatState" aria-label="使用中" aria-describedby="seat_state"
+            disabled />
         </div>
         <div class="seat_user input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_user"
-            >使用者</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            value="王大明"
-            aria-label="王大明"
-            aria-describedby="seat_user"
-            disabled
-          />
+          <span class="input-group-text seat_now_input" id="seat_user">使用者</span>
+          <input type="text" class="form-control" value="王大明" aria-label="王大明" aria-describedby="seat_user" disabled />
         </div>
         <div class="seat_user_phone input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_user_phone"
-            >手機</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            value="0988123456"
-            aria-label="0988123456"
-            aria-describedby="seat_user_phone"
-            disabled
-          />
+          <span class="input-group-text seat_now_input" id="seat_user_phone">手機</span>
+          <input type="text" class="form-control" value="0988123456" aria-label="0988123456"
+            aria-describedby="seat_user_phone" disabled />
         </div>
         <div class="seat_start_time input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_start_time"
-            >開始時間</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            value="2023/07/30 PM02:00"
-            aria-label="2023/07/30 PM02:00"
-            aria-describedby="seat_start_time"
-            disabled
-          />
+          <span class="input-group-text seat_now_input" id="seat_start_time">開始時間</span>
+          <input type="text" class="form-control" value="2023/07/30 PM02:00" aria-label="2023/07/30 PM02:00"
+            aria-describedby="seat_start_time" disabled />
         </div>
         <div class="seat_end_time input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_end_time"
-            >結束時間</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            value="2023/07/30 PM08:00"
-            aria-label="2023/07/30 PM08:00"
-            aria-describedby="seat_end_time"
-            disabled
-          />
+          <span class="input-group-text seat_now_input" id="seat_end_time">結束時間</span>
+          <input type="text" class="form-control" value="2023/07/30 PM08:00" aria-label="2023/07/30 PM08:00"
+            aria-describedby="seat_end_time" disabled />
         </div>
       </div>
     </div>
@@ -92,13 +51,8 @@
         <div class="reservation_all_seat">
           <main class="tabs">
             <div class="tabs_list">
-              <div
-                class="seat_tabs_item"
-                v-for="(item, key) in tabItems"
-                :class="{ active: key == tabActive }"
-                @click="updateTab(key)"
-                :key="item.key"
-              >
+              <div class="seat_tabs_item" v-for="(item, key) in tabItems" :class="{ active: key == tabActive }"
+                @click="updateTab(key)" :key="item.key">
                 {{ item }}
               </div>
             </div>
@@ -118,26 +72,17 @@
                   <p>電競區</p>
                 </div>
                 <!-- `state-${item.state}`判定座位狀態 -->
-                <button
-                  v-for="item in seats_a"
-                  :key="item.no"
-                  :class="{
-                    seat_btn: true,
-                    eSports_seat: true,
-                    [`state-${item.seat_status?.split('').slice(currentTimeNum, currentTimeNum+1).includes('1') ? 1 : 0}`]: true
-                  }"
-                  @click.prevent="seatSelected(item)"
-                >
+                <button v-for="item in seats_a" :key="item.no" :class="{
+                  seat_btn: true,
+                  eSports_seat: true,
+                  [`state-${item.seat_status?.split('').slice(currentTimeNum, currentTimeNum + 1).includes('1') ? 1 : 0}`]: true
+                }" @click.prevent="seatSelected(item)">
                   <div class="content">
                     <h4 class="text">
                       {{ item.seat_area }}
                       {{ item.seat_number }}
                     </h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
+                    <img class="chair" src="../../assets/images/seats/chair.svg" alt="" />
                   </div>
                 </button>
               </div>
@@ -146,26 +91,17 @@
                   <p>一般區</p>
                 </div>
                 <!--狀態管理 class="`state-${item.state}`" -->
-                <button
-                  :class="{
-                    seat_btn: true,
-                    general_seat: true,
-                    [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
-                  }"
-                  v-for="item in seats_b"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
+                <button :class="{
+                  seat_btn: true,
+                  general_seat: true,
+                  [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
+                }" v-for="item in seats_b" :key="item.no" @click.prevent="seatSelected(item)">
                   <div class="content">
                     <h4>
                       {{ item.seat_area }}
                       {{ item.seat_number }}
                     </h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
+                    <img class="chair" src="../../assets/images/seats/chair.svg" alt="" />
                   </div>
                 </button>
                 <div class="counter">
@@ -184,45 +120,27 @@
               </div>
               <!--狀態管理 :class="`state-${item.state}`" -->
               <div class="reservation_single_seat">
-                <button
-                  :class="{
-                    seat_btn: true,
-                    single_seat: true,
-                    [`state-${item.seat_status?.split('').slice((+currentTime.substring(12,1)), 1).includes('1') ? 1 : 0}`]: true
-                  }"
-                  v-for="item in seats_c"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
+                <button :class="{
+                  seat_btn: true,
+                  single_seat: true,
+                  [`state-${item.seat_status?.split('').slice((+currentTime.substring(12, 1)), 1).includes('1') ? 1 : 0}`]: true
+                }" v-for="item in seats_c" :key="item.no" @click.prevent="seatSelected(item)">
                   <div class="content">
                     <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/chair.svg"
-                      alt=""
-                    />
+                    <img class="chair" src="../../assets/images/seats/chair.svg" alt="" />
                   </div>
                 </button>
               </div>
               <!-- 狀態管理:class="`state-${item.state}`" -->
               <div class="reservation_double_seat">
-                <button
-                  :class="{
-                    seat_btn: true,
-                    double_seat: true,
-                    [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
-                  }"
-                  v-for="item in seats_d"
-                  :key="item.no"
-                  @click.prevent="seatSelected(item)"
-                >
+                <button :class="{
+                  seat_btn: true,
+                  double_seat: true,
+                  [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
+                }" v-for="item in seats_d" :key="item.no" @click.prevent="seatSelected(item)">
                   <div class="content">
                     <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
-                    <img
-                      class="chair"
-                      src="../../assets/images/seats/double_chair.svg"
-                      alt=""
-                    />
+                    <img class="chair" src="../../assets/images/seats/double_chair.svg" alt="" />
                     <!-- NOTE RWD手機板時只有顯示椅子圖，780px以上時跳轉成座位編號 -->
                   </div>
                 </button>
@@ -271,7 +189,7 @@ export default {
       },
       currentTime: new Date().toLocaleString(),
       timer: null,
-      currentTimeNum:null
+      currentTimeNum: null
     };
   },
   methods: {
@@ -329,7 +247,7 @@ export default {
           console.log(err);
         });
 
-        
+
     },
     seatSelected(item) {
       this.selectedSeat = item;
@@ -343,12 +261,12 @@ export default {
   computed: {
     ...mapState(["isLoginOpen", "forgotPsw", "login", "member"]),
     seatState() {
-      if (this.selectedSeat.seat_status?.split('').slice(this.currentTimeNum, this.currentTimeNum+1).includes('1')) {
+      if (this.selectedSeat.seat_status?.split('').slice(this.currentTimeNum, this.currentTimeNum + 1).includes('1')) {
         return '使用中';
       }
       return '空位';
     }
-  
+
   },
   mounted() {
     this.fetchSeatData();
@@ -362,10 +280,10 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-      let a=this.currentTime.substring(10,12)==='下午'?12:0;
-      let b = +(this.currentTime.substring(12,13));
+    let a = this.currentTime.substring(10, 12) === '下午' ? 12 : 0;
+    let b = +(this.currentTime.substring(12, 13));
 
-       this.currentTimeNum=a+b;
+    this.currentTimeNum = a + b;
 
   },
   watch: {},

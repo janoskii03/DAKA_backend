@@ -59,6 +59,7 @@ export default {
                         setTimeout(() => {
                             this.toggleLoginModal(false);
                         }, 3000);
+                        this.$router.push('/home');
                     }
                 })
                 .catch(error => {
