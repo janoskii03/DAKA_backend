@@ -1,6 +1,6 @@
 
 <template>
-  <!-- <Login v-if="!$store.state.isLogging"></Login> -->
+  <Login v-if="$store.state.isLoginOpen"></Login>
 
   <div class="main_container d-flex">
     <aside class=" d-flex flex-column align-items-center">
@@ -305,9 +305,7 @@ export default {
       return this.current;
     },
     methods: {
-      signOut() {
-        this.$store.state.isLogging = false;
-      }
+      
     }
   }
 }
