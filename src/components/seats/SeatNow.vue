@@ -278,6 +278,27 @@ export default {
       return this.selectedSeat;
     }
   },
+  mounted() {
+    this.axios
+      .get(`${this.$URL}/getSeatNowStatus.php`)
+      .then((res) => {
+        console.log(res);
+        this.dataList = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+      this.axios
+      .get(`${this.$URL}/getSeatNowOrder.php`)
+      .then((res) => {
+        console.log(res);
+        this.dataList = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   watch: {},
   created() {
     this.fetchSeatData();
