@@ -1,7 +1,7 @@
 <template>
     <div class="login_container">
         <div class="login">
-            <img src="@/assets/images/logo.png" alt="DAKA">
+            <img src="../assets/images/logo.png" alt="DAKA">
             <form action="" class="login_form">
                 <p>帳號登入</p>
                 <input type="text" placeholder="帳號" v-model="addId">

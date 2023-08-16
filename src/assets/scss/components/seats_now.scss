@@ -16,9 +16,10 @@
       .seat_info_title {
         font-weight: 600;
         font-size: 25px;
+        line-height: 23px;
         span{
           font-size: 12px;
-          line-height: 12px;
+          line-height: 10px;
         }
       }
       .seat {
@@ -101,7 +102,7 @@
                 margin: 0;
               }
               .color_G_use_seat {
-                background-color: #daebea;
+                background-color: #FCE4AC; 
                 margin: 0;
               }
               p {
@@ -179,15 +180,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
           /*一般區*/
@@ -265,15 +266,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
         }
@@ -357,15 +358,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
           /*雙人房*/
@@ -427,15 +428,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
         }
