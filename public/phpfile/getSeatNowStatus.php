@@ -23,7 +23,6 @@ try {
         if (!isset($orders[$seat_id])) {
             $orders[$seat_id] = array(
                 'seat_id' => $seat_id,
-                'seat_area' => $row['seat_area'],
                 'seat_state_date' => $row['seat_state_date'],
                 'seat_status' => $row['seat_status'],
                 'seat_area' => $row['seat_area'],
