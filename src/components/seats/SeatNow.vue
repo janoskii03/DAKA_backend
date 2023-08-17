@@ -295,8 +295,10 @@ export default {
 
       const found = this.seatOrder.find((element) => {
         console.log('all', element)
-        let includeCurrentTime = element.seat_order_startdate.substr(11, 2) < this.currentTime_hours && element.seat_order_enddate.substr(11, 2) > this.currentTime_hours ;
+        let includeCurrentTime = element.seat_order_startdate.substr(11, 2) <= this.currentTime_hours && element.seat_order_enddate.substr(11, 2) >= this.currentTime_hours ;
+        console.log('includeCurrentTime', includeCurrentTime)
         let matchSeat = element.items.findIndex((item) => item.seat_id == this.selectedSeat.seat_id) !== -1;
+        console.log('matchSeat', matchSeat)
         return matchSeat && includeCurrentTime;
       });
       

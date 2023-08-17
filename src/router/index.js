@@ -52,11 +52,11 @@ const routes = [
         name: "comic_reserve",
         component: () => import("../components/comics/ComicReserve.vue"),
       },
-      {
-        path: "/reserve",
-        name: "reserve",
-        component: () => import("../components/seats/Reserve.vue"),
-      },
+      // {
+      //   path: "/reserve",
+      //   name: "reserve",
+      //   component: () => import("../components/seats/Reserve.vue"),
+      // },
       {
         path: "/seat_info",
         name: "seat_info",
