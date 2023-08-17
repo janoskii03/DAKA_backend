@@ -50,13 +50,6 @@
               <span v-else-if="item.comics_status === '1'">在館</span>
             </td>
           </tr>
-          <!-- 搜尋 -->
-          <div
-            class="alert alert-warning"
-            v-if="search && searchResults.length === 0"
-          >
-            查無此消息標題，請重新搜尋！
-          </div>
 
           <!-- 分頁按鈕 -->
           <nav
@@ -93,6 +86,14 @@
             </ul>
           </nav>
         </table>
+
+        <!-- 搜尋 -->
+        <div
+          class="alert alert-warning"
+          v-if="search && searchResults.length === 0"
+        >
+          查無此消息標題，請重新搜尋！
+        </div>
 
         <div class="comic_info">
           <div v-if="selectedItemIndex !== null">
@@ -698,7 +699,7 @@ export default {
       showModal4: false,
       showModal5: false,
       showModal4Confirmed: false, // 记录 showModal4 是否已确认
-    currentModal: null, // 记录当前显示的弹窗
+      currentModal: null, // 记录当前显示的弹窗
       selectedItem: null, // 选中的数据项
       editModes: [],
       selectedItemIndex: null,
@@ -713,14 +714,14 @@ export default {
     };
   },
   computed: {
-
     comics_status: {
       get() {
         if (this.selectedItem.comics_status === 0) {
           true;
           this.openModal4();
         } else {
-          false;openModal();
+          false;
+          openModal();
         }
       },
       set(value) {
