@@ -224,7 +224,7 @@ export default {
       params.append('new_status', 1); // 將狀態更新為"在館"（代碼=1）
 
       this.axios
-        .post(`${this.$URL_MAC}/editComicStatus.php`, params) // 更新每本漫畫書的狀態
+        .post(`${this.$URL}/editComicStatus.php`, params) // 更新每本漫畫書的狀態
         .then(response => {
           // 成功處理漫畫書狀態的更新
         })

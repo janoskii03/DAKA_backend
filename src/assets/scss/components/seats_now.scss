@@ -16,6 +16,11 @@
       .seat_info_title {
         font-weight: 600;
         font-size: 25px;
+        line-height: 23px;
+        span{
+          font-size: 12px;
+          line-height: 10px;
+        }
       }
       .seat {
         font-weight: 600;
@@ -97,7 +102,7 @@
                 margin: 0;
               }
               .color_G_use_seat {
-                background-color: #daebea;
+                background-color: #FCE4AC; 
                 margin: 0;
               }
               p {
@@ -139,7 +144,7 @@
               background-color: #54c1ba;
             }
             .selected {
-              outline: 2px solid #ff0055;
+              outline: 5px solid #000;
             }
             .seat_btn {
               box-sizing: border-box;
@@ -175,15 +180,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
           /*一般區*/
@@ -195,7 +200,7 @@
             justify-content: center;
             padding: 1%;
             .selected {
-              outline: 2px solid #ff0055;
+              outline: 5px solid #000;
             }
             .general_seat_title {
               height: 80%;
@@ -261,15 +266,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
         }
@@ -308,7 +313,7 @@
             border-left: 1rem solid #7a7d7a;
             border-right: 1rem solid #7a7d7a;
             .selected {
-              outline: 2px solid #ff0055;
+              outline: 5px solid #000;
             }
             .single_seat {
               background-color: #54c1ba;
@@ -353,15 +358,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
           /*雙人房*/
@@ -377,7 +382,7 @@
             border-left: 1rem solid #7a7d7a;
             border-right: 1rem solid #7a7d7a;
             .selected {
-              outline: 2px solid #ff0055;
+              outline: 5px solid #000;
             }
             .double_seat {
               background-color: #54c1ba;
@@ -423,15 +428,15 @@
               cursor: pointer;
             }
             /*TODO 座位需要可以複選*/
-            /* .state-0:focus,
-            .state-0:hover {
+            .state-0:focus,
+            .state-1:focus{
             outline: 0.3rem solid #263238;
-            }*/
+            }
             /* 1=預約中樣式 */
             .state-1 {
-              background-color: #daebea; /* 淡綠色背景代表使用中 */
-              color: #a6a6a6;
-              cursor: not-allowed; /* 鼠標顯示為禁止標誌 */
+              background-color: #FCE4AC; /* 淡綠色背景代表使用中 */
+              color: #000;
+              cursor: pointer;
             }
           }
         }

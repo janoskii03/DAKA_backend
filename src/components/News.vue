@@ -24,25 +24,25 @@
       </template>
       <template v-slot:form_table>
         <table class="main_list">
+          <!-- 資料表頭 -->
           <tr>
-            <!-- 資料表頭 -->
             <th v-for="column in columns" :key="column">{{ column }}</th>
           </tr>
+
           <!--  消息資料 -->
           <tr 
           v-for="item in filteredDataList" 
           :key="item.index" 
-          @click="emitData(item,$event)"
-          class="align-middle">
-            <td>{{ item.news_title }}</td>
+          @click="emitData(item,$event)">
+            <td colspan="3" class="text-start">{{ item.news_title }}</td>
             <td>{{ item.news_category }}</td>
-            <td>{{ item.news_status }}</td>
+            <td>{{ item.news_status == 1 ? '上架中' : '下架' }}</td>
             <td>{{ item.news_date }}</td>
             <td>{{ item.ename }}</td>
             <td>{{ item.admin_id }}</td>
-            <button class="btn btn-dark align-middle" type="submit">
+            <!-- <button class="btn btn-dark align-middle" type="submit">
               delete
-            </button>
+            </button> -->
           </tr>
         </table>
         <div class="alert alert-warning" v-if="search && filteredDataList.length === 0">
@@ -73,6 +73,8 @@ export default {
       dataList: [],
       columns: [
         '標題',
+        '',
+        '',
         '類別',
         '狀態',
         '編輯日期',
