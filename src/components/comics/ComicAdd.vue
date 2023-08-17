@@ -230,8 +230,8 @@
                     <input
                       class="form-control"
                       type="file"
+                      name="comics_readfirst"
                       @change="handleImageUpload($event, 'comics_readfirst')"
-                      id="comics_readfirst"
                     />
                   </div>
                 </div>
@@ -374,35 +374,30 @@ export default {
     submitData() {
       this.closeModal();
     },
-
+    // php新增
     submit(event) {
       console.log("觸發上傳");
-      event.preventDefault();
+      event.preventDefault(); //解決默認狀態
       const formData = new FormData(document.getElementById("comicForm"));
       this.axios
         .post(`${this.$URL}/addComicAdd.php`, formData)
         .then((res) => {
           console.log(res);
-          this.closeModal(); // 打开确认弹窗
+          this.closeModal(); // 關閉確認弹窗
         })
         .catch((err) => {
           console.log(err);
         });
     },
-
-    // getContent(title) {
-    //   this.content = title;
-    // },
-
     updateComicAdd() {
       console.log("触发上傳");
       const formData = new FormData();
 
-      formData.append("comics_no", this.comics_no);
-      formData.append("title", this.title);
-      formData.append("comics_index", this.comics_index);
-      formData.append("type", this.type);
-      formData.append("isbn", this.isbn);
+      // formData.append("comics_no", this.comics_no);
+      // formData.append("title", this.title);
+      // formData.append("comics_index", this.comics_index);
+      // formData.append("type", this.type);
+      // formData.append("isbn", this.isbn);
       // ...添加其他数据...
 
       // 添加图片文件
