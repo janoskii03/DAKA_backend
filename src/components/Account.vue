@@ -128,7 +128,7 @@
   </div>
 
   <!-- -----------------------新增帳號---------------------------- -->
-  <div class="account_edit" v-show="modals.addMember">
+  <div class="account_edit" v-show="modals.addMember" id="acc_add">
     <div class="management_all" style="height: 360px;">
       <button class="com_x_btn" @click="handleAddMember">
         <i class="fa-solid fa-xmark"></i>
@@ -138,16 +138,16 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name" name="ename">
-            分館<input type="text" class="password" name="ename">
+            姓名<input type="text" class="name" v-model="newMember.ename">
+            分館<input type="text" class="password" v-model="newMember.branch">
 
           </div>
           <div class="second">
-            編號<input type="text" class="phone" name="admin_no">
-            職稱<input type="text" class="password" name="ejob">
+            編號<input type="text" class="phone" v-model="newMember.admin_no">
+            職稱<input type="text" class="password" v-model="newMember.ejob">
           </div>
           <div class="third">
-            密碼<input type="text" class="address" name="password">
+            密碼<input type="text" class="address" v-model="newMember.password">
           </div>
           
           <button class="confirm" @click="handleAddConfirm">確認</button>
@@ -162,7 +162,7 @@
       <div class="text">
         確認新增？
       </div>
-      <button class="yes" @click="showModal('addMemberSuccess')">確定</button>
+      <button class="yes" @click="addMemberData">確定</button>
       <button class="no" @click="showModal('addMemberSuccess')">取消</button>
     </div>
   </div>
@@ -178,6 +178,7 @@ export default {
   data() {
     return {
       memInfo: [],
+      searchInput: '',
       columns: [
         '姓名',
         '員工編號',
@@ -196,8 +197,20 @@ export default {
         addMemberSuccess: false
       },
       memberData: [],
+      dataList: [],
+      SearchData: [],
+      newMember: {
+        ename: null,
+        branch: null,
+        admin_no: null,
+        ejob: null,
+        password: null,
+      },
     }
   },
+  computed: {
+
+},
   methods: {
     memberInfo(index) {
       this.memInfo = this.memberData[index];
@@ -232,6 +245,28 @@ export default {
           this.memberData = res.data;
         })
         .catch((err) => {
+          console.log(err);
+        })
+    },
+    updateMembersData() {
+      console.log('觸發上傳');
+      const formData = new FormData(document.getElementById('news_modal'));
+      axios.post(`${this.$URL}/updateMemberData.php`, formData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    addMemberData() {
+      console.log('發送會員資料');
+      this.showModal('addMemberSuccess');
+      this.axios.post(`${this.$URL}/addAdminData.php`, JSON.stringify(this.newMember))
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
           console.log(err);
         })
     }
