@@ -6,18 +6,12 @@
           新增會員
           <img src="@/assets/images/member/plus.svg" alt="plus" class="member_plus">
         </button>
-        <select class="form-select w-25" aria-label="Default select example">
-          <option selected>請選擇</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
         <div class="col-md-2">
           <div class="input-group">
-            <input type="search" class="form-control" v-model="searchInput" @input="performSearch" placeholder="請輸入"
+            <input type="search" class="form-control" v-model="searchInput" @input="performSearch" placeholder="請輸入電話號碼"
               aria-describedby="basic-addon1" />
             <button class="input-group-text" id="basic-addon1">
-              <img @click="performSearch" src="@/assets/images/search.svg" alt="search" />
+              <img src="@/assets/images/search.svg" alt="search" @input="performSearch" />
             </button>
           </div>
         </div>
@@ -29,7 +23,7 @@
           <tr>
             <th v-for="column in columns">{{ column }}</th>
           </tr>
-          <tr v-for="(item, index) in memberData" :key="item.index" @click="memberInfo(index)">
+          <tr v-for="(item, index) in filteredDataList" :key="index" @click="memberInfo(index)">
             <td>{{ item.mname }}</td>
             <td>{{ item.mem_no }}</td>
             <td>{{ item.grade }}</td>
@@ -38,14 +32,12 @@
             <td>{{ item.value }}</td>
           </tr>
         </table>
-
-
       </template>
     </Form>
   </div>
   <!---------------------會員資料------------------------------  -->
 
-  <div class="member_data" v-show="modals.info">
+  <div class="member_data" v-show="modals.info" id="member_data">
     <div class="management_all">
       <button class="com_x_btn" @click="showModal('info')">
         <i class="fa-solid fa-xmark"></i>
@@ -62,17 +54,19 @@
               src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')"
               style="position: absolute; right: -465px; top: -23px;"></button>
           <div class="first">
-            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname"></label>
-            <label for="password">密碼<input type="text" class="password" id="password" :value="memInfo.password"></label>
+            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname" name="mname"></label>
+            <label for="password">密碼<input type="text" class="password" id="password" :value="memInfo.password"
+                name="password"></label>
           </div>
           <div class="second">
 
-            <label for="phone">電話<input type="text" class="phone" id="phone" :value="memInfo.mobile"></label>
-            <label for="birthday">生日<input type="text" class="birthday" id="birthday"
-                :value="memInfo.member_birth"></label>
+            <label for="phone">電話<input type="text" class="phone" id="phone" :value="memInfo.mobile"
+                name="mobile"></label>
+            <label for="birthday">生日<input type="text" class="birthday" id="birthday" :value="memInfo.member_birth"
+                name="member_birth"></label>
           </div>
           <div class="third">
-            <label for="mail">信箱<input type="text" class="mail" id="mail" :value="memInfo.email"></label>
+            <label for="mail">信箱<input type="text" class="mail" id="mail" :value="memInfo.email" name="email"></label>
           </div>
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
@@ -84,7 +78,7 @@
     </div>
   </div>
   <!-- ------------------------會員編輯---------------------------------------- -->
-  <div class="member_edit" v-show="modals.edit">
+  <div class="member_edit" v-show="modals.edit" id="member_edit">
     <div class="management_all">
       <button class="com_x_btn" @click="showModal('edit')">
         <i class="fa-solid fa-xmark"></i>
@@ -99,22 +93,22 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name" :value="memInfo.mname">
-            性別<select name="" id="sex" :value="memInfo.sex">
+            姓名<input type="text" class="name" :value="memInfo.mname" name="mname">
+            性別<select name="sex" id="sex" :value="memInfo.sex">
               <option selected disabled hidden></option>
               <option>男</option>
               <option>女</option>
             </select>
           </div>
           <div class="second">
-            電話<input type="text" class="phone" :value="memInfo.mobile">
-            密碼<input type="text" class="password" :value="memInfo.password">
+            電話<input type="text" class="phone" :value="memInfo.mobile" name="mobile">
+            密碼<input type="text" class="password" :value="memInfo.password" name="password">
           </div>
           <div class="third">
-            生日<input type="text" class="birthday" :value="memInfo.member_birth">
-            信箱<input type="text" class="mail" :value="memInfo.email">
+            生日<input type="text" class="birthday" :value="memInfo.member_birth" name="member_birth">
+            信箱<input type="text" class="mail" :value="memInfo.email" name="email">
           </div>
-          地址<input type="text" class="address" :value="memInfo.address">
+          地址<input type="text" class="address" :value="memInfo.address" name="address">
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
@@ -175,7 +169,7 @@
     </div>
   </div> -->
   <!-- -----------------------新增會員---------------------------- -->
-  <div class="mem_add" v-show="modals.addMember">
+  <div class="mem_add" v-show="modals.addMember" id="mem_add">
     <div class="management_all" style="height: 360px;">
       <button class="com_x_btn" @click="handleAddMember">
         <i class="fa-solid fa-xmark"></i>
@@ -185,22 +179,22 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name">
-            性別<select name="" id="sex">
+            姓名<input type="text" class="name" v-model="newMember.mname">
+            性別<select name="sex" id="sex" v-model="newMember.sex">
               <option selected disabled hidden></option>
-              <option>男</option>
-              <option>女</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
             </select>
           </div>
           <div class="second">
-            電話<input type="text" class="phone">
-            密碼<input type="text" class="password">
+            電話<input type="text" class="phone" v-model="newMember.mobile">
+            密碼<input type="text" class="password" v-model="newMember.password">
           </div>
           <div class="third">
-            生日<input type="text" class="birthday">
-            信箱<input type="text" class="mail">
+            生日<input type="text" class="birthday" v-model="newMember.member_birth">
+            信箱<input type="text" class="mail" v-model="newMember.email">
           </div>
-          地址<input type="text" class="address">
+          地址<input type="text" class="address" v-model="newMember.address">
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
@@ -216,7 +210,7 @@
       <div class="text">
         確認新增？
       </div>
-      <button class="yes" @click="showModal('addMemberSuccess')">確定</button>
+      <button class="yes" @click="addMemberData">確定</button>
       <button class="no" @click="showModal('addMemberSuccess')">取消</button>
     </div>
   </div>
@@ -232,6 +226,8 @@ export default {
   data() {
     return {
       memInfo: [],
+      searchInput: '',
+      filteredDataList: [],
       columns: [
         '姓名',
         '會員編號',
@@ -251,9 +247,36 @@ export default {
         addMemberSuccess: false
       },
       memberData: [],
+      dataList: [],
+      SearchData: [],
+      newMember: {
+        mname: null,
+        sex: null,
+        mobile: null,
+        password: null,
+        member_birth: null,
+        email: null,
+        address: null,
+      },
     }
   },
+  computed: {
+
+  },
   methods: {
+    performSearch() {
+      if (this.searchInput === '') {
+        alert('請輸入關鍵字');
+        return;
+      } else {
+        this.filteredDataList = this.memberData.filter(item => {
+          return item.mobile.includes(this.searchInput);
+        });
+      }
+    },
+    // ...其他方法
+
+
     memberInfo(index) {
       this.memInfo = this.memberData[index];
       this.showModal('info');
@@ -275,18 +298,73 @@ export default {
     },
     handleAddMember() {
       this.showModal('addMember');
-
     },
     fetchMemberData() {
       axios.get(`${this.$URL}/getMember.php`)
         .then((res) => {
           console.log(res);
+          this.datalist = res.data;
           this.memberData = res.data;
         })
         .catch((err) => {
           console.log(err);
         })
+    },
+
+    // updateMembersData() {
+    //   console.log('觸發上傳');
+    //   const formData = new FormData(document.getElementById('news_modal'));
+    //   this.axios.post(`${this.$URL}/updateMemberData.php`, formData)
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     })
+    // },
+    // addMemberData() {
+    //   console.log('觸發上傳');
+    //   const formData = new FormData(document.getElementById('mem_add'));
+    //   this.axios.post(`${this.$URL}/addMemberData.php`, formData)
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     })
+    // }
+    updateMembersData() {
+      console.log('觸發上傳');
+      const formData = new FormData(document.getElementById('news_modal'));
+      axios.post(`${this.$URL}/updateMemberData.php`, formData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    addMemberData() {
+      console.log('發送會員資料');
+      this.showModal('addMemberSuccess');
+      this.axios.post(`${this.$URL}/addMemberData`, JSON.stringify(this.newMember))
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      // console.log('觸發上傳');
+      // const formData = new FormData(document.getElementById('mem_add'));
+      // axios.post(`${this.$URL}/addMemberData.php`, formData)
+      //   .then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
+
   },
   mounted() {
     this.fetchMemberData();

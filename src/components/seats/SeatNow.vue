@@ -25,23 +25,56 @@
             disabled />
         </div>
         <div class="seat_user input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_user">使用者</span>
-          <input type="text" class="form-control" value="王大明" aria-label="王大明" aria-describedby="seat_user" disabled />
+          <span class="input-group-text seat_now_input" id="seat_user"
+            >使用者</span
+          >
+          <input
+            type="text"
+            class="form-control"
+            :value="selectedOrder.mname"
+            aria-label="王大明"
+            aria-describedby="seat_user"
+            disabled
+          />
         </div>
         <div class="seat_user_phone input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_user_phone">手機</span>
-          <input type="text" class="form-control" value="0988123456" aria-label="0988123456"
-            aria-describedby="seat_user_phone" disabled />
+          <span class="input-group-text seat_now_input" id="seat_user_phone"
+            >手機</span
+          >
+          <input
+            type="text"
+            class="form-control"
+            :value="selectedOrder.mobile"
+            aria-label="0988123456"
+            aria-describedby="seat_user_phone"
+            disabled
+          />
         </div>
         <div class="seat_start_time input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_start_time">開始時間</span>
-          <input type="text" class="form-control" value="2023/07/30 PM02:00" aria-label="2023/07/30 PM02:00"
-            aria-describedby="seat_start_time" disabled />
+          <span class="input-group-text seat_now_input" id="seat_start_time"
+            >開始時間</span
+          >
+          <input
+            type="text"
+            class="form-control"
+           :value="selectedOrder.seat_order_startdate"
+            aria-label="2023/07/30 PM02:00"
+            aria-describedby="seat_start_time"
+            disabled
+          />
         </div>
         <div class="seat_end_time input-group mb-3">
-          <span class="input-group-text seat_now_input" id="seat_end_time">結束時間</span>
-          <input type="text" class="form-control" value="2023/07/30 PM08:00" aria-label="2023/07/30 PM08:00"
-            aria-describedby="seat_end_time" disabled />
+          <span class="input-group-text seat_now_input" id="seat_end_time"
+            >結束時間</span
+          >
+          <input
+            type="text"
+            class="form-control"
+            :value="selectedOrder.seat_order_enddate"
+            aria-label="2023/07/30 PM08:00"
+            aria-describedby="seat_end_time"
+            disabled
+          />
         </div>
       </div>
     </div>
@@ -59,11 +92,11 @@
             <div class="color_state_seat_group">
               <div class="color_vacancy_seat_group">
                 <div class="color_G_vacancy_seat"></div>
-                <p class="p_vacancy_seat">可預約</p>
+                <p class="p_vacancy_seat">空位</p>
               </div>
               <div class="color_use_seat_group">
                 <div class="color_G_use_seat"></div>
-                <p class="p_use_seat">不可預約</p>
+                <p class="p_use_seat">使用中</p>
               </div>
             </div>
             <div v-if="tabActive == 1" class="reservation_hall_seat">
@@ -72,11 +105,16 @@
                   <p>電競區</p>
                 </div>
                 <!-- `state-${item.state}`判定座位狀態 -->
-                <button v-for="item in seats_a" :key="item.no" :class="{
-                  seat_btn: true,
-                  eSports_seat: true,
-                  [`state-${item.seat_status?.split('').slice(currentTimeNum, currentTimeNum + 1).includes('1') ? 1 : 0}`]: true
-                }" @click.prevent="seatSelected(item)">
+                <button
+                  v-for="item in seats_a"
+                  :key="item.no"
+                  :class="{
+                    seat_btn: true,
+                    eSports_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTime_hours, currentTime_hours+1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  @click.prevent="seatSelected(item)"
+                >
                   <div class="content">
                     <h4 class="text">
                       {{ item.seat_area }}
@@ -91,11 +129,17 @@
                   <p>一般區</p>
                 </div>
                 <!--狀態管理 class="`state-${item.state}`" -->
-                <button :class="{
-                  seat_btn: true,
-                  general_seat: true,
-                  [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
-                }" v-for="item in seats_b" :key="item.no" @click.prevent="seatSelected(item)">
+                <button
+                  :class="{
+                    seat_btn: true,
+                    general_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTime_hours, currentTime_hours+1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_b"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
+
                   <div class="content">
                     <h4>
                       {{ item.seat_area }}
@@ -120,11 +164,16 @@
               </div>
               <!--狀態管理 :class="`state-${item.state}`" -->
               <div class="reservation_single_seat">
-                <button :class="{
-                  seat_btn: true,
-                  single_seat: true,
-                  [`state-${item.seat_status?.split('').slice((+currentTime.substring(12, 1)), 1).includes('1') ? 1 : 0}`]: true
-                }" v-for="item in seats_c" :key="item.no" @click.prevent="seatSelected(item)">
+                <button
+                  :class="{
+                    seat_btn: true,
+                    single_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTime_hours, currentTime_hours+1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_c"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
                   <div class="content">
                     <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
                     <img class="chair" src="../../assets/images/seats/chair.svg" alt="" />
@@ -133,11 +182,16 @@
               </div>
               <!-- 狀態管理:class="`state-${item.state}`" -->
               <div class="reservation_double_seat">
-                <button :class="{
-                  seat_btn: true,
-                  double_seat: true,
-                  [`state-${item.seat_status?.split('').slice(currentTimeNum, 1).includes('1') ? 1 : 0}`]: true
-                }" v-for="item in seats_d" :key="item.no" @click.prevent="seatSelected(item)">
+                <button
+                  :class="{
+                    seat_btn: true,
+                    double_seat: true,
+                    [`state-${item.seat_status?.split('').slice(currentTime_hours, currentTime_hours+1).includes('1') ? 1 : 0}`]: true
+                  }"
+                  v-for="item in seats_d"
+                  :key="item.no"
+                  @click.prevent="seatSelected(item)"
+                >
                   <div class="content">
                     <h4>{{ item.seat_area }} {{ item.seat_number }}</h4>
                     <img class="chair" src="../../assets/images/seats/double_chair.svg" alt="" />
@@ -166,6 +220,7 @@ export default {
       siteNowStatus: [],
       seatOrder: [],
       selectedSeat: {},
+      selectedOrder:[],
       isReserveSeatVisible: false,
       isReserveUserVisible: false,
       isSeatInputsDisabled: false,
@@ -188,33 +243,12 @@ export default {
         2: "包廂區"
       },
       currentTime: new Date().toLocaleString(),
+      currentTime_hours: new Date().getHours(),
       timer: null,
-      currentTimeNum: null
     };
   },
   methods: {
     ...mapMutations(["toggleLogin", "toggleForgotPsw", "toggleRegister"]),
-
-    toggleReserveSeat() {
-      this.isReserveSeatVisible = !this.isReserveSeatVisible;
-      if (this.isReserveSeatVisible) {
-        this.isSeatInputsDisabled = true;
-      }
-    },
-    resetReserveSeat() {
-      this.isReserveSeatVisible = false;
-      this.isSeatInputsDisabled = false;
-    },
-    toggleReserveUser() {
-      this.isReserveUserVisible = !this.isReserveUserVisible;
-      if (this.isReserveUserVisible) {
-        this.isUserInputsDisabled = true;
-      }
-    },
-    resetReserveUser() {
-      this.isReserveUserVisible = false;
-      this.isUserInputsDisabled = false;
-    },
 
     // 切換tab
     updateTab(index) {
@@ -240,6 +274,10 @@ export default {
             (item) => 66 <= item.seat_id && item.seat_id <= 71
           );
 
+          console.log("seats_a",this.seats_a)
+          console.log("seats_b",this.seats_b)
+          console.log("seats_c",this.seats_c)
+          console.log("seats_d",this.seats_d)
 
 
         })
@@ -250,18 +288,32 @@ export default {
 
     },
     seatSelected(item) {
+      //1.撈取選擇的座位資料
       this.selectedSeat = item;
+      console.log("selectedSeat",this.selectedSeat)
+      //2.將座位及時間與訂單相對應資料比對找到目前此座位訂單
+
+      const found = this.seatOrder.find((element) => {
+        console.log('all', element)
+        let includeCurrentTime = element.seat_order_startdate.substr(11, 2) < this.currentTime_hours && element.seat_order_enddate.substr(11, 2) > this.currentTime_hours ;
+        let matchSeat = element.items.findIndex((item) => item.seat_id == this.selectedSeat.seat_id) !== -1;
+        return matchSeat && includeCurrentTime;
+      });
+      
+      console.log('found',found);
+      //3.將訂單資料呈現到表格中
+      if(found){
+        this.selectedOrder = found;
+      }else{
+        this.selectedOrder = {};
+      }
     }
-    // formatDateString() {
-    //   const now = new Date();
-    //   this.currentTime = now.toLocaleString();
-    //   console.log(this.currentTime);
-    // }
+    
   },
   computed: {
     ...mapState(["isLoginOpen", "forgotPsw", "login", "member"]),
     seatState() {
-      if (this.selectedSeat.seat_status?.split('').slice(this.currentTimeNum, this.currentTimeNum + 1).includes('1')) {
+      if (this.selectedSeat.seat_status?.split('').slice(this.currentTime_hours, this.currentTime_hours+1).includes('1')) {
         return '使用中';
       }
       return '空位';
@@ -280,10 +332,16 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-    let a = this.currentTime.substring(10, 12) === '下午' ? 12 : 0;
-    let b = +(this.currentTime.substring(12, 13));
+      // let a=this.currentTime.substring(10,12)==='下午'?12:0;
+      // let aa=this.currentTime.substring(12,14)
+      // let b = +(aa.includes(':') ? aa.replace(':', '') : aa);
+      // console.log("currentTime",this.currentTime)
+      // console.log("a",a)
+      // console.log("aa",aa)
+      // console.log("b",b)
+      // this.currentTime_hours=a+b;
+      // console.log("currentTime_hours",this.currentTime_hours)
 
-    this.currentTimeNum = a + b;
 
   },
   watch: {},

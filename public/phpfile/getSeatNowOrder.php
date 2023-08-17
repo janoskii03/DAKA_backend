@@ -25,17 +25,18 @@ try {
             // array_push($orders, $row);
             $orders[$seat_order_id] = array(
                 'seat_order_id' => $seat_order_id,
-                'seat_area' => $row['seat_area'],
                 'seat_order_startdate' => $row['seat_order_startdate'],
                 'seat_order_enddate' => $row['seat_order_enddate'],
-                'seat_id' => $row['seat_id'],
-                'seat_area' => $row['seat_area'],
-                'seat_number' => $row['seat_number'],
                 'mname' => $row['mname'],
                 'mobile' => $row['mobile'],
                 'items' => array()
             );
         }
+        $orders[$seat_order_id]['items'][] = array(
+            'seat_id' => $row['seat_id'],
+            'seat_area' => $row['seat_area'],
+            'seat_number' => $row['seat_number'],
+        );
     }
 
     echo json_encode(array_values($orders)); // 轉換為索引數組並輸出

@@ -1,0 +1,13 @@
+
+[
+{"admin_id":"1","admin_no":"AD0001","branch":"中壢","ename":"張偉明","ejob":"經理","password":"001"},
+{"admin_id":"2","admin_no":"AD0002","branch":"中壢","ename":"李倩雯","ejob":"組長","password":"002"},
+{"admin_id":"3","admin_no":"AD0003","branch":"中壢","ename":"王偉文","ejob":"組長","password":"003"},
+{"admin_id":"4","admin_no":"AD0004","branch":"中壢","ename":"陳美琳","ejob":"行政","password":"004"},
+{"admin_id":"5","admin_no":"AD0005","branch":"中壢","ename":"林俊宏","ejob":"行政","password":"005"},
+{"admin_id":"6","admin_no":"AD0006","branch":"中壢","ename":"吳婷婷","ejob":"行政","password":"006"},
+{"admin_id":"7","admin_no":"AD0007","branch":"中壢","ename":"許瑋瑋","ejob":"行政","password":"007"},
+{"admin_id":"8","admin_no":"AD0008","branch":"中壢","ename":"蔡宜靜","ejob":"行政","password":"008"},
+{"admin_id":"9","admin_no":"AD0009","branch":"中壢","ename":"鄭文彬","ejob":"實習生","password":"009"},
+{"admin_id":"10","admin_no":"AD0010","branch":"中壢","ename":"邱雅雯","ejob":"實習生","password":"010"}
+]

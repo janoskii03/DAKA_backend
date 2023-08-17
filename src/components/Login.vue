@@ -1,7 +1,7 @@
 <template>
     <div class="login_container">
         <div class="login">
-            <img src="@/assets/images/logo.png" alt="DAKA">
+            <img src="../assets/images/logo.png" alt="DAKA">
             <form action="" class="login_form">
                 <p>帳號登入</p>
                 <input type="text" placeholder="帳號" v-model="addId">
@@ -38,38 +38,66 @@ export default {
         ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut']),
         checkLogin() {
 
-            const loginData = {
-                admin_no: this.addId,
-                password: this.addPsw,
-            };
+            // const user = this.responseData.find(
+            //     u => u.admin_no === this.addId && u.password === this.addPsw
+            // );
 
-            axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    withCredentials: true
-                }
-            })
-                .then(response => {
-                    const responseData = response.data;
+            // if (user) {
+            //     this.setInfo(user);
+            //     this.loginOk(true);
+            //     setTimeout(() => {
+            //         this.toggleLoginModal(false);
+            //     }, 3000);
+            //     this.$router.push('/home');
 
-                    //登入成功
-                    if (responseData.admin_no) {
-                        this.setInfo(responseData);
-                        this.loginOk(true);
-                        setTimeout(() => {
-                            this.toggleLoginModal(false);
-                        }, 3000);
-                        this.$router.push('/home');
+
+            // }
+                const loginData = {
+                    admin_no: this.addId,
+                    password: this.addPsw,
+                };
+
+                axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        withCredentials: true
                     }
                 })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-    },
-    watch: {
+                    .then(response => {
+                        const responseData = response.data;
 
+                        //登入成功
+                        if (responseData.admin_no) {
+                            this.setInfo(responseData);
+                            this.loginOk(true);
+                            setTimeout(() => {
+                                this.toggleLoginModal(false);
+                            }, 3000);
+                            this.$router.push('/home');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+        
+        // fetchAdministrator() {
+        //     axios
+        //         .get("data/administrator.json")
+        //         .then((res) => {
+        //             this.responseData = res.data;
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
+        // }
     },
+
+    
+   
+    mounted() {
+        // this.fetchAdministrator();
+    }
 
 }
 
@@ -139,5 +167,6 @@ export default {
 
 
 
-}</style>
+}
+</style>
 
