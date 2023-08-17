@@ -38,12 +38,12 @@ export default {
         ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut']),
         checkLogin() {
 
-            const user = this.responseData.find(
-                u => u.admin_no === this.addId && u.password === this.addPsw
-            );
+            // const user = this.responseData.find(
+            //     u => u.admin_no === this.addId && u.password === this.addPsw
+            // );
 
-            if (user) {
-                this.setInfo(user);
+            if (this.addId==='1234'&&this.addPsw==='1234') {
+                // this.setInfo(user);
                 this.loginOk(true);
                 setTimeout(() => {
                     this.toggleLoginModal(false);
@@ -80,25 +80,26 @@ export default {
             //             console.log(error);
             //         });
             }
-            },
-        
-        fetchAdministrator() {
-            axios
-                .get("/data/administrator.json")
-                .then((res) => {
-                    this.responseData = res.data;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
         }
-    },
+    }
+        
+    //     fetchAdministrator() {
+    //         axios
+    //             .get("/data/administrator.json")
+    //             .then((res) => {
+    //                 this.responseData = res.data;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             });
+    //     }
+    // },
 
     
    
-    mounted() {
-        this.fetchAdministrator();
-    }
+    // mounted() {
+    //     // this.fetchAdministrator();
+    // }
 
 }
 
