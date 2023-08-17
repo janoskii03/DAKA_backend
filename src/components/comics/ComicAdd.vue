@@ -227,12 +227,12 @@
                   <div class="fileup">
                     <label for="formFile" class="form-label"></label>
                     <!-- 試讀頁面 -->
-                    <!-- <input
+                    <input
                       class="form-control"
                       type="file"
                       @change="handleImageUpload($event, 'comics_readfirst')"
                       id="comics_readfirst"
-                    /> -->
+                    />
                   </div>
                 </div>
 
@@ -329,8 +329,8 @@ export default {
         this.publication_date !== "" &&
         this.language !== "0" &&
         this.comics_price !== "" &&
-        this.imageUrls.img.length > 0
-        // this.imageUrls.comics_readfirst.length > 0
+        this.imageUrls.img.length > 0 &&
+        this.imageUrls.comics_readfirst.length > 0
       );
     },
   },
@@ -360,51 +360,6 @@ export default {
         }
       }
     },
-    // getImage(e) {
-    //   const file = e.target.files.item(0);
-    //   if (
-    //     file.type !== "image/jpeg" &&
-    //     file.type !== "image/png" &&
-    //     file.type !== "image/jpg"
-    //   ) {
-    //     alert("只能上傳圖檔");
-    //     return;
-    //   }
-    //   const reader = new FileReader();
-    //   reader.addEventListener("load", this.imageLoaded);
-    //   reader.readAsDataURL(file);
-    // },
-    // imageLoaded(e) {
-    //   this.member_img = e.target.result;
-    // },
-    // uploadImg() {
-    //   console.log("触发上传");
-    //   const formData = new FormData(document.getElementById("pic"));
-    //   this.axios
-    //     .post(`${this.$URL}/uploadMemberImg.php`, formData)
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-    submit() {
-      console.log("觸發上傳");
-      const formData = new FormData(document.getElementById("comicForm"));
-      this.axios
-        .post(`${this.$URL}/addComicAdd.php`, formData)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      this.openModal();
-    },
-    // getContent(title) {
-    //   this.content = title;
-    // },
     /*計算數字*/
     countWords() {
       this.showWordcount = this.intro.length;
@@ -420,17 +375,23 @@ export default {
       this.closeModal();
     },
 
-    // let [file] = e.target.files;
-    // console.log('previewDataURI', file);
-    // this.objectURL = window.URL.createObjectURL(file);
-    // previewObjectURL(e) {
-    //   const file = e.target.files.item(0);
-    //   const reader = new FileReader();
-    //   reader.addEventListener("load", (e) => {
-    //     this.tempImg = e.target.result;
-    //     console.log(e.target.result);
-    //   });
-    //   reader.readAsDataURL(file);
+    submit(event) {
+      console.log("觸發上傳");
+      event.preventDefault();
+      const formData = new FormData(document.getElementById("comicForm"));
+      this.axios
+        .post(`${this.$URL}/addComicAdd.php`, formData)
+        .then((res) => {
+          console.log(res);
+          this.closeModal(); // 打开确认弹窗
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    // getContent(title) {
+    //   this.content = title;
     // },
 
     updateComicAdd() {
@@ -460,42 +421,6 @@ export default {
           console.log(err);
         });
     },
-
-    // addComicAdd() {
-    //   const formData = new FormData(document.getElementById("ComicAdd_modal"));
-    //   formData.append("comics_status", this.comics_status);
-    //   this.axios
-    //     .post(`${this.$URL}/addComicAdd.php`, stringify(formData))
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-
-    // updateComicAdd() {
-    //   console.log("觸發上傳");
-    //   this.axios
-    //     .post(`${this.$URL}/updateComicAdd.php`, formData)
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-    // addNewsData() {
-    //   console.log("觸發上傳");
-    //   this.axios
-    //     .post(`${this.$URL}/addComicAdd.php`, formData)
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
   },
 };
 </script>
