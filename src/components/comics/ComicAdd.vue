@@ -1,136 +1,158 @@
 <template>
   <div>
-    <Form>
+    <Form action="" id="ComicAdd_modal" method="post">
       <template v-slot:form_query> </template>
 
       <template v-slot:form_table>
-        <div class="com_add">
+        <form class="com_add" id="comicForm">
           <p>新增書籍資料</p>
           <div class="com_add_content">
             <div class="container">
               <div class="row">
                 <div class="col-md-1">
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">建檔編號</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">I S B N號</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">書籍名稱</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">書籍集數</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">書籍作者</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">書籍譯者</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">漫畫分類</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">熱門書籍</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">新書推薦</label>
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" class="form-control border-0" readonly />
-                  </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      type="text"
+                      id="comics_id"
+                      class="form-control border-0"
+                      readonly
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <input
+                      id="isbn"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
                       v-model="isbn"
                       @input="noChinese('isbn')"
                       maxlength="13"
+                      name="isbn"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="title"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多64字"
                       v-model="title"
                       maxlength="64"
+                      name="title"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="comics_index"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
                       v-model="comics_index"
                       @input="noChinese('comics_index')"
                       maxlength="3"
+                      name="comics_index"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="author"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多32字"
                       v-model="author"
                       maxlength="32"
+                      name="author"
                     />
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="translator"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多32字"
                       v-model="translator"
                       maxlength="32"
+                      name="translator"
                     />
                   </div>
                   <div class="mb-3">
-                    <select class="form-select" v-model="type">
+                    <select
+                      class="form-select"
+                      id="type"
+                      v-model="type"
+                      name="type"
+                    >
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">冒險系列</option>
                       <option value="2">少男系列</option>
                       <option value="3">魔法系列</option>
                     </select>
                   </div>
-                  <div class="mt-4">
+                  <div class="mb-3">
                     <input
                       class="form-check-input checkbox"
                       type="checkbox"
-                      value=""
-                      id="comics_new"
+                      value="1"
+                      id="comics_hot"
+                      name="comics_hot"
                     />
                   </div>
                   <div class="mt-4">
                     <input
                       class="form-check-input checkbox"
                       type="checkbox"
-                      value=""
-                      id="comics_hot"
+                      value="1"
+                      id="comics_new"
+                      name="comics_new"
                     />
                   </div>
                 </div>
                 <div class="col-md-1">
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">進貨價格</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">書籍語言</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">出版社</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">出版日期</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">封面更新</label>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="col-form-label">內頁更新</label>
                   </div>
                   <div class="imgpreview">
@@ -149,54 +171,68 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="comics_price"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
                       v-model="comics_price"
                       @input="noChinese('comics_price')"
                       maxlength="4"
+                      name="comics_price"
                     />
                   </div>
-                  <div class="mb-3">
-                    <select class="form-select" v-model="language">
+                  <div class="mb-2">
+                    <select
+                      class="form-select"
+                      id="language"
+                      v-model="language"
+                      name="language"
+                    >
                       <option value="0" disabled selected>請選擇</option>
                       <option value="1">繁體中文</option>
                       <option value="2">日語</option>
                     </select>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <input
+                      id="publisher"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多12字"
                       v-model="publisher"
                       maxlength="12"
+                      name="publisher"
                     />
                   </div>
                   <div class="form-row form-group">
                     <input
+                      id="publication_date"
                       type="date"
                       class="form-control"
                       v-model="publication_date"
+                      name="publication_date"
                     />
                   </div>
                   <div class="fileup">
-                    <label for="formFileMultiple" class="form-label"></label>
-                    <input
-                      class="form-control"
-                      type="file"
-                      @change="handleImageUpload($event, 'img')"
-                    />
-                  </div>
-                  <div class="mb-3 fileup">
                     <label for="formFile" class="form-label"></label>
                     <input
                       class="form-control"
                       type="file"
-                      @change="handleImageUpload($event, 'comics_readfirst')"
+                      name="img"
+                      @change="handleImageUpload($event, 'img')"
                     />
+                  </div>
+                  <div class="fileup">
+                    <label for="formFile" class="form-label"></label>
+                    <!-- 試讀頁面 -->
+                    <!-- <input
+                      class="form-control"
+                      type="file"
+                      @change="handleImageUpload($event, 'comics_readfirst')"
+                      id="comics_readfirst"
+                    /> -->
                   </div>
                 </div>
 
@@ -207,11 +243,12 @@
                   <div class="col-mb-4">
                     <textarea
                       class="form-control mb-5"
-                      id="exampleFormControlTextarea1"
+                      id="intro"
                       rows="10"
                       v-model="intro"
                       @input="countWords"
                       maxlength="150"
+                      name="intro"
                     ></textarea>
                     <p class="showWordcount">{{ showWordcount }}/150</p>
                     <!-- 確認紐 -->
@@ -229,25 +266,27 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 第一層彈窗 -->
-          <div class="modal_container" v-show="showModal">
-            <div class="modal_overlay" @click="closeModal"></div>
-            <div class="modal-content">
-              <p>確定新增？</p>
-              <div class="popup_btnarea">
-                <button class="com_add_btn" @click="submitData">確定</button>
-                <button class="com_add_btn" @click="closeModal">取消</button>
+
+            <!-- 第一層彈窗 -->
+            <div class="modal_container" v-show="showModal">
+              <div class="modal_overlay" @click="closeModal"></div>
+              <div class="modal-content">
+                <p>確定新增？</p>
+                <div class="popup_btnarea">
+                  <button class="com_add_btn" @click="submit">確定</button>
+                  <button class="com_add_btn" @click="closeModal">取消</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </template>
     </Form>
   </div>
 </template>
 <script>
 import Form from "@/components/Form.vue";
+import { stringifyQuery } from "vue-router";
 
 export default {
   components: {
@@ -255,10 +294,11 @@ export default {
   },
   data() {
     return {
-      isbn: "",
+      comics_no: "",
       title: "",
       comics_index: "",
       type: "0",
+      isbn: "",
       author: "",
       translator: "",
       intro: "",
@@ -266,6 +306,7 @@ export default {
       publication_date: "",
       language: "0",
       comics_price: "",
+      comics_status: 1,
       imageUrls: {
         img: [],
         comics_readfirst: [],
@@ -288,8 +329,8 @@ export default {
         this.publication_date !== "" &&
         this.language !== "0" &&
         this.comics_price !== "" &&
-        this.imageUrls.img.length > 0 &&
-        this.imageUrls.comics_readfirst.length > 0
+        this.imageUrls.img.length > 0
+        // this.imageUrls.comics_readfirst.length > 0
       );
     },
   },
@@ -303,7 +344,7 @@ export default {
     /*圖片*/
     handleImageUpload(event, imgType) {
       const files = event.target.files;
-      const maxImages = 1; 
+      const maxImages = 1;
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -312,40 +353,58 @@ export default {
           if (this.imageUrls[imgType].length === maxImages) {
             this.imageUrls[imgType].splice(0, 1);
           }
-          this.imageUrls[imgType].push(reader.result); 
+          this.imageUrls[imgType].push(reader.result);
         };
         if (file) {
           reader.readAsDataURL(file);
         }
       }
     },
-    getImage(e) {
-      const file = e.target.files.item(0);
-      if(file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
-        alert('只能上傳圖檔');
-        return;
-      }
-      const reader = new FileReader();
-      reader.addEventListener('load', this.imageLoaded);
-      reader.readAsDataURL(file);
-    },
-    imageLoaded(e) {
-      this.member_img = e.target.result;
-    },
-    uploadImg() {
-      console.log('触发上传');
-      const formData = new FormData(document.getElementById('pic'));
-      this.axios.post(`${this.$URL}/uploadMemberImg.php`, formData)
-        .then(res => {
+    // getImage(e) {
+    //   const file = e.target.files.item(0);
+    //   if (
+    //     file.type !== "image/jpeg" &&
+    //     file.type !== "image/png" &&
+    //     file.type !== "image/jpg"
+    //   ) {
+    //     alert("只能上傳圖檔");
+    //     return;
+    //   }
+    //   const reader = new FileReader();
+    //   reader.addEventListener("load", this.imageLoaded);
+    //   reader.readAsDataURL(file);
+    // },
+    // imageLoaded(e) {
+    //   this.member_img = e.target.result;
+    // },
+    // uploadImg() {
+    //   console.log("触发上传");
+    //   const formData = new FormData(document.getElementById("pic"));
+    //   this.axios
+    //     .post(`${this.$URL}/uploadMemberImg.php`, formData)
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    submit() {
+      console.log("觸發上傳");
+      const formData = new FormData(document.getElementById("comicForm"));
+      this.axios
+        .post(`${this.$URL}/addComicAdd.php`, formData)
+        .then((res) => {
           console.log(res);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
+      this.openModal();
     },
-    getContent(title) {
-      this.content = title;
-    },
+    // getContent(title) {
+    //   this.content = title;
+    // },
     /*計算數字*/
     countWords() {
       this.showWordcount = this.intro.length;
@@ -359,6 +418,87 @@ export default {
     },
     submitData() {
       this.closeModal();
+    },
+    previewObjectURL(e) {
+      // let [file] = e.target.files;
+      // console.log('previewDataURI', file);
+      // this.objectURL = window.URL.createObjectURL(file);
+      const file = e.target.files.item(0);
+      const reader = new FileReader();
+      reader.addEventListener("load", (e) => {
+        this.tempImg = e.target.result;
+        console.log(e.target.result);
+      });
+      reader.readAsDataURL(file);
+    },
+
+    updateComicAdd() {
+      console.log("触发上傳");
+      const formData = new FormData();
+
+      formData.append("comics_no", this.comics_no);
+      formData.append("title", this.title);
+      formData.append("comics_index", this.comics_index);
+      formData.append("type", this.type);
+      formData.append("isbn", this.isbn);
+      // ...添加其他数据...
+
+      // 添加图片文件
+      const imgFile = this.imageUrls.img[0]; // 获取第一张图片
+      formData.append("img", imgFile);
+
+      const comicsReadFirstFile = this.imageUrls.comics_readfirst[0]; // 获取第一张漫画阅读首图
+      formData.append("comics_readfirst", comicsReadFirstFile);
+
+      this.axios
+        .post(`${this.$URL}/updateComicAdd.php`, formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    addComicAdd() {
+      const formData = new FormData(document.getElementById("ComicAdd_modal"));
+
+      // 将需要上传的数据和文件添加到 formData
+      // formData.append("comics_no", this.comics_no);
+      // formData.append("title", this.title);
+      // ...添加其他数据和文件...
+      formData.append("comics_status", this.comics_status);
+      this.axios
+        .post(`${this.$URL}/addComicAdd.php`, stringify(formData))
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    updateComicAdd() {
+      console.log("觸發上傳");
+      this.axios
+        .post(`${this.$URL}/updateComicAdd.php`, formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addNewsData() {
+      console.log("觸發上傳");
+      this.axios
+        .post(`${this.$URL}/addComicAdd.php`, formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
