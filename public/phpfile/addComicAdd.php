@@ -29,12 +29,12 @@ try {
             // $admin_id = 2;
 
             $sql = "INSERT INTO comics_collection (title, comics_index, type, isbn, author, translator, intro, publisher, publication_date, language, comics_price, comics_status, img) 
-                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, :comics_status, :img)";
+                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, 1, :img)";
             $products = $pdo->prepare($sql); 
             // $products->bindValue(":comics_id", $_POST["comics_id"]);
             $products->bindValue(":img", $fileName);
             // $products->bindValue(":comics_readfirst", $_POST["comics_readfirst"]);
-            $products->bindValue(":comics_status", $_POST["comics_status"]);
+            // $products->bindValue(":comics_status", $_POST["comics_status"]);
             $products->bindValue(":comics_price", $_POST["comics_price"]);
             $products->bindValue(":language", $_POST["language"]);
             $products->bindValue(":publication_date", $_POST["publication_date"]);
