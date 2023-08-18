@@ -59,7 +59,8 @@
           <div class="first">
             <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.ename"
                 :disabled="isReadOnly"></label>
-            <label for="password">分館<input type="text" class="password" id="password" :disabled="isReadOnly" :value="memInfo.branch"></label>
+            <label for="password">分館<input type="text" class="password" id="password" :disabled="isReadOnly"
+                :value="memInfo.branch"></label>
           </div>
           <div class="second">
 
@@ -93,16 +94,16 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name" :value="memInfo.ename">
-            分館<input type="text" class="password" :value="memInfo.branch">
+            姓名<input type="text" class="name" v-model="memInfo.ename">
+            分館<input type="text" class="password" v-model="memInfo.branch">
 
           </div>
           <div class="second">
-            編號<input type="text" class="phone" :value="memInfo.admin_no">
-            職稱<input type="text" class="password" :value="memInfo.ejob">
+            編號<input type="text" class="phone" v-model="memInfo.admin_no">
+            職稱<input type="text" class="password" v-model="memInfo.ejob">
           </div>
           <div class="third">
-            密碼<input type="text" class="address" :value="memInfo.password">
+            密碼<input type="text" class="address" v-model="memInfo.password">
           </div>
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
@@ -149,7 +150,7 @@
           <div class="third">
             密碼<input type="text" class="address" v-model="newMember.password">
           </div>
-          
+
           <button class="confirm" @click="handleAddConfirm">確認</button>
 
         </div>
@@ -210,18 +211,21 @@ export default {
   },
   computed: {
 
-},
+  },
   methods: {
     memberInfo(index) {
       this.memInfo = this.memberData[index];
       this.showModal('info');
+      console.log( this.memInfo);
     },
     showModal(type) {
       this.modals[type] = !this.modals[type];
     },
     handleEditConfirm() {
+      this.showModal('info');
       this.showModal('edit');
       this.showModal('editSuccess');
+      this.updateAccountData();
     },
     handleDepositConfirm() {
       this.showModal('deposit');
@@ -248,16 +252,26 @@ export default {
           console.log(err);
         })
     },
-    updateMembersData() {
-      console.log('觸發上傳');
-      const formData = new FormData(document.getElementById('news_modal'));
-      axios.post(`${this.$URL}/updateMemberData.php`, formData)
+    updateAccountData() {
+
+      const editData = {
+        admin_id: this.memInfo.admin_id,
+        ename: this.memInfo.ename,
+        branch: this.memInfo.branch,
+        admin_no: this.memInfo.admin_no,
+        ejob: this.memInfo.ejob,
+        password: this.memInfo.password,
+      };
+      console.log('發送會員資料');
+
+      axios.post(`${this.$URL}/updateAccountData.php`, JSON.stringify(editData))
         .then(res => {
           console.log(res);
+          console.log('修改成功');
         })
         .catch(err => {
           console.log(err);
-        });
+        })
     },
     addMemberData() {
       console.log('發送會員資料');
