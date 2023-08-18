@@ -186,8 +186,10 @@ export default {
       }
     },
     openModal(index) {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const dataIndex = startIndex + index;
       this.showModal = true;
-      this.selectedItem = this.filteredDataList[index]; // 這裡應該使用filteredDataList而不是dataList
+      this.selectedItem = this.filteredDataList[dataIndex];
     },
     closeModal(){
       this.showModal=false;
@@ -212,7 +214,7 @@ export default {
   },
   mounted() {
     this.axios
-      .get(`${this.$URL}/getOrderStatus.php`)
+      .get(`${this.$URL_MAC}/getOrderStatus.php`)
       .then((res) => {
         console.log(res);
         this.dataList = res.data;
