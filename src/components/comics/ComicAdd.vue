@@ -42,14 +42,13 @@
                   <div class="mb-2">
                     <input
                       type="text"
-                      id="comics_id"
+                      name="comics_id"
                       class="form-control border-0"
                       readonly
                     />
                   </div>
                   <div class="mb-2">
                     <input
-                      id="isbn"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
@@ -61,7 +60,6 @@
                   </div>
                   <div class="mb-2">
                     <input
-                      id="title"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多64字"
@@ -72,7 +70,6 @@
                   </div>
                   <div class="mb-2">
                     <input
-                      id="comics_index"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
@@ -84,7 +81,6 @@
                   </div>
                   <div class="mb-2">
                     <input
-                      id="author"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多32字"
@@ -95,7 +91,6 @@
                   </div>
                   <div class="mb-2">
                     <input
-                      id="translator"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多32字"
@@ -105,34 +100,30 @@
                     />
                   </div>
                   <div class="mb-3">
-                    <select
-                      class="form-select"
-                      id="type"
-                      v-model="type"
-                      name="type"
-                    >
-                      <option value="0" disabled selected>請選擇</option>
-                      <option value="1">冒險系列</option>
-                      <option value="2">少男系列</option>
-                      <option value="3">魔法系列</option>
+                    <select class="form-select" v-model="type" name="type">
+                      <option value="請選擇" disabled selected>請選擇</option>
+                      <option value="冒險系列">冒險系列</option>
+                      <option value="少男系列">少男系列</option>
+                      <option value="魔法系列">魔法系列</option>
+                      <option value="格鬥系列">格鬥系列</option>
                     </select>
                   </div>
                   <div class="mb-3">
                     <input
                       class="form-check-input checkbox"
                       type="checkbox"
-                      value="1"
-                      id="comics_hot"
+                      :value="comics_hot_chekced"
                       name="comics_hot"
+                      id="comics_hot"
                     />
                   </div>
                   <div class="mt-4">
                     <input
                       class="form-check-input checkbox"
                       type="checkbox"
-                      value="1"
-                      id="comics_new"
+                      :value="comics_new_chekced"
                       name="comics_new"
+                      id="comics_new"
                     />
                   </div>
                 </div>
@@ -173,7 +164,6 @@
                 <div class="col-md-3">
                   <div class="mb-2">
                     <input
-                      id="comics_price"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 阿拉伯數字"
@@ -186,18 +176,16 @@
                   <div class="mb-2">
                     <select
                       class="form-select"
-                      id="language"
                       v-model="language"
                       name="language"
                     >
-                      <option value="0" disabled selected>請選擇</option>
-                      <option value="1">繁體中文</option>
-                      <option value="2">日語</option>
+                      <option value="請選擇" disabled selected>請選擇</option>
+                      <option value="繁體中文">繁體中文</option>
+                      <option value="日語">日語</option>
                     </select>
                   </div>
                   <div class="mb-2">
                     <input
-                      id="publisher"
                       type="text"
                       class="form-control"
                       placeholder="請輸入 最多12字"
@@ -208,7 +196,6 @@
                   </div>
                   <div class="form-row form-group">
                     <input
-                      id="publication_date"
                       type="date"
                       class="form-control"
                       v-model="publication_date"
@@ -243,7 +230,6 @@
                   <div class="col-mb-4">
                     <textarea
                       class="form-control mb-5"
-                      id="intro"
                       rows="10"
                       v-model="intro"
                       @input="countWords"
@@ -256,7 +242,7 @@
                       <button
                         type="button"
                         class="com_add_btn"
-                        @click="openModal"
+                        @click="submitForm"
                         :disabled="!isFormValid"
                       >
                         送出
@@ -307,6 +293,8 @@ export default {
       language: "0",
       comics_price: "",
       comics_status: 1,
+      comics_hot_chekced: 0,
+      comics_new_chekced: 0,
       imageUrls: {
         img: [],
         comics_readfirst: [],
@@ -335,6 +323,15 @@ export default {
     },
   },
   methods: {
+    submitForm() {
+      if (!this.isFormValid) {
+        alert("請填寫所有必填欄位");
+        return;
+      }
+
+      // Open the confirmation modal
+      this.showModal = true;
+    },
     /*檢查輸入值是否是阿拉伯数字*/
     noChinese(inputType) {
       let inputValue = this[inputType];
@@ -379,26 +376,6 @@ export default {
       console.log("觸發上傳");
       event.preventDefault(); //解決默認狀態
       const formData = new FormData(document.getElementById("comicForm"));
-      this.axios
-        .post(`${this.$URL}/addComicAdd.php`, formData)
-        .then((res) => {
-          console.log(res);
-          this.closeModal(); // 關閉確認弹窗
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    updateComicAdd() {
-      console.log("触发上傳");
-      const formData = new FormData();
-
-      // formData.append("comics_no", this.comics_no);
-      // formData.append("title", this.title);
-      // formData.append("comics_index", this.comics_index);
-      // formData.append("type", this.type);
-      // formData.append("isbn", this.isbn);
-      // ...添加其他数据...
 
       // 添加图片文件
       const imgFile = this.imageUrls.img[0]; // 获取第一张图片
@@ -408,14 +385,26 @@ export default {
       formData.append("comics_readfirst", comicsReadFirstFile);
 
       this.axios
-        .post(`${this.$URL}/updateComicAdd.php`, formData)
+        .post(`${this.$URL}/addComicAdd.php`, formData)
         .then((res) => {
           console.log(res);
+          this.closeModal(); // 關閉確認弹窗
+          alert("書籍新增成功");
         })
         .catch((err) => {
           console.log(err);
         });
     },
+  },
+  mounted() {
+    const comics_hot = document.getElementById("comics_hot");
+    const comics_new = document.getElementById("comics_new");
+    comics_hot.addEventListener("input", () => {
+      this.comics_hot_chekced = comics_hot.checked ? 1 : 0; // Change here
+    });
+    comics_new.addEventListener("input", () => {
+      this.comics_new_chekced = comics_new.checked ? 1 : 0; // Change here
+    });
   },
 };
 </script>

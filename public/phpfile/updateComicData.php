@@ -1,13 +1,11 @@
 <?php 
-header("Access-Control-Allow-Origin: http://localhost:8080");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Origin:*');
+header("Content-Type:application/json;charset=utf-8");
 
 try {
     require_once("connectDaka.php");
     
-    $sql = "update comics_collection set comics_no = :comics_no,
-    title = :title,
+    $sql = "update comics_collection set title = :title,
     comics_index = :comics_index,
     type = :type,
     isbn = :isbn,
@@ -20,42 +18,51 @@ try {
     comics_price = :comics_price,
     comics_status = :comics_status,
     img = :img,
-    comics_readfirst = :comics_readfirst
+    comics_readfirst = :comics_readfirst,
+    comics_no = :comics_no,
             where comics_id = :comics_id";
     
-    echo "$_POST['comics_hot'], $_POST['comics_new']";
     $products = $pdo->prepare($sql); 
     $products->bindValue(":comics_id", $_POST["comics_id"]);
+    $products->bindValue(":comics_no", $_POST["comics_no"]);
     $products->bindValue(":comics_readfirst", $_POST["comics_readfirst"]);
+    $products = $pdo->prepare($sql); 
     $products->bindValue(":img", $_POST["img"]);
     $products->bindValue(":comics_status", $_POST["comics_status"]);
     $products->bindValue(":comics_price", $_POST["comics_price"]);
     $products->bindValue(":language", $_POST["language"]);
     $products->bindValue(":publication_date", $_POST["publication_date"]);
+
     $products->bindValue(":publisher", $_POST["publisher"]);
     $products->bindValue(":intro", $_POST["intro"]);
     $products->bindValue(":translator", $_POST["translator"]);
     $products->bindValue(":author", $_POST["author"]);
+
     $products->bindValue(":isbn", $_POST["isbn"]);
     $products->bindValue(":type", $_POST["type"]);
     $products->bindValue(":comics_index", $_POST["comics_index"]);
     $products->bindValue(":title", $_POST["title"]);
-    $products->bindValue(":comics_no", $_POST["comics_no"]);
-
 
     $updateResult = $products->execute();
     
     if ($updateResult) {
-        if($_FILES["img"]["error"] === 0) {
+        if($_FILES["img"]["error"] === 0 && $_FILES["comics_readfirst"]["error"] === 0) {
             $dir = "../comic/";
-            $from = $_FILES["img"]["tmp_name"];
+
+    $from = $_FILES["img"]["tmp_name"];
+    $fromReadFirst = $_FILES["comics_readfirst"]["tmp_name"];
             
-            $fileName = uniqid();
-            $fileExt = pathInfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+    $fileName = uniqid();
+    $readFirstFileName = uniqid("RD");
+    $fileExt = pathInfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+    $readFirstFileExt = pathInfo($_FILES["comics_readfirst"]["name"], PATHINFO_EXTENSION);
             $fileName = "$fileName.$fileExt";
-            $to = $dir . $fileName;
+            $readFirstFileName = "$readFirstFileName.$readFirstFileExt";
+
+    $to = $dir . $fileName;
+    $toReadFirst = $dir . $readFirstFileName;
             
-            if(copy($from, $to)){
+    if(copy($from, $to) && copy($fromReadFirst, $toReadFirst)){
                 $updateImageSQL = "update comics_collection set img = :img where comics_id = :comics_id";
                 $updateImageStmt = $pdo->prepare($updateImageSQL);
                 $updateImageStmt->bindValue(":comics_id", $_POST["comics_id"]);

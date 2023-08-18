@@ -733,16 +733,15 @@ export default {
         }
       },
     },
-    isDisabled() {
-      return this.mode === "preview" && this.dataList === 0;
-    },
-    // 根据当前页数和每页显示项数计算分页结果
+    // isDisabled() {
+    //   return this.mode === "preview" && this.dataList === 0;
+    // },
+    // 頁數
     paginatedResults() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.searchResults.slice(startIndex, endIndex);
     },
-    // 计算总页数
     totalPages() {
       return Math.max(
         Math.ceil(this.searchResults.length / this.itemsPerPage),
@@ -750,12 +749,12 @@ export default {
       );
     },
     // 判断是否为最后一页
-    isLastPage() {
-      return this.currentPage === this.totalPages;
-    },
+    // isLastPage() {
+    //   return this.currentPage === this.totalPages;
+    // },
   },
   methods: {
-    /*圖片*/
+    // 圖片
     handleImageUpload(event, imgType) {
       const files = event.target.files;
       const maxImages = 1;
@@ -774,35 +773,36 @@ export default {
         }
       }
     },
-    getImage(e) {
-      const file = e.target.files.item(0);
-      if (
-        file.type !== "image/jpeg" &&
-        file.type !== "image/png" &&
-        file.type !== "image/jpg"
-      ) {
-        alert("只能上傳圖檔");
-        return;
-      }
-      const reader = new FileReader();
-      reader.addEventListener("load", this.imageLoaded);
-      reader.readAsDataURL(file);
-    },
-    imageLoaded(e) {
-      this.member_img = e.target.result;
-    },
-    uploadImg() {
-      console.log("触发上传");
-      const formData = new FormData(document.getElementById("pic"));
-      this.axios
-        .post(`${this.$URL}/uploadMemberImg.php`, formData)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+
+    // getImage(e) {
+    //   const file = e.target.files.item(0);
+    //   if (
+    //     file.type !== "image/jpeg" &&
+    //     file.type !== "image/png" &&
+    //     file.type !== "image/jpg"
+    //   ) {
+    //     alert("只能上傳圖檔");
+    //     return;
+    //   }
+    //   const reader = new FileReader();
+    //   reader.addEventListener("load", this.imageLoaded);
+    //   reader.readAsDataURL(file);
+    // },
+    // imageLoaded(e) {
+    //   this.member_img = e.target.result;
+    // },
+    // uploadImg() {
+    //   console.log("触发上传");
+    //   const formData = new FormData(document.getElementById("pic"));
+    //   this.axios
+    //     .post(`${this.$URL}/uploadMemberImg.php`, formData)
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
     setCurrentPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
@@ -950,5 +950,8 @@ export default {
         console.log(err);
       });
   },
+
+  // 修改mysql資料
+  
 };
 </script>

@@ -3,7 +3,6 @@ header('Access-Control-Allow-Origin:*');
 header("Content-Type:application/json;charset=utf-8");
 
 try {
-
   // $postData = json_decode(file_get_contents('php://input'), true);
     if($_FILES["img"]["error"] === 0 && $_FILES["comics_readfirst"]["error"] === 0) {
     $dir = "../comic/";
@@ -23,17 +22,20 @@ try {
     //PATHINFO_DIRNAME、 PATHINFO_BASENAME、 PATHINFO_EXTENSION、 PATHINFO_FILENAME。
     
     $fileName = "$fileName.$fileExt";//用uniqid()去串接副檔名
-    $readFirstFileName = "$readFirstFileName.$readFirstFileExt";
     
+    $readFirstFileName = "$readFirstFileName.$readFirstFileExt";
+
     $to = $dir . $fileName;
     $toReadFirst = $dir . $readFirstFileName;
     if(copy($from, $to) && copy($fromReadFirst, $toReadFirst)){
         //寫入資料庫
         try {
             require_once("connectDaka.php");
+            
+            // 尚未連動管理員登入，先暫且固定管理員編號
 
-            $sql = "INSERT INTO comics_collection (title, comics_index, type, isbn, author, translator, intro, publisher, publication_date, language, comics_price, comics_status, img, comics_readfirst, comics_new, comics_hot) 
-                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, 1, :img, :comics_readfirst, :comics_new, :comics_hot)";
+            $sql = "INSERT INTO comics_collection (title, comics_index, type, isbn, author, translator, intro, publisher, publication_date, language, comics_price, comics_status, img, comics_readfirst) 
+                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, 1, :img, :comics_readfirst)";
 
             $products = $pdo->prepare($sql); 
             $products->bindValue(":img", $fileName);
@@ -51,12 +53,6 @@ try {
             $products->bindValue(":comics_index", $_POST["comics_index"]);
             $products->bindValue(":intro", $_POST["intro"]);
             $products->bindValue(":title", $_POST["title"]);
-            // $products->bindValue(":comics_new", $_POST["comics_new"]);
-            $products->bindValue(":comics_new", isset($_POST["comics_new"]) ? $_POST["comics_new"] : 0);
-
-
-            // $products->bindValue(":comics_hot", $_POST["comics_hot"]);
-            $products->bindValue(":comics_hot", isset($_POST["comics_hot"]) ? $_POST["comics_hot"] : 0);
             // $products->bindValue(":comics_no", $_POST["comics_no"]);
             $products->execute();
 
@@ -89,7 +85,5 @@ try {
 	echo "錯誤行號 : ", $e->getLine(), "<br>";
 	echo "錯誤原因 : ", $e->getMessage(), "<br>";
 }
-
-
 // echo json_encode($msg);
 ?>
