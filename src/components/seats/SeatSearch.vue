@@ -5,7 +5,7 @@
             <input
               type="search"
               class="form-control"
-              placeholder="請輸入手機號碼"
+              placeholder="請輸入手機/座位號碼"
               aria-describedby="basic-addon1"
               v-model="search" @keyup.enter="emitTxt"
             />
