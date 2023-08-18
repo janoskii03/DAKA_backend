@@ -33,7 +33,7 @@
           <div id="flush-collapseTwo" class="accordion-collapse collapse " data-bs-parent="#accordionFlushExample" style="
     background-color: #263238 ">
             <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/seat_now')"><a>即時座位狀態</a></div>
-            <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/reserve')"><a>預約座位</a></div>
+            <!-- <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/reserve')"><a>預約座位</a></div> -->
             <div class="accordion-body nav_btn_inside fs-6" @click="this.$router.push('/seat_info')"><a>資料查詢</a></div>
           </div>
         </div>
@@ -203,7 +203,7 @@
 <script>
 import Member from '@/components/Member.vue'
 import Comics from '@/components/Comics.vue'
-import Reserve from '@/components/seats/Reserve.vue'
+// import Reserve from '@/components/seats/Reserve.vue'
 import SeatInfo from '@/components/seats/SeatInfo.vue'
 import SeatNow from '@/components/seats/SeatNow.vue'
 import Order from '@/components/comics/OrderStatus.vue'
@@ -219,7 +219,7 @@ import { mapMutations, mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   components: {
-    Member, Login, News, Reserve, SeatInfo, SeatNow, Comics, Order, ComicInfo, ComicReserve, ComicReturn, ComicAdd
+    Member, Login, News, SeatInfo, SeatNow, Comics, Order, ComicInfo, ComicReserve, ComicReturn, ComicAdd
   },
   data() {
     return {
@@ -245,11 +245,11 @@ export default {
           path: '/seat_now',
 
         },
-        {
-          name: '預約座位',
-          path: '/reserve',
+        // {
+        //   name: '預約座位',
+        //   path: '/reserve',
 
-        },
+        // },
         {
           name: '資料查詢',
           path: '/seat_info',

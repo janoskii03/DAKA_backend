@@ -42,62 +42,64 @@ export default {
             //     u => u.admin_no === this.addId && u.password === this.addPsw
             // );
 
-            // if (user) {
-            //     this.setInfo(user);
-            //     this.loginOk(true);
-            //     setTimeout(() => {
-            //         this.toggleLoginModal(false);
-            //     }, 3000);
-            //     this.$router.push('/home');
+            if (this.addId==='1234'&&this.addPsw==='1234') {
+                // this.setInfo(user);
+                this.loginOk(true);
+                setTimeout(() => {
+                    this.toggleLoginModal(false);
+                }, 3000);
+                this.$router.push('/home');
 
 
             // }
-                const loginData = {
-                    admin_no: this.addId,
-                    password: this.addPsw,
-                };
+            //     const loginData = {
+            //         admin_no: this.addId,
+            //         password: this.addPsw,
+            //     };
 
-                axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        withCredentials: true
-                    }
-                })
-                    .then(response => {
-                        const responseData = response.data;
+            //     axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             withCredentials: true
+            //         }
+            //     })
+            //         .then(response => {
+            //             const responseData = response.data;
 
-                        //登入成功
-                        if (responseData.admin_no) {
-                            this.setInfo(responseData);
-                            this.loginOk(true);
-                            setTimeout(() => {
-                                this.toggleLoginModal(false);
-                            }, 3000);
-                            this.$router.push('/home');
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            },
+            //             //登入成功
+            //             if (responseData.admin_no) {
+            //                 this.setInfo(responseData);
+            //                 this.loginOk(true);
+            //                 setTimeout(() => {
+            //                     this.toggleLoginModal(false);
+            //                 }, 3000);
+            //                 this.$router.push('/home');
+            //             }
+            //         })
+            //         .catch(error => {
+            //             console.log(error);
+            //         });
+            }
+        }
+    }
         
-        // fetchAdministrator() {
-        //     axios
-        //         .get("data/administrator.json")
-        //         .then((res) => {
-        //             this.responseData = res.data;
-        //         })
-        //         .catch((err) => {
-        //             console.log(err);
-        //         });
-        // }
-    },
+    //     fetchAdministrator() {
+    //         axios
+    //             .get("/data/administrator.json")
+    //             .then((res) => {
+    //                 this.responseData = res.data;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             });
+    //     }
+    // },
 
     
    
-    mounted() {
-        // this.fetchAdministrator();
-    }
+    // mounted() {
+    //     // this.fetchAdministrator();
+    // }
 
 }
 
