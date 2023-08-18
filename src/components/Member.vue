@@ -84,7 +84,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="title">{{ memInfo.grade }}{{ memInfo.mname }}</div>
+      <div class="title" >{{ memInfo.grade }}{{ memInfo.mname }}</div>
       <div class="gold">
         <div class="buy"><span>儲值金:</span>{{ memInfo.remain }}<span>元</span></div>
         <div class="spend"><span> 當年度累積消費金額:</span>{{ memInfo.value }}<span>元</span></div>
@@ -93,22 +93,22 @@
         <div class="infor">
           <img src="../assets/images/member/pen_icon.png" alt="編輯" class="pen">
           <div class="first">
-            姓名<input type="text" class="name" :value="memInfo.mname" name="mname">
-            性別<select name="sex" id="sex" :value="memInfo.sex">
+            姓名<input type="text" class="name"  name="mname" v-model="memInfo.mname">
+            性別<select name="sex" id="sex" v-model="memInfo.sex">
               <option selected disabled hidden></option>
-              <option>男</option>
-              <option>女</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
             </select>
           </div>
           <div class="second">
-            電話<input type="text" class="phone" :value="memInfo.mobile" name="mobile">
-            密碼<input type="text" class="password" :value="memInfo.password" name="password">
+            電話<input type="text" class="phone" v-model="memInfo.mobile" name="mobile">
+            密碼<input type="text" class="password" v-model="memInfo.password" name="password">
           </div>
           <div class="third">
-            生日<input type="text" class="birthday" :value="memInfo.member_birth" name="member_birth">
-            信箱<input type="text" class="mail" :value="memInfo.email" name="email">
+            生日<input type="text" class="birthday" v-model="memInfo.member_birth" name="member_birth">
+            信箱<input type="text" class="mail" v-model="memInfo.email" name="email">
           </div>
-          地址<input type="text" class="address" :value="memInfo.address" name="address">
+          地址<input type="text" class="address" v-model="memInfo.address" name="address">
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
@@ -198,6 +198,8 @@
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
+
+
           <button class="confirm" @click="handleAddConfirm">確認</button>
 
         </div>
@@ -247,7 +249,7 @@ export default {
         addMemberSuccess: false
       },
       memberData: [],
-      dataList: [],
+
       SearchData: [],
       newMember: {
         mname: null,
@@ -285,8 +287,10 @@ export default {
       this.modals[type] = !this.modals[type];
     },
     handleEditConfirm() {
+      this.showModal('info');
       this.showModal('edit');
       this.showModal('editSuccess');
+      this.updateMemberData();
     },
     handleDepositConfirm() {
       this.showModal('deposit');
@@ -303,67 +307,71 @@ export default {
       axios.get(`${this.$URL}/getMember.php`)
         .then((res) => {
           console.log(res);
-          this.datalist = res.data;
           this.memberData = res.data;
+          this.memberData.forEach(mem => {
+            switch (mem.grade) {
+              case '0':
+                mem.grade = '普通會員';
+                break;
+              case '1':
+                mem.grade = '白銀會員';
+                break;
+              case '2':
+                mem.grade = '黃金會員';
+                break;
+              case '3':
+                mem.grade = '白金會員';
+                break;
+              case '4':
+                mem.grade = '鑽石會員';
+                break;
+            }
+          })
         })
         .catch((err) => {
           console.log(err);
         })
     },
+    updateMemberData() {
 
-    // updateMembersData() {
-    //   console.log('觸發上傳');
-    //   const formData = new FormData(document.getElementById('news_modal'));
-    //   this.axios.post(`${this.$URL}/updateMemberData.php`, formData)
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     })
-    // },
-    // addMemberData() {
-    //   console.log('觸發上傳');
-    //   const formData = new FormData(document.getElementById('mem_add'));
-    //   this.axios.post(`${this.$URL}/addMemberData.php`, formData)
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     })
-    // }
-    updateMembersData() {
-      console.log('觸發上傳');
-      const formData = new FormData(document.getElementById('news_modal'));
-      axios.post(`${this.$URL}/updateMemberData.php`, formData)
+      const editData = {
+        mem_id:this.memInfo.mem_id,
+        mname: this.memInfo.mname,
+        sex: this.memInfo.sex,
+        mobile: this.memInfo.mobile,
+        password: this.memInfo.password,
+        member_birth: this.memInfo.member_birth,
+        address: this.memInfo.address,
+        email: this.memInfo.email,
+      };
+      console.log('發送會員資料');
+
+      axios.post(`${this.$URL}/updateMemberData.php`, JSON.stringify(editData))
         .then(res => {
           console.log(res);
+          console.log('修改成功');
         })
         .catch(err => {
           console.log(err);
-        });
+        })
     },
     addMemberData() {
       console.log('發送會員資料');
       this.showModal('addMemberSuccess');
-      this.axios.post(`${this.$URL}/addMemberData`, JSON.stringify(this.newMember))
+      this.axios.post(`${this.$URL}/addMemberData.php`, JSON.stringify(this.newMember))
         .then(res => {
           console.log(res);
         })
         .catch(err => {
           console.log(err);
         })
-      // console.log('觸發上傳');
-      // const formData = new FormData(document.getElementById('mem_add'));
-      // axios.post(`${this.$URL}/addMemberData.php`, formData)
-      //   .then(res => {
-      //     console.log(res);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-    }
+    },
+    // example() {
+    // if (condition1) { return value1; }
+    // else if (condition2) { return value2; }
+    // else if (condition3) { return value3; }
+    // else { return value4; }
+    // },
 
   },
   mounted() {

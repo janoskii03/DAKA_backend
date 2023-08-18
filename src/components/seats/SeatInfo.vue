@@ -9,9 +9,10 @@
             @change="computeResults"
             aria-label="Default select example"
           >
-            <option value="0" selected>使用者</option>
-            <option value="1">大廳區</option>
-            <option value="2">包廂區</option>
+            <option value="0" selected>---請選擇---</option>
+            <option value="1">使用者</option>
+            <option value="2">大廳區</option>
+            <option value="3">包廂區</option>
           </select>
 
           <!-- <div class="input-group">
@@ -56,6 +57,9 @@
               <div v-if="totalPages > 1"></div>
             </tr>
           </table>
+          <div v-if="noResultsMessage" class="alert alert-warning">
+            {{ noResultsMessage }} 
+          </div>
         </div>
         <div class="pagination-wrapper" v-if="totalPages > 1">
           <!-- <button
@@ -96,16 +100,13 @@
             </ul>
           </nav>
         </div>
-        <div v-if="noResultsMessage" class="alert alert-warning">
-          {{ noResultsMessage }}
-        </div>
       </template>
     </Form>
   </div>
 </template>
 <script>
 import Form from "@/components/Form.vue";
-import Search from "@/components/comics/Search.vue";
+import Search from "@/components/seats/SeatSearch.vue";
 
 export default {
   components: {
@@ -153,11 +154,10 @@ export default {
 
   methods: {
     setCurrentPage(pageNumber) {
- 
-      console.log(this.totalPages)
+      console.log(this.totalPages);
 
       if (pageNumber <= 0 || pageNumber > this.totalPages) {
-        console.log('this.totalPages')
+        console.log("this.totalPages");
         return;
       }
       this.currentPage = pageNumber;
@@ -172,13 +172,13 @@ export default {
 
       // 根据选择的选项进行不同的查询
       switch (this.selectedOption) {
-        case "0": // 使用者
+        case "1": // 使用者
           this.filterDataList = this.dataList.filter((item) =>
             item.mobile.includes(this.searchTerm)
           );
           break;
 
-        case "1": // 大廳區
+        case "2": // 大廳區
           this.filterDataList = this.dataList.filter((item) => {
             return item.items.some(
               (seat) =>
@@ -188,7 +188,7 @@ export default {
           });
           break;
 
-        case "2": // 包廂區
+        case "3": // 包廂區
           this.filterDataList = this.dataList.filter((item) => {
             return item.items.some(
               (seat) =>
@@ -205,6 +205,7 @@ export default {
       // 若查询结果为空
       if (this.filterDataList.length === 0) {
         this.noResultsMessage = "查無此資料，請重新搜尋。";
+        console.log("noResultsMessage", this.noResultsMessage);
       } else {
         this.step = 1;
         this.noResultsMessage = "";

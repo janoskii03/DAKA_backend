@@ -186,8 +186,10 @@ export default {
       }
     },
     openModal(index) {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const dataIndex = startIndex + index;
       this.showModal = true;
-      this.selectedItem = this.filteredDataList[index]; // 這裡應該使用filteredDataList而不是dataList
+      this.selectedItem = this.filteredDataList[dataIndex];
     },
     closeModal(){
       this.showModal=false;

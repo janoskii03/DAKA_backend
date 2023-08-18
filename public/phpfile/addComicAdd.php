@@ -4,37 +4,40 @@ header("Content-Type:application/json;charset=utf-8");
 
 try {
   // $postData = json_decode(file_get_contents('php://input'), true);
-	if($_FILES["img"]["error"] === 0) {
+    if($_FILES["img"]["error"] === 0 && $_FILES["comics_readfirst"]["error"] === 0) {
     $dir = "../comic/";
 
     $from = $_FILES["img"]["tmp_name"];
+    $fromReadFirst = $_FILES["comics_readfirst"]["tmp_name"];
     
     //決定檔案名稱:原先的$_FILES["image"]["name"]副檔名可能是png,gif
     //---產生主檔名
     $fileName = uniqid();
+    $readFirstFileName = uniqid("RD");
 
     //---取出副檔名
-    $fileExt = pathInfo($_FILES["img"]["name"], PATHINFO_EXTENSION); //ann.gif
+    $fileExt = pathInfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+    $readFirstFileExt = pathInfo($_FILES["comics_readfirst"]["name"], PATHINFO_EXTENSION);
+        
+     //ann.gif
     //PATHINFO_DIRNAME、 PATHINFO_BASENAME、 PATHINFO_EXTENSION、 PATHINFO_FILENAME。
     
     $fileName = "$fileName.$fileExt";//用uniqid()去串接副檔名
+    $readFirstFileName = "$readFirstFileName.$readFirstFileExt";
     
     $to = $dir . $fileName;
-    if(copy($from, $to)){
+    $toReadFirst = $dir . $readFirstFileName;
+    if(copy($from, $to) && copy($fromReadFirst, $toReadFirst)){
         //寫入資料庫
         try {
             require_once("connectDaka.php");
-            
-            // 尚未連動管理員登入，先暫且固定管理員編號
-            // $admin_id = 2;
 
-            $sql = "INSERT INTO comics_collection (title, comics_index, type, isbn, author, translator, intro, publisher, publication_date, language, comics_price, comics_status, img) 
-                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, :comics_status, :img)";
+            $sql = "INSERT INTO comics_collection (title, comics_index, type, isbn, author, translator, intro, publisher, publication_date, language, comics_price, comics_status, img, comics_readfirst) 
+                    VALUES (:title, :comics_index, :type, :isbn, :author, :translator, :intro, :publisher, :publication_date, :language, :comics_price, 1, :img, :comics_readfirst)";
             $products = $pdo->prepare($sql); 
-            // $products->bindValue(":comics_id", $_POST["comics_id"]);
             $products->bindValue(":img", $fileName);
-            // $products->bindValue(":comics_readfirst", $_POST["comics_readfirst"]);
-            $products->bindValue(":comics_status", $_POST["comics_status"]);
+            $products->bindValue(":comics_readfirst", $readFirstFileName);
+            // $products->bindValue(":comics_status", $_POST["comics_status"]);
             $products->bindValue(":comics_price", $_POST["comics_price"]);
             $products->bindValue(":language", $_POST["language"]);
             $products->bindValue(":publication_date", $_POST["publication_date"]);
