@@ -198,8 +198,6 @@
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
           </div>
-
-
           <button class="confirm" @click="handleAddConfirm">確認</button>
 
         </div>
@@ -287,10 +285,8 @@ export default {
       this.modals[type] = !this.modals[type];
     },
     handleEditConfirm() {
-      this.showModal('info');
       this.showModal('edit');
       this.showModal('editSuccess');
-      this.updateMemberData();
     },
     handleDepositConfirm() {
       this.showModal('deposit');
@@ -308,31 +304,11 @@ export default {
         .then((res) => {
           console.log(res);
           this.memberData = res.data;
-          this.memberData.forEach(mem => {
-            switch (mem.grade) {
-              case '0':
-                mem.grade = '普通會員';
-                break;
-              case '1':
-                mem.grade = '白銀會員';
-                break;
-              case '2':
-                mem.grade = '黃金會員';
-                break;
-              case '3':
-                mem.grade = '白金會員';
-                break;
-              case '4':
-                mem.grade = '鑽石會員';
-                break;
-            }
-          })
         })
         .catch((err) => {
           console.log(err);
         })
     },
-    updateMemberData() {
 
       const editData = {
         mem_id:this.memInfo.mem_id,
@@ -349,7 +325,6 @@ export default {
       axios.post(`${this.$URL}/updateMemberData.php`, JSON.stringify(editData))
         .then(res => {
           console.log(res);
-          console.log('修改成功');
         })
         .catch(err => {
           console.log(err);
