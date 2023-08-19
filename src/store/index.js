@@ -5,6 +5,7 @@ export default createStore({
     isLogin:false,
     isLoginOpen:true,
     member: {},
+    userTokenKey: "user_token",
   },
   getters: {
   },
@@ -25,6 +26,10 @@ export default createStore({
     loginOut(state) {
       state.islogin = false;
       state.member = {};
+      localStorage.clear(state.userTokenKey, state.member.addId);
+    },
+    setToStorage(state) {
+      localStorage.setItem(state.userTokenKey, state.member.addId);
     },
   },
   actions: {

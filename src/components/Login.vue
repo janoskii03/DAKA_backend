@@ -28,61 +28,81 @@ export default {
         return {
             addId: '',
             addPsw: '',
-            responseData: [],
         }
     },
     computed: {
-        ...mapState(["isLoginOpen", "member", 'login']),
+        ...mapState(["isLoginOpen", "member", 'login', 'userTokenKey']),
     },
     methods: {
-        ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut']),
+        ...mapMutations(["setInfo", 'loginOk', 'toggleLoginModal', 'loginOut', 'setToStorage']),
         checkLogin() {
 
             // const user = this.responseData.find(
             //     u => u.admin_no === this.addId && u.password === this.addPsw
             // );
 
-            if (this.addId==='1234'&&this.addPsw==='1234') {
+            const addData = {
+                addId: this.addId,
+                addPsw: this.addPsw,
+            };
+
+            if (this.addId === '1234' && this.addPsw === '1234') {
                 // this.setInfo(user);
                 this.loginOk(true);
+                this.setInfo(addData);
+                this.setToStorage(this.addId);
                 setTimeout(() => {
                     this.toggleLoginModal(false);
                 }, 3000);
                 this.$router.push('/home');
 
 
-            // }
-            //     const loginData = {
-            //         admin_no: this.addId,
-            //         password: this.addPsw,
-            //     };
+                // }
+                //     const loginData = {
+                //         admin_no: this.addId,
+                //         password: this.addPsw,
+                //     };
 
-            //     axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             withCredentials: true
-            //         }
-            //     })
-            //         .then(response => {
-            //             const responseData = response.data;
+                //     axios.post(`${this.$URL}/login.php`, JSON.stringify(loginData), {
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             withCredentials: true
+                //         }
+                //     })
+                //         .then(response => {
+                //             const responseData = response.data;
 
-            //             //登入成功
-            //             if (responseData.admin_no) {
-            //                 this.setInfo(responseData);
-            //                 this.loginOk(true);
-            //                 setTimeout(() => {
-            //                     this.toggleLoginModal(false);
-            //                 }, 3000);
-            //                 this.$router.push('/home');
-            //             }
-            //         })
-            //         .catch(error => {
-            //             console.log(error);
-            //         });
+                //             //登入成功
+                //             if (responseData.admin_no) {
+                //                 this.setInfo(responseData);
+                //                 this.loginOk(true);
+                //                 setTimeout(() => {
+                //                     this.toggleLoginModal(false);
+                //                 }, 3000);
+                //                 this.$router.push('/home');
+                //             }
+                //         })
+                //         .catch(error => {
+                //             console.log(error);
+                //         });
             }
-        }
+        },
+        tokenCheck() {
+            console.log(123);
+            const checkToken = localStorage.getItem(this.userTokenKey);
+            if (checkToken) {
+                const addData = {
+                    addId: '1234',
+                    addPsw: '1234',
+                };
+
+                this.loginOk(true);
+                this.setInfo(addData);
+                
+            } 
+        },
     }
-        
+
     //     fetchAdministrator() {
     //         axios
     //             .get("/data/administrator.json")
@@ -95,11 +115,10 @@ export default {
     //     }
     // },
 
-    
-   
-    // mounted() {
-    //     // this.fetchAdministrator();
-    // }
+    ,mounted() {
+        this.tokenCheck();
+        // this.fetchAdministrator();
+    }
 
 }
 
