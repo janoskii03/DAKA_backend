@@ -6,10 +6,10 @@ try {
 	require_once("connectDaka.php");
 	
 	//執行sql指令並取得pdoStatement
-	// $sql = "select n.news_id, n.news_title, n.news_date, n.news_category, n.news_status, n.news_text, a.admin_id, a.ename
-	// from news n
-	// join administrator a on n.admin_id = a.admin_id
-	// order by n.news_id";
+	$sql = "select n.comics_id, n.comics_no, n.title, n.comics_index, n.type, n.isbn, n.translator, n.intro, n.publisher, n.publication_date, n.language, n.comics_price, n.comics_status, n.img, n.comics_readfirst, n.comics_new, n.comics_hot, a.admin_id, a.ename
+	from news n
+	join administrator a on n.admin_id = a.admin_id
+	order by n.comics_id";
 
 	$sql = "select * from comics_collection";
 	$products = $pdo->query($sql); 

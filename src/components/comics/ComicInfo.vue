@@ -31,7 +31,7 @@
     </template>
 
     <template v-slot:form_table>
-      <div class="scrollable-table">
+      <div class="scrollable-table" id="news_modal" method="post">
         <table class="main_list">
           <tr>
             <th v-for="header in comics_id">{{ header }}</th>
@@ -149,6 +149,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.comics_no"
+                            id="comics_no"
                           />
                         </div>
                         <div class="mt-3">
@@ -158,6 +159,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.isbn"
+                            id="isbn"
                           />
                         </div>
                         <div class="mt-4">
@@ -167,6 +169,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.title"
+                            id="title"
                           />
                         </div>
                         <div class="mt-3">
@@ -176,6 +179,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.comics_index"
+                            id="selectedItem.comics_index"
                           />
                         </div>
                         <div class="mt-3">
@@ -185,6 +189,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.author"
+                            id="author"
                           />
                         </div>
                         <div class="mt-3">
@@ -194,6 +199,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.translator"
+                            id="translator"
                           />
                         </div>
                         <div class="mt-3">
@@ -202,6 +208,7 @@
                             v-model="selectedItem.type"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="type"
                           >
                             <option value="0" disabled selected>請選擇</option>
                             <option value="冒險系列">冒險系列</option>
@@ -218,6 +225,7 @@
                             value=""
                             :disabled="isPreviewMode(selectedItemIndex)"
                             :checked="selectedItem.comics_hot === '1'"
+                            id="comics_hot"
                           />
                         </div>
                         <div class="mt-4">
@@ -228,6 +236,7 @@
                             value=""
                             :disabled="isPreviewMode(selectedItemIndex)"
                             :checked="selectedItem.comics_new === '1'"
+                            id="comics_new"
                           />
                         </div>
                       </div>
@@ -275,6 +284,7 @@
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
                             v-model="selectedItem.comics_price"
+                            id="comics_price"
                           />
                         </div>
                         <div class="mt-3">
@@ -283,6 +293,7 @@
                             v-model="selectedItem.language"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="language"
                           >
                             <option value="0" disabled selected>請選擇</option>
                             <option value="繁體中文">繁體中文</option>
@@ -296,6 +307,7 @@
                             v-model="selectedItem.publisher"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="publisher"
                           />
                         </div>
                         <div class="mt-3">
@@ -305,6 +317,7 @@
                             v-model="selectedItem.publication_date"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="publication_date"
                           />
                         </div>
                         <div class="mt-3">
@@ -313,6 +326,7 @@
                             type="file"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="img"
                           />
                         </div>
                         <div class="mt-3">
@@ -321,6 +335,7 @@
                             type="file"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            id="comics_readfirst"
                           />
                         </div>
                       </div>
@@ -335,6 +350,7 @@
                       </div>
                       <!-- 填寫區 -->
                       <div class="col-md-3 mt-1">
+                        <!-- 報銷修改 -->
                         <input
                           class="form-check-input checkbox"
                           disabled
@@ -342,6 +358,7 @@
                           value=""
                           :disabled="isPreviewMode(selectedItemIndex)"
                           :checked="selectedItem.comics_status === '0'"
+                          id="comics_status"
                         />
                         <div class="mb-3">
                           <textarea
@@ -353,6 +370,7 @@
                             maxlength="150"
                             disabled
                             :readonly="isPreviewMode(selectedItemIndex)"
+                            :id="intro"
                           ></textarea>
                         </div>
                         <div class="mb-4">
@@ -424,6 +442,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.comics_no"
+                          id="comics_no"
                         />
                       </div>
                       <div class="mt-3">
@@ -432,6 +451,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.isbn"
+                          id="isbn"
                         />
                       </div>
                       <div class="mt-4">
@@ -440,6 +460,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.title"
+                          id="title"
                         />
                       </div>
                       <div class="mt-3">
@@ -448,6 +469,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.comics_index"
+                          id="comics_index"
                         />
                       </div>
                       <div class="mt-3">
@@ -456,6 +478,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.author"
+                          id="author"
                         />
                       </div>
                       <div class="mt-3">
@@ -464,10 +487,15 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.translator"
+                          id="translator"
                         />
                       </div>
                       <div class="mt-3">
-                        <select class="form-select" :value="selectedItem.type">
+                        <select
+                          class="form-select"
+                          id="type"
+                          :value="selectedItem.type"
+                        >
                           <option value="0" disabled selected>請選擇</option>
                           <option value="冒險系列">冒險系列</option>
                           <option value="少男系列">少男系列</option>
@@ -482,6 +510,7 @@
                           value=""
                           :value="selectedItem.author"
                           :checked="selectedItem.comics_hot === '1'"
+                          id="comics_hot"
                         />
                       </div>
                       <div class="mt-4">
@@ -491,6 +520,7 @@
                           value=""
                           :value="selectedItem.author"
                           :checked="selectedItem.comics_new === '1'"
+                          id="comics_new"
                         />
                       </div>
                     </div>
@@ -537,12 +567,14 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.comics_price"
+                          id="comics_price"
                         />
                       </div>
                       <div class="mt-3">
                         <select
                           class="form-select"
                           :value="selectedItem.language"
+                          id="language"
                         >
                           <option value="0" disabled selected>請選擇</option>
                           <option value="繁體中文">繁體中文</option>
@@ -555,6 +587,7 @@
                           class="form-control"
                           placeholder="請輸入 阿拉伯數字"
                           :value="selectedItem.publisher"
+                          id="publisher"
                         />
                       </div>
                       <div class="mt-3">
@@ -562,22 +595,41 @@
                           type="date"
                           class="form-control"
                           :value="selectedItem.publication_date"
+                          id="publication_date"
                         />
                       </div>
                       <div class="mt-3">
+                        <!-- <input
+                          class="form-control"
+                          type="file"
+                          id="img"
+                          accept=".jpg, .png, .webp"
+                          :disabled="isReadOnly"
+                          @change="previewObjectURL"
+                        /> -->
                         <input
                           class="form-control"
                           type="file"
+                          id="img"
+                          accept=".jpg, .png, .webp"
                           @change="handleImageUpload($event, 'img')"
                         />
                       </div>
                       <div class="mt-3">
+                        <!-- <input
+                          class="form-control"
+                          type="file"
+                          id="previewObjectURL"
+                          accept=".jpg, .png, .webp"
+                          :disabled="isReadOnly"
+                          @change="previewObjectURL"
+                        /> -->
                         <input
                           class="form-control"
                           type="file"
-                          @change="
-                            handleImageUpload($event, 'comics_readfirst')
-                          "
+                          id="previewObjectURL"
+                          accept=".jpg, .png, .webp"
+                          @change="handleImageUpload($event, 'comics_readfirst')"
                         />
                       </div>
                     </div>
@@ -593,13 +645,14 @@
                     <!-- 填寫區 -->
                     <div class="col-md-3">
                       <div class="mt-1">
+                        <!-- 報銷預覽 -->
                         <input
                           class="form-check-input checkbox"
                           type="checkbox"
-                          value=""
                           :checked="selectedItem.comics_status === '0'"
                           :disabled="selectedItem.comics_status === '0'"
-                          @click="handleCheckboxClick"
+                          v-model="comics_checked"
+                          @change="handleCheckboxChange"
                         />
                       </div>
                       <div class="mb-3">
@@ -688,6 +741,9 @@ export default {
   },
   data() {
     return {
+      comics_checked: false,
+      showModal4: false,
+      showModal5: false,
       comics_id: ["ISBN編碼", "建檔編號", "書籍名稱", "進貨價格", "租借狀況"],
       searchOption: "0",
       searchInput: "",
@@ -702,7 +758,7 @@ export default {
       currentModal: null, // 记录当前显示的弹窗
       selectedItem: null, // 选中的数据项
       editModes: [],
-      selectedItemIndex: null,
+      selectedItemIndex: 0,
       isFirstClick: true,
       currentPage: 1, // 当前页数
       itemsPerPage: 10, // 每页显示的项数
@@ -754,6 +810,87 @@ export default {
     // },
   },
   methods: {
+    closeModal(e) {
+            this.$emit('emit-modal');
+            // this.updateNewsData();
+            if (this.title === '新增消息' && e.target.textContent === '發佈送出') {
+                // console.log(7778);
+                this.isReadOnly = false;
+                this.addNewsData();
+            } else if(this.title === '編輯消息' && e.target.textContent === '儲存編輯'){
+                // console.log('wuwu');
+                this.isReadOnly = true;
+                this.updateNewsData();
+            }
+            else if(this.title === '新增消息'){
+                this.isReadOnly = false;
+            } else {
+                this.isReadOnly = true;
+            }
+
+            console.log(e.target.textContent);
+            if(e.target.textContent === '儲存草稿') {
+                this.updateNewsData();
+            } 
+
+            // 圖檔清空
+            this.tempImg = '';
+            const fileName = document.querySelector('input[type="file"]');
+            fileName.value = '';
+
+            // if(e.target.textContent === '發佈送出') {
+            //     this.addNewsData();
+            // }
+        },
+        previewObjectURL(e) {
+            // let [file] = e.target.files;
+            // console.log('previewDataURI', file);
+            // this.objectURL = window.URL.createObjectURL(file);
+            const file = e.target.files.item(0);
+            const reader = new FileReader();
+            reader.addEventListener('load', (e) => {
+                this.tempImg = e.target.result;
+                console.log(e.target.result);
+            });
+            reader.readAsDataURL(file);
+        },
+        updateNewsData() {
+        console.log('觸發上傳');
+        const formData = new FormData(document.getElementById('news_modal'));
+
+        this.axios.post(`${this.$URL}/updateComicData.php`, formData)
+        .then(res => {
+            console.log(res);
+            })
+        .catch(err => {
+            console.log(err);
+            })
+        },
+        addNewsData() {
+        console.log('觸發上傳');
+        const formData = new FormData(document.getElementById('news_modal'));
+        this.axios.post(`${this.$URL}/addComicData.php`, formData)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        },
+        watch: {
+        title() {
+            if (this.title === '新增消息') {
+                this.isReadOnly = false;
+            } else {
+                this.isReadOnly = true;
+            }
+        }
+    },
+    computed: {},
+    components: { Form },
+
+
+
     // 圖片
     handleImageUpload(event, imgType) {
       const files = event.target.files;
@@ -936,22 +1073,30 @@ export default {
       this.showModal1 = false; // 关闭预览模式
       this.showModal2 = true;
     },
+
+    // 控制報銷視窗
+    handleCheckboxChange() {
+      this.showModal4 = this.comics_checked;
+      this.showModal5 = !this.comics_checked;
+    },
+    closeModal4() {
+      this.showModal4 = false;
+    },
+    closeModal5() {
+      this.showModal5 = false;
+    },
   },
 
-  // 串聯mysql資料
+  // 匯入mysql資料
   mounted() {
-    this.axios
-      .get(`${this.$URL}/getComicInfoImg.php`)
-      .then((res) => {
+    this.axios.get(`${this.$URL}/getComicInfoImg.php`)
+      .then(res => {
         console.log(res);
         this.dataList = res.data;
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-      });
+      })
   },
-
-  // 修改mysql資料
-  
 };
 </script>
