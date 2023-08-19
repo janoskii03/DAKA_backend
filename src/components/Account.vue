@@ -85,7 +85,7 @@
   <!-- ------------------------員工編輯---------------------------------------- -->
   <div class="account_edit" v-show="modals.edit">
     <div class="management_all">
-      <button class="com_x_btn" @click="showModal('edit')">
+      <button class="com_x_btn" @click="closeEdit">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -238,6 +238,10 @@ export default {
     handleAddMember() {
       this.showModal('addMember');
 
+    },
+    closeEdit(){
+      this.showModal('edit');
+      this.showModal('info');
     },
     toggleReadOnly() {
       this.isReadOnly = !this.isReadOnly;

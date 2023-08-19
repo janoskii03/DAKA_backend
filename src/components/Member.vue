@@ -54,19 +54,19 @@
               src="../assets/images/member/pen_icon.png" alt="編輯" class="pen" @click="showModal('edit')"
               style="position: absolute; right: -465px; top: -23px;"></button>
           <div class="first">
-            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname" name="mname"></label>
+            <label for="name"> 姓名<input type="text" class="name" id="name" :value="memInfo.mname" name="mname" readonly></label>
             <label for="password">密碼<input type="text" class="password" id="password" :value="memInfo.password"
-                name="password"></label>
+                name="password" readonly></label>
           </div>
           <div class="second">
 
             <label for="phone">電話<input type="text" class="phone" id="phone" :value="memInfo.mobile"
-                name="mobile"></label>
+                name="mobile" readonly></label>
             <label for="birthday">生日<input type="text" class="birthday" id="birthday" :value="memInfo.member_birth"
-                name="member_birth"></label>
+                name="member_birth" readonly></label>
           </div>
           <div class="third">
-            <label for="mail">信箱<input type="text" class="mail" id="mail" :value="memInfo.email" name="email"></label>
+            <label for="mail">信箱<input type="text" class="mail" id="mail" :value="memInfo.email" name="email" readonly></label>
           </div>
           <div class="barcode">
             <img src="../assets/images/member/barcode.png" alt="條碼">1234567890ABCD
@@ -80,7 +80,7 @@
   <!-- ------------------------會員編輯---------------------------------------- -->
   <div class="member_edit" v-show="modals.edit" id="member_edit">
     <div class="management_all">
-      <button class="com_x_btn" @click="showModal('edit')">
+      <button class="com_x_btn" @click="closeEdit">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -274,7 +274,7 @@ export default {
         });
       }
     },
-    // ...其他方法
+    
 
 
     memberInfo(index) {
@@ -287,30 +287,8 @@ export default {
     handleEditConfirm() {
       this.showModal('edit');
       this.showModal('editSuccess');
-    },
-    handleDepositConfirm() {
-      this.showModal('deposit');
-      this.showModal('depositSuccess');
-    },
-    handleAddConfirm() {
-      this.showModal('addMember');
-      this.showModal('addMemberSuccess');
-    },
-    handleAddMember() {
-      this.showModal('addMember');
-    },
-    fetchMemberData() {
-      axios.get(`${this.$URL}/getMember.php`)
-        .then((res) => {
-          console.log(res);
-          this.memberData = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    },
-
-      const editData = {
+     
+       const editData = {
         mem_id:this.memInfo.mem_id,
         mname: this.memInfo.mname,
         sex: this.memInfo.sex,
@@ -327,6 +305,50 @@ export default {
           console.log(res);
         })
         .catch(err => {
+          console.log(err);
+        })
+    },
+    handleDepositConfirm() {
+      this.showModal('deposit');
+      this.showModal('depositSuccess');
+    },
+    handleAddConfirm() {
+      this.showModal('addMember');
+      this.showModal('addMemberSuccess');
+    },
+    handleAddMember() {
+      this.showModal('addMember');
+    },
+    closeEdit(){
+      this.showModal('edit');
+      this.showModal('info');
+    },
+    fetchMemberData() {
+      axios.get(`${this.$URL}/getMember.php`)
+        .then((res) => {
+          console.log(res);
+          this.memberData = res.data;
+          this.memberData.forEach(mem => {
+            switch (mem.grade) {
+              case '0':
+                mem.grade = '普通會員';
+                break;
+              case '1':
+                mem.grade = '白銀會員';
+                break;
+              case '2':
+                mem.grade = '黃金會員';
+                break;
+              case '3':
+                mem.grade = '白金會員';
+                break;
+              case '4':
+                mem.grade = '鑽石會員';
+                break;
+            }
+          })
+        })
+        .catch((err) => {
           console.log(err);
         })
     },
